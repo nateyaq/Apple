@@ -1,0 +1,438 @@
+{
+  "company_name": "Apple Inc.",
+  "last_updated": "2025-06-12T00:23:05.322283",
+  "summary_metrics": {
+    "revenue": {
+      "name": "Total Revenue",
+      "latest_value": "62900000000",
+      "latest_year": "2018",
+      "growth_rate": -76.32
+    },
+    "net_income": {
+      "name": "Net Income",
+      "latest_value": "93736000000",
+      "latest_year": 2024.0,
+      "growth_rate": -3.36
+    },
+    "total_assets": {
+      "name": "Total Assets",
+      "latest_value": "364980000000",
+      "latest_year": 2024.0,
+      "growth_rate": 3.52
+    },
+    "cash_and_equivalents": {
+      "name": "Cash and Cash Equivalents",
+      "latest_value": "29943000000",
+      "latest_year": 2024.0,
+      "growth_rate": -0.07
+    },
+    "research_development": {
+      "name": "Research & Development",
+      "latest_value": "31370000000",
+      "latest_year": 2024.0,
+      "growth_rate": 4.86
+    },
+    "operating_income": {
+      "name": "Operating Income",
+      "latest_value": "123216000000",
+      "latest_year": 2024.0,
+      "growth_rate": 7.8
+    },
+    "shareholders_equity": {
+      "name": "Shareholders Equity",
+      "latest_value": "56950000000",
+      "latest_year": 2024.0,
+      "growth_rate": -8.36
+    }
+  },
+  "time_series_data": [],
+  "growth_analysis": [
+    {
+      "metric": "Total Revenue",
+      "avg_growth_rate": 69.67,
+      "latest_growth": -76.32
+    },
+    {
+      "metric": "Net Income",
+      "avg_growth_rate": -1.54,
+      "latest_growth": -3.36
+    },
+    {
+      "metric": "Total Assets",
+      "avg_growth_rate": 0.87,
+      "latest_growth": 3.52
+    },
+    {
+      "metric": "Cash and Cash Equivalents",
+      "avg_growth_rate": 6.66,
+      "latest_growth": -0.07
+    },
+    {
+      "metric": "Research & Development",
+      "avg_growth_rate": 4.71,
+      "latest_growth": 4.86
+    },
+    {
+      "metric": "Operating Income",
+      "avg_growth_rate": 0.88,
+      "latest_growth": 7.8
+    },
+    {
+      "metric": "Shareholders Equity",
+      "avg_growth_rate": 3.57,
+      "latest_growth": -8.36
+    }
+  ],
+  "raw_metrics": {
+    "revenue": {
+      "metric_name": "Total Revenue",
+      "data": [
+        {
+          "end": "2017-12-30 00:00:00",
+          "val": 88293000000,
+          "fy": 2018
+        },
+        {
+          "end": "2018-03-31 00:00:00",
+          "val": 61137000000,
+          "fy": 2018
+        },
+        {
+          "end": "2018-06-30 00:00:00",
+          "val": 53265000000,
+          "fy": 2018
+        },
+        {
+          "end": "2018-09-29 00:00:00",
+          "val": 265595000000,
+          "fy": 2018
+        },
+        {
+          "end": "2018-09-29 00:00:00",
+          "val": 62900000000,
+          "fy": 2018
+        }
+      ],
+      "latest_value": "62900000000",
+      "latest_year": "2018",
+      "growth_rates": [
+        {
+          "year": 2018,
+          "growth_rate": -30.76
+        },
+        {
+          "year": 2018,
+          "growth_rate": -12.88
+        },
+        {
+          "year": 2018,
+          "growth_rate": 398.63
+        },
+        {
+          "year": 2018,
+          "growth_rate": -76.32
+        }
+      ]
+    },
+    "net_income": {
+      "metric_name": "Net Income",
+      "data": [
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 99803000000,
+          "fy": 2023.0
+        },
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 99803000000,
+          "fy": 2024.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 96995000000,
+          "fy": 2024.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 96995000000,
+          "fy": 2023.0
+        },
+        {
+          "end": "2024-09-28 00:00:00",
+          "val": 93736000000,
+          "fy": 2024.0
+        }
+      ],
+      "latest_value": "93736000000",
+      "latest_year": 2024.0,
+      "growth_rates": [
+        {
+          "year": 2024.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": -2.81
+        },
+        {
+          "year": 2023.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": -3.36
+        }
+      ]
+    },
+    "total_assets": {
+      "metric_name": "Total Assets",
+      "data": [
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 352755000000,
+          "fy": 2022.0
+        },
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 352755000000,
+          "fy": 2023.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 352583000000,
+          "fy": 2024.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 352583000000,
+          "fy": 2023.0
+        },
+        {
+          "end": "2024-09-28 00:00:00",
+          "val": 364980000000,
+          "fy": 2024.0
+        }
+      ],
+      "latest_value": "364980000000",
+      "latest_year": 2024.0,
+      "growth_rates": [
+        {
+          "year": 2023.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": -0.05
+        },
+        {
+          "year": 2023.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": 3.52
+        }
+      ]
+    },
+    "cash_and_equivalents": {
+      "metric_name": "Cash and Cash Equivalents",
+      "data": [
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 23646000000,
+          "fy": 2022.0
+        },
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 23646000000,
+          "fy": 2023.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 29965000000,
+          "fy": 2023.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 29965000000,
+          "fy": 2024.0
+        },
+        {
+          "end": "2024-09-28 00:00:00",
+          "val": 29943000000,
+          "fy": 2024.0
+        }
+      ],
+      "latest_value": "29943000000",
+      "latest_year": 2024.0,
+      "growth_rates": [
+        {
+          "year": 2023.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2023.0,
+          "growth_rate": 26.72
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": -0.07
+        }
+      ]
+    },
+    "research_development": {
+      "metric_name": "Research & Development",
+      "data": [
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 26251000000,
+          "fy": 2022.0
+        },
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 26251000000,
+          "fy": 2024.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 29915000000,
+          "fy": 2024.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 29915000000,
+          "fy": 2023.0
+        },
+        {
+          "end": "2024-09-28 00:00:00",
+          "val": 31370000000,
+          "fy": 2024.0
+        }
+      ],
+      "latest_value": "31370000000",
+      "latest_year": 2024.0,
+      "growth_rates": [
+        {
+          "year": 2024.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": 13.96
+        },
+        {
+          "year": 2023.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": 4.86
+        }
+      ]
+    },
+    "operating_income": {
+      "metric_name": "Operating Income",
+      "data": [
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 119437000000,
+          "fy": 2022.0
+        },
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 119437000000,
+          "fy": 2024.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 114301000000,
+          "fy": 2024.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 114301000000,
+          "fy": 2023.0
+        },
+        {
+          "end": "2024-09-28 00:00:00",
+          "val": 123216000000,
+          "fy": 2024.0
+        }
+      ],
+      "latest_value": "123216000000",
+      "latest_year": 2024.0,
+      "growth_rates": [
+        {
+          "year": 2024.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": -4.3
+        },
+        {
+          "year": 2023.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": 7.8
+        }
+      ]
+    },
+    "shareholders_equity": {
+      "metric_name": "Shareholders Equity",
+      "data": [
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 50672000000,
+          "fy": 2023.0
+        },
+        {
+          "end": "2022-09-24 00:00:00",
+          "val": 50672000000,
+          "fy": 2024.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 62146000000,
+          "fy": 2024.0
+        },
+        {
+          "end": "2023-09-30 00:00:00",
+          "val": 62146000000,
+          "fy": 2023.0
+        },
+        {
+          "end": "2024-09-28 00:00:00",
+          "val": 56950000000,
+          "fy": 2024.0
+        }
+      ],
+      "latest_value": "56950000000",
+      "latest_year": 2024.0,
+      "growth_rates": [
+        {
+          "year": 2024.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": 22.64
+        },
+        {
+          "year": 2023.0,
+          "growth_rate": 0.0
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": -8.36
+        }
+      ]
+    }
+  }
+}
