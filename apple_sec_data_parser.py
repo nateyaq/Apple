@@ -27,6 +27,41 @@ class AppleSECDataParser:
             print(f"Error fetching SEC data: {e}")
             return False
     
+    def explore_revenue_fields(self):
+        """Debug function to explore available revenue-related fields"""
+        if not self.raw_data:
+            print("No SEC data available. Please fetch data first.")
+            return
+        
+        try:
+            us_gaap_facts = self.raw_data['facts']['us-gaap']
+            revenue_fields = []
+            
+            # Look for any field containing 'revenue' (case insensitive)
+            for field_name, field_data in us_gaap_facts.items():
+                if 'revenue' in field_name.lower():
+                    # Check if it has USD data and 10-K forms
+                    if 'units' in field_data and 'USD' in field_data['units']:
+                        df = pd.DataFrame(field_data['units']['USD'])
+                        annual_data = df[df['form'] == '10-K']
+                        if len(annual_data) > 0:
+                            latest_year = annual_data['fy'].max()
+                            revenue_fields.append({
+                                'field': field_name,
+                                'latest_year': latest_year,
+                                'data_points': len(annual_data)
+                            })
+            
+            print("\n🔍 Available Revenue Fields:")
+            for field in sorted(revenue_fields, key=lambda x: x['latest_year'], reverse=True):
+                print(f"  {field['field']}: Latest year {field['latest_year']}, {field['data_points']} annual data points")
+                
+            return revenue_fields
+            
+        except Exception as e:
+            print(f"Error exploring revenue fields: {e}")
+            return []
+    
     def extract_financial_metric(self, metric_path, metric_name):
         """Extract a specific financial metric from the SEC data"""
         try:
@@ -86,9 +121,15 @@ class AppleSECDataParser:
         # Define key financial metrics to extract
         metrics_config = {
             'revenue': {
-                'path': 'facts.us-gaap.Revenues',
+                'path': 'facts.us-gaap.RevenueFromContractWithCustomerExcludingAssessedTax',
                 'name': 'Total Revenue',
-                'fallback_paths': ['facts.us-gaap.RevenueFromContractWithCustomerExcludingAssessedTax']
+                'fallback_paths': [
+                    'facts.us-gaap.Revenues',
+                    'facts.us-gaap.SalesRevenueNet',
+                    'facts.us-gaap.RevenueFromContractWithCustomerIncludingAssessedTax',
+                    'facts.us-gaap.SalesRevenueGoodsNet',
+                    'facts.us-gaap.RevenueFromSaleOfGoods'
+                ]
             },
             'net_income': {
                 'path': 'facts.us-gaap.NetIncomeLoss',
