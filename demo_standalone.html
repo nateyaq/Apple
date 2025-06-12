@@ -129,7 +129,7 @@
                         <i data-lucide="check-circle" class="h-6 w-6 text-green-600 mr-3"></i>
                         <div>
                             <p class="font-medium text-green-900">SEC EDGAR Database</p>
-                            <p class="text-sm text-green-700">Official 10-K Annual Filings</p>
+                            <p class="text-sm text-green-700" id="data-source-note">Official 10-K & 10-Q Filings</p>
                         </div>
                     </div>
                     <div class="flex items-center p-4 bg-blue-50 rounded-lg">
@@ -168,95 +168,177 @@
     </div>
 
     <script>
-        // Embedded SEC data (works without server)
+        // Embedded SEC data with quarterly support (works without server)
         const secData = {
             "company_name": "Apple Inc.",
-            "last_updated": "2025-06-12T00:28:48.160804",
+            "last_updated": "2025-06-12T01:14:18.883687",
             "summary_metrics": {
                 "revenue": {
                     "name": "Total Revenue",
-                    "latest_value": "62900000000",
-                    "latest_year": "2018",
-                    "growth_rate": -76.32
+                    "latest_value": "95359000000",
+                    "latest_year": "2025",
+                    "latest_period": "2025-03-29",
+                    "latest_form": "10-Q",
+                    "growth_rate": -56.59
                 },
                 "net_income": {
                     "name": "Net Income",
-                    "latest_value": "93736000000",
-                    "latest_year": 2024.0,
-                    "growth_rate": -3.36
+                    "latest_value": "24780000000",
+                    "latest_year": 2025.0,
+                    "latest_period": "2025-03-29",
+                    "latest_form": "10-Q",
+                    "growth_rate": -59.45
                 },
                 "total_assets": {
                     "name": "Total Assets",
-                    "latest_value": "364980000000",
-                    "latest_year": 2024.0,
-                    "growth_rate": 3.52
+                    "latest_value": "331233000000",
+                    "latest_year": 2025.0,
+                    "latest_period": "2025-03-29",
+                    "latest_form": "10-Q",
+                    "growth_rate": -3.74
                 },
                 "cash_and_equivalents": {
                     "name": "Cash and Cash Equivalents",
-                    "latest_value": "29943000000",
-                    "latest_year": 2024.0,
-                    "growth_rate": -0.07
+                    "latest_value": "28162000000",
+                    "latest_year": 2025.0,
+                    "latest_period": "2025-03-29",
+                    "latest_form": "10-Q",
+                    "growth_rate": -7.05
                 },
                 "research_development": {
                     "name": "Research & Development",
-                    "latest_value": "31370000000",
-                    "latest_year": 2024.0,
-                    "growth_rate": 4.86
+                    "latest_value": "8550000000",
+                    "latest_year": 2025.0,
+                    "latest_period": "2025-03-29",
+                    "latest_form": "10-Q",
+                    "growth_rate": -49.16
                 },
                 "operating_income": {
                     "name": "Operating Income",
-                    "latest_value": "123216000000",
-                    "latest_year": 2024.0,
-                    "growth_rate": 7.8
+                    "latest_value": "29589000000",
+                    "latest_year": 2025.0,
+                    "latest_period": "2025-03-29",
+                    "latest_form": "10-Q",
+                    "growth_rate": -59.14
                 },
                 "shareholders_equity": {
                     "name": "Shareholders Equity",
-                    "latest_value": "56950000000",
-                    "latest_year": 2024.0,
-                    "growth_rate": -8.36
+                    "latest_value": "66796000000",
+                    "latest_year": 2025.0,
+                    "latest_period": "2025-03-29",
+                    "latest_form": "10-Q",
+                    "growth_rate": 0.06
+                }
+            },
+            "quarterly_metrics": {
+                "revenue": {
+                    "name": "Total Revenue",
+                    "latest_quarterly_value": "95359000000",
+                    "latest_quarterly_period": "2025-03-29",
+                    "latest_annual_value": "391035000000",
+                    "latest_annual_period": "2024-09-28",
+                    "quarterly_vs_annual_change": -75.61
+                },
+                "net_income": {
+                    "name": "Net Income",
+                    "latest_quarterly_value": "24780000000",
+                    "latest_quarterly_period": "2025-03-29",
+                    "latest_annual_value": "93736000000",
+                    "latest_annual_period": "2024-09-28",
+                    "quarterly_vs_annual_change": -73.56
+                },
+                "total_assets": {
+                    "name": "Total Assets",
+                    "latest_quarterly_value": "331233000000",
+                    "latest_quarterly_period": "2025-03-29",
+                    "latest_annual_value": "364980000000",
+                    "latest_annual_period": "2024-09-28",
+                    "quarterly_vs_annual_change": -9.25
+                },
+                "cash_and_equivalents": {
+                    "name": "Cash and Cash Equivalents",
+                    "latest_quarterly_value": "28162000000",
+                    "latest_quarterly_period": "2025-03-29",
+                    "latest_annual_value": "29943000000",
+                    "latest_annual_period": "2024-09-28",
+                    "quarterly_vs_annual_change": -5.95
+                },
+                "research_development": {
+                    "name": "Research & Development",
+                    "latest_quarterly_value": "8550000000",
+                    "latest_quarterly_period": "2025-03-29",
+                    "latest_annual_value": "31370000000",
+                    "latest_annual_period": "2024-09-28",
+                    "quarterly_vs_annual_change": -72.74
+                },
+                "operating_income": {
+                    "name": "Operating Income",
+                    "latest_quarterly_value": "29589000000",
+                    "latest_quarterly_period": "2025-03-29",
+                    "latest_annual_value": "123216000000",
+                    "latest_annual_period": "2024-09-28",
+                    "quarterly_vs_annual_change": -75.99
+                },
+                "shareholders_equity": {
+                    "name": "Shareholders Equity",
+                    "latest_quarterly_value": "66796000000",
+                    "latest_quarterly_period": "2025-03-29",
+                    "latest_annual_value": "56950000000",
+                    "latest_annual_period": "2024-09-28",
+                    "quarterly_vs_annual_change": 17.29
                 }
             },
             "growth_analysis": [
                 {
                     "metric": "Total Revenue",
-                    "avg_growth_rate": 69.67,
-                    "latest_growth": -76.32
+                    "avg_growth_rate": 29.86,
+                    "latest_growth": -56.59
                 },
                 {
                     "metric": "Net Income",
-                    "avg_growth_rate": -1.54,
-                    "latest_growth": -3.36
+                    "avg_growth_rate": 28.63,
+                    "latest_growth": -59.45
                 },
                 {
                     "metric": "Total Assets",
-                    "avg_growth_rate": 0.87,
-                    "latest_growth": 3.52
+                    "avg_growth_rate": -0.46,
+                    "latest_growth": -3.74
                 },
                 {
                     "metric": "Cash and Cash Equivalents",
-                    "avg_growth_rate": 6.66,
-                    "latest_growth": -0.07
+                    "avg_growth_rate": 2.7,
+                    "latest_growth": -7.05
                 },
                 {
                     "metric": "Research & Development",
-                    "avg_growth_rate": 4.71,
-                    "latest_growth": 4.86
+                    "avg_growth_rate": 26.82,
+                    "latest_growth": -49.16
                 },
                 {
                     "metric": "Operating Income",
-                    "avg_growth_rate": 0.88,
-                    "latest_growth": 7.8
+                    "avg_growth_rate": 32.47,
+                    "latest_growth": -59.14
                 },
                 {
                     "metric": "Shareholders Equity",
-                    "avg_growth_rate": 3.57,
-                    "latest_growth": -8.36
+                    "avg_growth_rate": 2.88,
+                    "latest_growth": 0.06
                 }
-            ]
+            ],
+            "data_sources": {
+                "annual_forms": "10-K (Annual Reports)",
+                "quarterly_forms": "10-Q (Quarterly Reports)",
+                "note": "Dashboard shows most recent data available (quarterly or annual)"
+            }
         };
 
         // Initialize Lucide icons
         lucide.createIcons();
+
+        // View mode state
+        let currentView = 'overview';
+        let currentPeriod = 'latest';
+        let globalSecData = secData;
 
         // Load dashboard with embedded data (no server required)
         function loadDashboard() {
@@ -269,7 +351,94 @@
             populateFinancialRatios(secData);
             updateTimestamps(secData);
             
+            // Setup event handlers
+            setupEventHandlers();
+            
             console.log('Dashboard loaded successfully with embedded SEC data');
+        }
+
+        // Button event handlers
+        function setupEventHandlers() {
+            document.getElementById('overview-btn').addEventListener('click', function() {
+                switchView('overview');
+            });
+            
+            document.getElementById('detailed-btn').addEventListener('click', function() {
+                switchView('detailed');
+            });
+            
+            document.getElementById('period-selector').addEventListener('change', function(e) {
+                switchPeriod(e.target.value);
+            });
+        }
+
+        function switchView(view) {
+            currentView = view;
+            
+            // Update button styles
+            const overviewBtn = document.getElementById('overview-btn');
+            const detailedBtn = document.getElementById('detailed-btn');
+            
+            if (view === 'overview') {
+                overviewBtn.className = 'px-4 py-2 rounded-lg font-medium bg-blue-600 text-white';
+                detailedBtn.className = 'px-4 py-2 rounded-lg font-medium bg-white text-gray-600 border border-gray-300';
+                showOverviewContent();
+            } else {
+                overviewBtn.className = 'px-4 py-2 rounded-lg font-medium bg-white text-gray-600 border border-gray-300';
+                detailedBtn.className = 'px-4 py-2 rounded-lg font-medium bg-blue-600 text-white';
+                showDetailedContent();
+            }
+        }
+
+        function switchPeriod(period) {
+            currentPeriod = period;
+            
+            // Update summary cards with selected period data
+            populateSummaryCards(globalSecData);
+            populateFinancialRatios(globalSecData);
+            
+            // Update content based on current view
+            if (currentView === 'overview') {
+                showOverviewContent();
+            } else {
+                showDetailedContent();
+            }
+        }
+
+        function getMetricsForPeriod(secData, period) {
+            switch(period) {
+                case 'quarterly':
+                    return secData.quarterly_metrics || {};
+                case 'annual':
+                    // Return only annual data - for standalone, use existing data but mark as annual
+                    const annualMetrics = {};
+                    for (const [key, data] of Object.entries(secData.summary_metrics)) {
+                        if (secData.quarterly_metrics && secData.quarterly_metrics[key]) {
+                            annualMetrics[key] = {
+                                ...data,
+                                latest_value: secData.quarterly_metrics[key].latest_annual_value,
+                                latest_period: secData.quarterly_metrics[key].latest_annual_period,
+                                latest_form: '10-K'
+                            };
+                        } else {
+                            annualMetrics[key] = data;
+                        }
+                    }
+                    return annualMetrics;
+                case 'latest':
+                default:
+                    return secData.summary_metrics;
+            }
+        }
+
+        function showOverviewContent() {
+            // This would normally show charts - for standalone, show a message
+            console.log('Overview mode - charts would be displayed here');
+        }
+
+        function showDetailedContent() {
+            // This would normally show detailed analysis - for standalone, show a message
+            console.log('Detailed mode - detailed analysis would be displayed here');
         }
 
         function formatValue(value) {
@@ -278,42 +447,60 @@
         }
 
         function populateSummaryCards(secData) {
+            const currentMetrics = getMetricsForPeriod(secData, currentPeriod);
+            
             const summaryCards = [
                 {
                     key: 'revenue',
                     title: 'Total Revenue',
-                    value: formatValue(secData.summary_metrics.revenue?.latest_value || 0),
-                    growth: secData.summary_metrics.revenue?.growth_rate || 0,
+                    value: formatValue(currentMetrics.revenue?.latest_value || currentMetrics.revenue?.latest_quarterly_value || 0),
+                    growth: currentPeriod === 'quarterly' ? 
+                        (currentMetrics.revenue?.quarterly_vs_annual_change || 0) : 
+                        (currentMetrics.revenue?.growth_rate || 0),
                     icon: 'dollar-sign',
                     color: 'text-green-600',
-                    bgColor: 'bg-green-50'
+                    bgColor: 'bg-green-50',
+                    period: currentMetrics.revenue?.latest_period || currentMetrics.revenue?.latest_quarterly_period,
+                    form: currentMetrics.revenue?.latest_form || '10-Q'
                 },
                 {
                     key: 'net_income',
                     title: 'Net Income',
-                    value: formatValue(secData.summary_metrics.net_income?.latest_value || 0),
-                    growth: secData.summary_metrics.net_income?.growth_rate || 0,
+                    value: formatValue(currentMetrics.net_income?.latest_value || currentMetrics.net_income?.latest_quarterly_value || 0),
+                    growth: currentPeriod === 'quarterly' ? 
+                        (currentMetrics.net_income?.quarterly_vs_annual_change || 0) : 
+                        (currentMetrics.net_income?.growth_rate || 0),
                     icon: 'target',
                     color: 'text-blue-600',
-                    bgColor: 'bg-blue-50'
+                    bgColor: 'bg-blue-50',
+                    period: currentMetrics.net_income?.latest_period || currentMetrics.net_income?.latest_quarterly_period,
+                    form: currentMetrics.net_income?.latest_form || '10-Q'
                 },
                 {
                     key: 'total_assets',
                     title: 'Total Assets',
-                    value: formatValue(secData.summary_metrics.total_assets?.latest_value || 0),
-                    growth: secData.summary_metrics.total_assets?.growth_rate || 0,
+                    value: formatValue(currentMetrics.total_assets?.latest_value || currentMetrics.total_assets?.latest_quarterly_value || 0),
+                    growth: currentPeriod === 'quarterly' ? 
+                        (currentMetrics.total_assets?.quarterly_vs_annual_change || 0) : 
+                        (currentMetrics.total_assets?.growth_rate || 0),
                     icon: 'building',
                     color: 'text-purple-600',
-                    bgColor: 'bg-purple-50'
+                    bgColor: 'bg-purple-50',
+                    period: currentMetrics.total_assets?.latest_period || currentMetrics.total_assets?.latest_quarterly_period,
+                    form: currentMetrics.total_assets?.latest_form || '10-Q'
                 },
                 {
                     key: 'cash_and_equivalents',
                     title: 'Cash & Equivalents',
-                    value: formatValue(secData.summary_metrics.cash_and_equivalents?.latest_value || 0),
-                    growth: secData.summary_metrics.cash_and_equivalents?.growth_rate || 0,
+                    value: formatValue(currentMetrics.cash_and_equivalents?.latest_value || currentMetrics.cash_and_equivalents?.latest_quarterly_value || 0),
+                    growth: currentPeriod === 'quarterly' ? 
+                        (currentMetrics.cash_and_equivalents?.quarterly_vs_annual_change || 0) : 
+                        (currentMetrics.cash_and_equivalents?.growth_rate || 0),
                     icon: 'piggy-bank',
                     color: 'text-yellow-600',
-                    bgColor: 'bg-yellow-50'
+                    bgColor: 'bg-yellow-50',
+                    period: currentMetrics.cash_and_equivalents?.latest_period || currentMetrics.cash_and_equivalents?.latest_quarterly_period,
+                    form: currentMetrics.cash_and_equivalents?.latest_form || '10-Q'
                 }
             ];
 
@@ -324,6 +511,7 @@
                         <div>
                             <p class="text-sm font-medium text-gray-600">${card.title}</p>
                             <p class="text-2xl font-bold text-gray-900">$${card.value}B</p>
+                            ${card.period ? `<p class="text-xs text-gray-500 mt-1">${card.form} • ${new Date(card.period).toLocaleDateString()}</p>` : ''}
                         </div>
                         <div class="p-3 rounded-lg ${card.bgColor}">
                             <i data-lucide="${card.icon}" class="h-6 w-6 ${card.color}"></i>
@@ -335,7 +523,7 @@
                         <span class="ml-1 text-sm font-medium ${card.growth >= 0 ? 'text-green-600' : 'text-red-600'}">
                             ${card.growth >= 0 ? '+' : ''}${card.growth.toFixed(1)}%
                         </span>
-                        <span class="ml-2 text-sm text-gray-500">YoY</span>
+                        <span class="ml-2 text-sm text-gray-500">${currentPeriod === 'quarterly' ? 'vs Annual' : 'YoY'}</span>
                     </div>
                 </div>
             `).join('');
@@ -345,10 +533,11 @@
         }
 
         function populateFinancialRatios(secData) {
-            const revenue = parseFloat(secData.summary_metrics.revenue?.latest_value || 0);
-            const netIncome = parseFloat(secData.summary_metrics.net_income?.latest_value || 0);
-            const totalAssets = parseFloat(secData.summary_metrics.total_assets?.latest_value || 0);
-            const cash = parseFloat(secData.summary_metrics.cash_and_equivalents?.latest_value || 0);
+            const currentMetrics = getMetricsForPeriod(secData, currentPeriod);
+            const revenue = parseFloat(currentMetrics.revenue?.latest_value || currentMetrics.revenue?.latest_quarterly_value || 0);
+            const netIncome = parseFloat(currentMetrics.net_income?.latest_value || currentMetrics.net_income?.latest_quarterly_value || 0);
+            const totalAssets = parseFloat(currentMetrics.total_assets?.latest_value || currentMetrics.total_assets?.latest_quarterly_value || 0);
+            const cash = parseFloat(currentMetrics.cash_and_equivalents?.latest_value || currentMetrics.cash_and_equivalents?.latest_quarterly_value || 0);
 
             const profitMargin = revenue > 0 ? ((netIncome / revenue) * 100).toFixed(1) : '0.0';
             const roa = totalAssets > 0 ? ((netIncome / totalAssets) * 100).toFixed(1) : '0.0';
