@@ -1,6 +1,6 @@
 {
   "company_name": "Apple Inc.",
-  "last_updated": "2025-06-12T00:51:31.227565",
+  "last_updated": "2025-06-12T00:54:58.979603",
   "summary_metrics": {
     "revenue": {
       "name": "Total Revenue",
@@ -145,7 +145,8 @@
           "year": 2024,
           "growth_rate": 2.02
         }
-      ]
+      ],
+      "source_field": "RevenueFromContractWithCustomerExcludingAssessedTax"
     },
     "net_income": {
       "metric_name": "Net Income",
@@ -195,7 +196,8 @@
           "year": 2024.0,
           "growth_rate": -3.36
         }
-      ]
+      ],
+      "source_field": "NetIncomeLoss"
     },
     "total_assets": {
       "metric_name": "Total Assets",
@@ -245,7 +247,8 @@
           "year": 2024.0,
           "growth_rate": 3.52
         }
-      ]
+      ],
+      "source_field": "Assets"
     },
     "cash_and_equivalents": {
       "metric_name": "Cash and Cash Equivalents",
@@ -295,7 +298,8 @@
           "year": 2024.0,
           "growth_rate": -0.07
         }
-      ]
+      ],
+      "source_field": "CashAndCashEquivalentsAtCarryingValue"
     },
     "research_development": {
       "metric_name": "Research & Development",
@@ -345,7 +349,8 @@
           "year": 2024.0,
           "growth_rate": 4.86
         }
-      ]
+      ],
+      "source_field": "ResearchAndDevelopmentExpense"
     },
     "operating_income": {
       "metric_name": "Operating Income",
@@ -395,7 +400,8 @@
           "year": 2024.0,
           "growth_rate": 7.8
         }
-      ]
+      ],
+      "source_field": "OperatingIncomeLoss"
     },
     "shareholders_equity": {
       "metric_name": "Shareholders Equity",
@@ -445,7 +451,8 @@
           "year": 2024.0,
           "growth_rate": -8.36
         }
-      ]
+      ],
+      "source_field": "StockholdersEquity"
     }
   }
 }

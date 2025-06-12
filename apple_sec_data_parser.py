@@ -27,6 +27,56 @@ class AppleSECDataParser:
             print(f"Error fetching SEC data: {e}")
             return False
     
+    def explore_all_metric_fields(self):
+        """Debug function to explore available fields for all financial metrics"""
+        if not self.raw_data:
+            print("No SEC data available. Please fetch data first.")
+            return
+        
+        metric_keywords = {
+            'revenue': ['revenue', 'sales'],
+            'income': ['income', 'profit', 'earnings'],
+            'assets': ['assets'],
+            'cash': ['cash', 'equivalents'],
+            'research': ['research', 'development'],
+            'equity': ['equity', 'stockholders', 'shareholders'],
+            'expenses': ['expenses', 'costs']
+        }
+        
+        try:
+            us_gaap_facts = self.raw_data['facts']['us-gaap']
+            
+            print("\n🔍 Comprehensive Field Analysis:")
+            for category, keywords in metric_keywords.items():
+                print(f"\n📊 {category.upper()} FIELDS:")
+                fields_found = []
+                
+                for field_name, field_data in us_gaap_facts.items():
+                    if any(keyword.lower() in field_name.lower() for keyword in keywords):
+                        if 'units' in field_data and 'USD' in field_data['units']:
+                            df = pd.DataFrame(field_data['units']['USD'])
+                            annual_data = df[df['form'] == '10-K'] if len(df) > 0 else pd.DataFrame()
+                            if len(annual_data) > 0:
+                                latest_year = annual_data['fy'].max()
+                                data_count = len(annual_data)
+                                fields_found.append({
+                                    'field': field_name,
+                                    'latest_year': latest_year,
+                                    'count': data_count
+                                })
+                
+                # Sort by latest year and data count
+                fields_found.sort(key=lambda x: (x['latest_year'], x['count']), reverse=True)
+                
+                for field in fields_found[:8]:  # Show top 8 fields per category
+                    print(f"  {field['field']}: {field['latest_year']} ({field['count']} points)")
+                    
+                if not fields_found:
+                    print(f"  No fields found for {category}")
+                    
+        except Exception as e:
+            print(f"Error in comprehensive field analysis: {e}")
+    
     def explore_revenue_fields(self):
         """Debug function to explore available revenue-related fields"""
         if not self.raw_data:
@@ -118,7 +168,7 @@ class AppleSECDataParser:
             print("No SEC data available. Please fetch data first.")
             return False
         
-        # Define key financial metrics to extract
+        # Define key financial metrics to extract with comprehensive fallback paths
         metrics_config = {
             'revenue': {
                 'path': 'facts.us-gaap.RevenueFromContractWithCustomerExcludingAssessedTax',
@@ -128,55 +178,104 @@ class AppleSECDataParser:
                     'facts.us-gaap.SalesRevenueNet',
                     'facts.us-gaap.RevenueFromContractWithCustomerIncludingAssessedTax',
                     'facts.us-gaap.SalesRevenueGoodsNet',
-                    'facts.us-gaap.RevenueFromSaleOfGoods'
+                    'facts.us-gaap.RevenueFromSaleOfGoods',
+                    'facts.us-gaap.SalesRevenueServicesNet'
                 ]
             },
             'net_income': {
                 'path': 'facts.us-gaap.NetIncomeLoss',
-                'name': 'Net Income'
+                'name': 'Net Income',
+                'fallback_paths': [
+                    'facts.us-gaap.ProfitLoss',
+                    'facts.us-gaap.NetIncomeLossAvailableToCommonStockholdersBasic',
+                    'facts.us-gaap.NetIncomeLossAttributableToParent',
+                    'facts.us-gaap.ComprehensiveIncomeNetOfTax',
+                    'facts.us-gaap.IncomeLossFromContinuingOperations'
+                ]
             },
             'total_assets': {
                 'path': 'facts.us-gaap.Assets',
-                'name': 'Total Assets'
+                'name': 'Total Assets',
+                'fallback_paths': [
+                    'facts.us-gaap.AssetsTotal',
+                    'facts.us-gaap.AssetsCurrent',
+                    'facts.us-gaap.AssetsCurrentAndNoncurrent'
+                ]
             },
             'cash_and_equivalents': {
                 'path': 'facts.us-gaap.CashAndCashEquivalentsAtCarryingValue',
-                'name': 'Cash and Cash Equivalents'
+                'name': 'Cash and Cash Equivalents',
+                'fallback_paths': [
+                    'facts.us-gaap.CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents',
+                    'facts.us-gaap.Cash',
+                    'facts.us-gaap.CashAndShortTermInvestments',
+                    'facts.us-gaap.CashEquivalentsAtCarryingValue',
+                    'facts.us-gaap.CashAndCashEquivalents'
+                ]
             },
             'research_development': {
                 'path': 'facts.us-gaap.ResearchAndDevelopmentExpense',
-                'name': 'Research & Development'
+                'name': 'Research & Development',
+                'fallback_paths': [
+                    'facts.us-gaap.ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost',
+                    'facts.us-gaap.ResearchAndDevelopmentInProcess',
+                    'facts.us-gaap.ResearchAndDevelopmentExpenseSoftwareExcludingAcquiredInProcessCost',
+                    'facts.us-gaap.ResearchAndDevelopmentAssets'
+                ]
             },
             'operating_income': {
                 'path': 'facts.us-gaap.OperatingIncomeLoss',
-                'name': 'Operating Income'
+                'name': 'Operating Income',
+                'fallback_paths': [
+                    'facts.us-gaap.IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest',
+                    'facts.us-gaap.OperatingRevenue',
+                    'facts.us-gaap.IncomeLossFromContinuingOperationsBeforeIncomeTaxes',
+                    'facts.us-gaap.GrossProfit',
+                    'facts.us-gaap.OperatingExpenses'
+                ]
             },
             'shareholders_equity': {
                 'path': 'facts.us-gaap.StockholdersEquity',
-                'name': 'Shareholders Equity'
+                'name': 'Shareholders Equity',
+                'fallback_paths': [
+                    'facts.us-gaap.StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest',
+                    'facts.us-gaap.PartnersCapital',
+                    'facts.us-gaap.MembersEquity',
+                    'facts.us-gaap.StockholdersEquityAttributableToParent',
+                    'facts.us-gaap.Equity'
+                ]
             }
         }
         
         # Extract each metric
         for key, config in metrics_config.items():
-            metric_data = self.extract_financial_metric(config['path'], config['name'])
+            primary_path = config['path']
+            metric_data = self.extract_financial_metric(primary_path, config['name'])
+            used_path = primary_path
             
             # Try fallback paths if primary path fails
             if not metric_data and 'fallback_paths' in config:
+                print(f"  Primary path failed for {config['name']}, trying fallbacks...")
                 for fallback_path in config['fallback_paths']:
                     metric_data = self.extract_financial_metric(fallback_path, config['name'])
                     if metric_data:
+                        used_path = fallback_path
+                        print(f"  ✓ Found data using fallback: {fallback_path.split('.')[-1]}")
                         break
             
             if metric_data:
                 # Calculate growth rates
                 growth_rates = self.calculate_growth_rates(metric_data['data'])
                 metric_data['growth_rates'] = growth_rates
+                metric_data['source_field'] = used_path.split('.')[-1]  # Store which field was used
                 
                 self.processed_data[key] = metric_data
-                print(f"✓ Processed {config['name']}")
+                if used_path == primary_path:
+                    print(f"✓ Processed {config['name']}")
+                else:
+                    print(f"✓ Processed {config['name']} (using fallback)")
             else:
-                print(f"✗ Could not process {config['name']}")
+                print(f"✗ Could not process {config['name']} - no data found in any field")
         
         return True
     
