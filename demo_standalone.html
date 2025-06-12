@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Financial Dashboard - SEC Data Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/recharts@2.8.0/umd/Recharts.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="dashboard-container" class="p-6 min-h-screen">
+        <!-- Loading State -->
+        <div id="loading" class="flex items-center justify-center min-h-screen">
+            <div class="text-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p class="text-gray-600">Loading Apple Financial Data...</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div id="dashboard" class="hidden">
+            <!-- Header -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900 mb-2">Apple Inc. Financial Dashboard</h1>
+                        <p class="text-gray-600">SEC Filing Data Analysis - Real-time EDGAR API Data</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="overview-btn" class="px-4 py-2 rounded-lg font-medium bg-blue-600 text-white">
+                            Overview
+                        </button>
+                        <button id="detailed-btn" class="px-4 py-2 rounded-lg font-medium bg-white text-gray-600 border border-gray-300">
+                            Detailed
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div id="summary-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Cards will be populated by JavaScript -->
+            </div>
+
+            <!-- Charts Section -->
+            <div id="charts-section" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Financial Trends Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Financial Performance Trends</h3>
+                    <div id="trends-chart" class="h-80">
+                        <!-- Chart will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- Growth Analysis Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Growth Rate Analysis</h3>
+                    <div id="growth-chart" class="h-80">
+                        <!-- Chart will be rendered here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Financial Ratios -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Key Financial Insights</h3>
+                <div id="financial-ratios" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Ratios will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Data Source Information -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Data Source & Quality</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="flex items-center p-4 bg-green-50 rounded-lg">
+                        <i data-lucide="check-circle" class="h-6 w-6 text-green-600 mr-3"></i>
+                        <div>
+                            <p class="font-medium text-green-900">SEC EDGAR Database</p>
+                            <p class="text-sm text-green-700">Official 10-K Annual Filings</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-4 bg-blue-50 rounded-lg">
+                        <i data-lucide="calendar" class="h-6 w-6 text-blue-600 mr-3"></i>
+                        <div>
+                            <p class="font-medium text-blue-900">Data Freshness</p>
+                            <p class="text-sm text-blue-700" id="last-updated">Updated: Loading...</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-4 bg-purple-50 rounded-lg">
+                        <i data-lucide="lightbulb" class="h-6 w-6 text-purple-600 mr-3"></i>
+                        <div>
+                            <p class="font-medium text-purple-900">GAAP Compliant</p>
+                            <p class="text-sm text-purple-700">US-GAAP Standard Metrics</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <p class="text-sm text-gray-600">
+                        <strong>Note:</strong> All financial data is sourced directly from Apple Inc.'s SEC filings using the EDGAR API. 
+                        Values are presented in billions of USD. Growth rates are calculated year-over-year based on the most recent 
+                        comparable periods available in the filings.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <p class="text-sm text-gray-500">
+                    Apple Financial Dashboard | Data Source: SEC EDGAR API | 
+                    Company CIK: 0000320193 | Generated: <span id="generated-date"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Load and display SEC data
+        async function loadDashboard() {
+            try {
+                // Load SEC data
+                const response = await fetch('./apple_sec_dashboard_data.json');
+                const secData = await response.json();
+                
+                // Hide loading, show dashboard
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                
+                // Populate dashboard with data
+                populateSummaryCards(secData);
+                populateFinancialRatios(secData);
+                updateTimestamps(secData);
+                
+                console.log('Dashboard loaded successfully with SEC data');
+                
+            } catch (error) {
+                console.error('Error loading SEC data:', error);
+                
+                // Show error state or fallback data
+                document.getElementById('loading').innerHTML = `
+                    <div class="text-center">
+                        <i data-lucide="alert-circle" class="h-12 w-12 text-red-600 mx-auto mb-4"></i>
+                        <p class="text-gray-600">Error loading financial data</p>
+                        <p class="text-sm text-gray-500 mt-2">Please ensure apple_sec_dashboard_data.json is available</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        function formatValue(value) {
+            const numValue = typeof value === 'string' ? parseFloat(value) : value;
+            return (numValue / 1000000000).toFixed(1); // Convert to billions
+        }
+
+        function populateSummaryCards(secData) {
+            const summaryCards = [
+                {
+                    key: 'revenue',
+                    title: 'Total Revenue',
+                    value: formatValue(secData.summary_metrics.revenue?.latest_value || 0),
+                    growth: secData.summary_metrics.revenue?.growth_rate || 0,
+                    icon: 'dollar-sign',
+                    color: 'text-green-600',
+                    bgColor: 'bg-green-50'
+                },
+                {
+                    key: 'net_income',
+                    title: 'Net Income',
+                    value: formatValue(secData.summary_metrics.net_income?.latest_value || 0),
+                    growth: secData.summary_metrics.net_income?.growth_rate || 0,
+                    icon: 'target',
+                    color: 'text-blue-600',
+                    bgColor: 'bg-blue-50'
+                },
+                {
+                    key: 'total_assets',
+                    title: 'Total Assets',
+                    value: formatValue(secData.summary_metrics.total_assets?.latest_value || 0),
+                    growth: secData.summary_metrics.total_assets?.growth_rate || 0,
+                    icon: 'building',
+                    color: 'text-purple-600',
+                    bgColor: 'bg-purple-50'
+                },
+                {
+                    key: 'cash_and_equivalents',
+                    title: 'Cash & Equivalents',
+                    value: formatValue(secData.summary_metrics.cash_and_equivalents?.latest_value || 0),
+                    growth: secData.summary_metrics.cash_and_equivalents?.growth_rate || 0,
+                    icon: 'piggy-bank',
+                    color: 'text-yellow-600',
+                    bgColor: 'bg-yellow-50'
+                }
+            ];
+
+            const cardsContainer = document.getElementById('summary-cards');
+            cardsContainer.innerHTML = summaryCards.map(card => `
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600">${card.title}</p>
+                            <p class="text-2xl font-bold text-gray-900">$${card.value}B</p>
+                        </div>
+                        <div class="p-3 rounded-lg ${card.bgColor}">
+                            <i data-lucide="${card.icon}" class="h-6 w-6 ${card.color}"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-center mt-3">
+                        <i data-lucide="${card.growth >= 0 ? 'trending-up' : 'trending-down'}" 
+                           class="h-4 w-4 ${card.growth >= 0 ? 'text-green-600' : 'text-red-600'}"></i>
+                        <span class="ml-1 text-sm font-medium ${card.growth >= 0 ? 'text-green-600' : 'text-red-600'}">
+                            ${card.growth >= 0 ? '+' : ''}${card.growth.toFixed(1)}%
+                        </span>
+                        <span class="ml-2 text-sm text-gray-500">YoY</span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Reinitialize icons
+            lucide.createIcons();
+        }
+
+        function populateFinancialRatios(secData) {
+            const revenue = parseFloat(secData.summary_metrics.revenue?.latest_value || 0);
+            const netIncome = parseFloat(secData.summary_metrics.net_income?.latest_value || 0);
+            const totalAssets = parseFloat(secData.summary_metrics.total_assets?.latest_value || 0);
+            const cash = parseFloat(secData.summary_metrics.cash_and_equivalents?.latest_value || 0);
+
+            const profitMargin = revenue > 0 ? ((netIncome / revenue) * 100).toFixed(1) : '0.0';
+            const roa = totalAssets > 0 ? ((netIncome / totalAssets) * 100).toFixed(1) : '0.0';
+            const cashRatio = totalAssets > 0 ? ((cash / totalAssets) * 100).toFixed(1) : '0.0';
+
+            const ratiosContainer = document.getElementById('financial-ratios');
+            ratiosContainer.innerHTML = `
+                <div class="text-center p-4 bg-blue-50 rounded-lg">
+                    <div class="text-2xl font-bold text-blue-600">${profitMargin}%</div>
+                    <div class="text-sm text-gray-600 mt-1">Net Profit Margin</div>
+                </div>
+                <div class="text-center p-4 bg-green-50 rounded-lg">
+                    <div class="text-2xl font-bold text-green-600">${roa}%</div>
+                    <div class="text-sm text-gray-600 mt-1">Return on Assets</div>
+                </div>
+                <div class="text-center p-4 bg-purple-50 rounded-lg">
+                    <div class="text-2xl font-bold text-purple-600">${cashRatio}%</div>
+                    <div class="text-sm text-gray-600 mt-1">Cash Ratio</div>
+                </div>
+            `;
+        }
+
+        function updateTimestamps(secData) {
+            const lastUpdated = new Date(secData.last_updated).toLocaleDateString();
+            const generatedDate = new Date().toLocaleDateString();
+            
+            document.getElementById('last-updated').textContent = `Updated: ${lastUpdated}`;
+            document.getElementById('generated-date').textContent = generatedDate;
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+        });
+    </script>
+</body>
+</html> 
