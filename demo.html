@@ -148,6 +148,11 @@
                 populateFinancialRatios(secData);
                 updateTimestamps(secData);
                 
+                // Update overview content if we're in overview mode
+                if (currentView === 'overview') {
+                    showOverviewContent();
+                }
+                
                 console.log('Dashboard loaded successfully with SEC data');
                 
             } catch (error) {
@@ -306,47 +311,95 @@
         }
 
         function showOverviewContent() {
-            document.getElementById('charts-section').innerHTML = `
-                <!-- Financial Trends Chart -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Financial Performance Trends</h3>
-                    <div class="h-80 flex items-center justify-center">
+            if (!globalSecData) {
+                document.getElementById('charts-section').innerHTML = `
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 col-span-2">
                         <div class="text-center text-gray-500">
-                            <i data-lucide="trending-up" class="h-16 w-16 mx-auto mb-4 text-blue-500"></i>
-                            <p class="font-medium">Interactive Charts Available</p>
-                            <p class="text-sm">Advanced visualizations available in React version</p>
+                            <i data-lucide="loader" class="h-16 w-16 mx-auto mb-4 text-blue-500 animate-spin"></i>
+                            <p class="font-medium">Loading financial data...</p>
+                        </div>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            // Get current metrics from global data
+            const metrics = globalSecData.summary_metrics;
+            const growthAnalysis = globalSecData.growth_analysis || [];
+
+            document.getElementById('charts-section').innerHTML = `
+                <!-- Financial Performance Overview -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Financial Performance Overview</h3>
+                    <div class="h-80 flex flex-col justify-center">
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">$${formatValue(metrics.revenue?.latest_value || 0)}B</div>
+                                <div class="text-sm text-blue-800">Total Revenue</div>
+                                <div class="text-xs text-gray-600 mt-1">FY ${metrics.revenue?.latest_year || 'N/A'}</div>
+                            </div>
+                            <div class="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">$${formatValue(metrics.net_income?.latest_value || 0)}B</div>
+                                <div class="text-sm text-green-800">Net Income</div>
+                                <div class="text-xs text-gray-600 mt-1">FY ${metrics.net_income?.latest_year || 'N/A'}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="text-center p-3 bg-gray-50 rounded">
+                                <div class="text-lg font-bold text-gray-700">$${formatValue(metrics.operating_income?.latest_value || 0)}B</div>
+                                <div class="text-xs text-gray-600">Operating Income</div>
+                            </div>
+                            <div class="text-center p-3 bg-gray-50 rounded">
+                                <div class="text-lg font-bold text-gray-700">$${formatValue(metrics.research_development?.latest_value || 0)}B</div>
+                                <div class="text-xs text-gray-600">R&D Investment</div>
+                            </div>
+                            <div class="text-center p-3 bg-gray-50 rounded">
+                                <div class="text-lg font-bold text-gray-700">$${formatValue(metrics.cash_and_equivalents?.latest_value || 0)}B</div>
+                                <div class="text-xs text-gray-600">Cash Position</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                            <div class="text-sm text-blue-800 text-center">
+                                <strong>Market Position:</strong> Apple maintains strong financial fundamentals with 
+                                $${formatValue(metrics.total_assets?.latest_value || 0)}B in total assets and consistent profitability.
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Growth Analysis Chart -->
+                <!-- Live Growth Rate Analysis -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Growth Rate Analysis</h3>
-                    <div class="h-80">
-                        <div class="space-y-3 mt-4">
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                <span class="font-medium">Total Revenue</span>
-                                <span class="text-red-600 font-bold">-76.3%</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                <span class="font-medium">Net Income</span>
-                                <span class="text-red-600 font-bold">-3.4%</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                <span class="font-medium">Total Assets</span>
-                                <span class="text-green-600 font-bold">+3.5%</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                <span class="font-medium">Operating Income</span>
-                                <span class="text-green-600 font-bold">+7.8%</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                <span class="font-medium">R&D Spending</span>
-                                <span class="text-green-600 font-bold">+4.9%</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                <span class="font-medium">Cash & Equivalents</span>
-                                <span class="text-red-600 font-bold">-0.1%</span>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Year-over-Year Growth Analysis</h3>
+                    <div class="h-80 flex flex-col justify-center">
+                        <div class="space-y-3">
+                            ${Object.entries(metrics).map(([key, metric]) => {
+                                const growthRate = metric.growth_rate || 0;
+                                const isPositive = growthRate >= 0;
+                                return `
+                                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                        <div class="flex items-center">
+                                            <i data-lucide="${isPositive ? 'trending-up' : 'trending-down'}" 
+                                               class="h-4 w-4 ${isPositive ? 'text-green-600' : 'text-red-600'} mr-3"></i>
+                                            <span class="font-medium text-gray-800">${metric.name}</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="text-sm text-gray-600 mr-3">$${formatValue(metric.latest_value)}B</span>
+                                            <span class="font-bold ${isPositive ? 'text-green-600' : 'text-red-600'}">
+                                                ${isPositive ? '+' : ''}${growthRate.toFixed(1)}%
+                                            </span>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        
+                        <div class="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
+                            <div class="text-sm text-gray-700 text-center">
+                                <i data-lucide="info" class="h-4 w-4 inline mr-2 text-blue-600"></i>
+                                Growth rates calculated from SEC 10-K filings comparing most recent fiscal year data
                             </div>
                         </div>
                     </div>
