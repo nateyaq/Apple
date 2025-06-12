@@ -467,23 +467,23 @@
                 <!-- Growth Analysis Chart -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Growth Rate Analysis</h3>
-                    <div id="growth-chart" class="h-80">
-                        <div class="space-y-3 mt-4">
+                    <div id="growth-chart" class="h-80 flex flex-col">
+                        <div class="flex-1 overflow-y-auto space-y-3 pr-2">
                             ${Object.entries(globalSecData.summary_metrics).map(([key, metric]) => {
                                 const currentMetrics = getMetricsForPeriod(globalSecData, currentPeriod);
                                 const growth = currentPeriod === 'quarterly' ? 
                                     (currentMetrics[key]?.quarterly_vs_annual_change || 0) : 
                                     (metric.growth_rate || 0);
                                 return `
-                                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
-                                        <span class="font-medium">${metric.name}</span>
-                                        <span class="${growth >= 0 ? 'text-green-600' : 'text-red-600'} font-bold">${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%</span>
+                                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded min-h-[3rem] flex-shrink-0">
+                                        <span class="font-medium text-sm pr-2 flex-1 min-w-0 truncate">${metric.name}</span>
+                                        <span class="${growth >= 0 ? 'text-green-600' : 'text-red-600'} font-bold text-sm whitespace-nowrap">${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%</span>
                                     </div>
                                 `;
                             }).join('')}
                         </div>
                         
-                        <div class="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
+                        <div class="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg flex-shrink-0">
                             <div class="text-sm text-gray-700 text-center">
                                 <i data-lucide="info" class="h-4 w-4 inline mr-2 text-blue-600"></i>
                                 Growth calculated from SEC ${currentPeriod === 'quarterly' ? '10-Q' : '10-K'} filings
