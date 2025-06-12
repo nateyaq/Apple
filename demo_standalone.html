@@ -57,8 +57,12 @@
                 <!-- Financial Trends Chart -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Financial Performance Trends</h3>
-                    <div id="trends-chart" class="h-80">
-                        <!-- Chart will be rendered here -->
+                    <div id="trends-chart" class="h-80 flex items-center justify-center">
+                        <div class="text-center text-gray-500">
+                            <i data-lucide="trending-up" class="h-16 w-16 mx-auto mb-4 text-blue-500"></i>
+                            <p class="font-medium">Interactive Charts Available</p>
+                            <p class="text-sm">View full React version or server-based demo for advanced visualizations</p>
+                        </div>
                     </div>
                 </div>
 
@@ -66,7 +70,32 @@
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Growth Rate Analysis</h3>
                     <div id="growth-chart" class="h-80">
-                        <!-- Chart will be rendered here -->
+                        <div class="space-y-3 mt-4">
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
+                                <span class="font-medium">Total Revenue</span>
+                                <span class="text-red-600 font-bold">-76.3%</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
+                                <span class="font-medium">Net Income</span>
+                                <span class="text-red-600 font-bold">-3.4%</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
+                                <span class="font-medium">Total Assets</span>
+                                <span class="text-green-600 font-bold">+3.5%</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
+                                <span class="font-medium">Operating Income</span>
+                                <span class="text-green-600 font-bold">+7.8%</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
+                                <span class="font-medium">R&D Spending</span>
+                                <span class="text-green-600 font-bold">+4.9%</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
+                                <span class="font-medium">Cash & Equivalents</span>
+                                <span class="text-red-600 font-bold">-0.1%</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -126,40 +155,108 @@
     </div>
 
     <script>
+        // Embedded SEC data (works without server)
+        const secData = {
+            "company_name": "Apple Inc.",
+            "last_updated": "2025-06-12T00:28:48.160804",
+            "summary_metrics": {
+                "revenue": {
+                    "name": "Total Revenue",
+                    "latest_value": "62900000000",
+                    "latest_year": "2018",
+                    "growth_rate": -76.32
+                },
+                "net_income": {
+                    "name": "Net Income",
+                    "latest_value": "93736000000",
+                    "latest_year": 2024.0,
+                    "growth_rate": -3.36
+                },
+                "total_assets": {
+                    "name": "Total Assets",
+                    "latest_value": "364980000000",
+                    "latest_year": 2024.0,
+                    "growth_rate": 3.52
+                },
+                "cash_and_equivalents": {
+                    "name": "Cash and Cash Equivalents",
+                    "latest_value": "29943000000",
+                    "latest_year": 2024.0,
+                    "growth_rate": -0.07
+                },
+                "research_development": {
+                    "name": "Research & Development",
+                    "latest_value": "31370000000",
+                    "latest_year": 2024.0,
+                    "growth_rate": 4.86
+                },
+                "operating_income": {
+                    "name": "Operating Income",
+                    "latest_value": "123216000000",
+                    "latest_year": 2024.0,
+                    "growth_rate": 7.8
+                },
+                "shareholders_equity": {
+                    "name": "Shareholders Equity",
+                    "latest_value": "56950000000",
+                    "latest_year": 2024.0,
+                    "growth_rate": -8.36
+                }
+            },
+            "growth_analysis": [
+                {
+                    "metric": "Total Revenue",
+                    "avg_growth_rate": 69.67,
+                    "latest_growth": -76.32
+                },
+                {
+                    "metric": "Net Income",
+                    "avg_growth_rate": -1.54,
+                    "latest_growth": -3.36
+                },
+                {
+                    "metric": "Total Assets",
+                    "avg_growth_rate": 0.87,
+                    "latest_growth": 3.52
+                },
+                {
+                    "metric": "Cash and Cash Equivalents",
+                    "avg_growth_rate": 6.66,
+                    "latest_growth": -0.07
+                },
+                {
+                    "metric": "Research & Development",
+                    "avg_growth_rate": 4.71,
+                    "latest_growth": 4.86
+                },
+                {
+                    "metric": "Operating Income",
+                    "avg_growth_rate": 0.88,
+                    "latest_growth": 7.8
+                },
+                {
+                    "metric": "Shareholders Equity",
+                    "avg_growth_rate": 3.57,
+                    "latest_growth": -8.36
+                }
+            ]
+        };
+
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // Load and display SEC data
-        async function loadDashboard() {
-            try {
-                // Load SEC data
-                const response = await fetch('./apple_sec_dashboard_data.json');
-                const secData = await response.json();
-                
-                // Hide loading, show dashboard
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('dashboard').classList.remove('hidden');
-                
-                // Populate dashboard with data
-                populateSummaryCards(secData);
-                populateFinancialRatios(secData);
-                updateTimestamps(secData);
-                
-                console.log('Dashboard loaded successfully with SEC data');
-                
-            } catch (error) {
-                console.error('Error loading SEC data:', error);
-                
-                // Show error state or fallback data
-                document.getElementById('loading').innerHTML = `
-                    <div class="text-center">
-                        <i data-lucide="alert-circle" class="h-12 w-12 text-red-600 mx-auto mb-4"></i>
-                        <p class="text-gray-600">Error loading financial data</p>
-                        <p class="text-sm text-gray-500 mt-2">Please ensure apple_sec_dashboard_data.json is available</p>
-                    </div>
-                `;
-                lucide.createIcons();
-            }
+        // Load dashboard with embedded data (no server required)
+        function loadDashboard() {
+            // Hide loading, show dashboard
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            
+            // Populate dashboard with embedded data
+            populateSummaryCards(secData);
+            populateFinancialRatios(secData);
+            updateTimestamps(secData);
+            
+            console.log('Dashboard loaded successfully with embedded SEC data');
         }
 
         function formatValue(value) {
