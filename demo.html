@@ -36,13 +36,26 @@
                         <h1 class="text-3xl font-bold text-gray-900 mb-2">Apple Inc. Financial Dashboard</h1>
                         <p class="text-gray-600">SEC Filing Data Analysis - Real-time EDGAR API Data</p>
                     </div>
-                    <div class="flex gap-2">
-                        <button id="overview-btn" class="px-4 py-2 rounded-lg font-medium bg-blue-600 text-white">
-                            Overview
-                        </button>
-                        <button id="detailed-btn" class="px-4 py-2 rounded-lg font-medium bg-white text-gray-600 border border-gray-300">
-                            Detailed
-                        </button>
+                    <div class="flex items-center gap-4">
+                        <!-- Period Selector -->
+                        <div class="flex items-center gap-2">
+                            <label class="text-sm font-medium text-gray-700">Period:</label>
+                            <select id="period-selector" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
+                                <option value="latest">Latest (Q2 2025)</option>
+                                <option value="quarterly">Quarterly View</option>
+                                <option value="annual">Annual View</option>
+                            </select>
+                        </div>
+                        
+                        <!-- View Selector -->
+                        <div class="flex gap-2">
+                            <button id="overview-btn" class="px-4 py-2 rounded-lg font-medium bg-blue-600 text-white">
+                                Overview
+                            </button>
+                            <button id="detailed-btn" class="px-4 py-2 rounded-lg font-medium bg-white text-gray-600 border border-gray-300">
+                                Detailed
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,7 +100,7 @@
                         <i data-lucide="check-circle" class="h-6 w-6 text-green-600 mr-3"></i>
                         <div>
                             <p class="font-medium text-green-900">SEC EDGAR Database</p>
-                            <p class="text-sm text-green-700">Official 10-K Annual Filings</p>
+                            <p class="text-sm text-green-700" id="data-source-note">Official 10-K & 10-Q Filings</p>
                         </div>
                     </div>
                     <div class="flex items-center p-4 bg-blue-50 rounded-lg">
@@ -176,42 +189,60 @@
         }
 
         function populateSummaryCards(secData) {
+            const currentMetrics = getMetricsForPeriod(secData, currentPeriod);
+            
             const summaryCards = [
                 {
                     key: 'revenue',
                     title: 'Total Revenue',
-                    value: formatValue(secData.summary_metrics.revenue?.latest_value || 0),
-                    growth: secData.summary_metrics.revenue?.growth_rate || 0,
+                    value: formatValue(currentMetrics.revenue?.latest_value || currentMetrics.revenue?.latest_quarterly_value || 0),
+                    growth: currentPeriod === 'quarterly' ? 
+                        (currentMetrics.revenue?.quarterly_vs_annual_change || 0) : 
+                        (currentMetrics.revenue?.growth_rate || 0),
                     icon: 'dollar-sign',
                     color: 'text-green-600',
-                    bgColor: 'bg-green-50'
+                    bgColor: 'bg-green-50',
+                    period: currentMetrics.revenue?.latest_period || currentMetrics.revenue?.latest_quarterly_period,
+                    form: currentMetrics.revenue?.latest_form || '10-Q'
                 },
                 {
                     key: 'net_income',
                     title: 'Net Income',
-                    value: formatValue(secData.summary_metrics.net_income?.latest_value || 0),
-                    growth: secData.summary_metrics.net_income?.growth_rate || 0,
+                    value: formatValue(currentMetrics.net_income?.latest_value || currentMetrics.net_income?.latest_quarterly_value || 0),
+                    growth: currentPeriod === 'quarterly' ? 
+                        (currentMetrics.net_income?.quarterly_vs_annual_change || 0) : 
+                        (currentMetrics.net_income?.growth_rate || 0),
                     icon: 'target',
                     color: 'text-blue-600',
-                    bgColor: 'bg-blue-50'
+                    bgColor: 'bg-blue-50',
+                    period: currentMetrics.net_income?.latest_period || currentMetrics.net_income?.latest_quarterly_period,
+                    form: currentMetrics.net_income?.latest_form || '10-Q'
                 },
                 {
                     key: 'total_assets',
                     title: 'Total Assets',
-                    value: formatValue(secData.summary_metrics.total_assets?.latest_value || 0),
-                    growth: secData.summary_metrics.total_assets?.growth_rate || 0,
+                    value: formatValue(currentMetrics.total_assets?.latest_value || currentMetrics.total_assets?.latest_quarterly_value || 0),
+                    growth: currentPeriod === 'quarterly' ? 
+                        (currentMetrics.total_assets?.quarterly_vs_annual_change || 0) : 
+                        (currentMetrics.total_assets?.growth_rate || 0),
                     icon: 'building',
                     color: 'text-purple-600',
-                    bgColor: 'bg-purple-50'
+                    bgColor: 'bg-purple-50',
+                    period: currentMetrics.total_assets?.latest_period || currentMetrics.total_assets?.latest_quarterly_period,
+                    form: currentMetrics.total_assets?.latest_form || '10-Q'
                 },
                 {
                     key: 'cash_and_equivalents',
                     title: 'Cash & Equivalents',
-                    value: formatValue(secData.summary_metrics.cash_and_equivalents?.latest_value || 0),
-                    growth: secData.summary_metrics.cash_and_equivalents?.growth_rate || 0,
+                    value: formatValue(currentMetrics.cash_and_equivalents?.latest_value || currentMetrics.cash_and_equivalents?.latest_quarterly_value || 0),
+                    growth: currentPeriod === 'quarterly' ? 
+                        (currentMetrics.cash_and_equivalents?.quarterly_vs_annual_change || 0) : 
+                        (currentMetrics.cash_and_equivalents?.growth_rate || 0),
                     icon: 'piggy-bank',
                     color: 'text-yellow-600',
-                    bgColor: 'bg-yellow-50'
+                    bgColor: 'bg-yellow-50',
+                    period: currentMetrics.cash_and_equivalents?.latest_period || currentMetrics.cash_and_equivalents?.latest_quarterly_period,
+                    form: currentMetrics.cash_and_equivalents?.latest_form || '10-Q'
                 }
             ];
 
@@ -222,6 +253,7 @@
                         <div>
                             <p class="text-sm font-medium text-gray-600">${card.title}</p>
                             <p class="text-2xl font-bold text-gray-900">$${card.value}B</p>
+                            ${card.period ? `<p class="text-xs text-gray-500 mt-1">${card.form} • ${new Date(card.period).toLocaleDateString()}</p>` : ''}
                         </div>
                         <div class="p-3 rounded-lg ${card.bgColor}">
                             <i data-lucide="${card.icon}" class="h-6 w-6 ${card.color}"></i>
@@ -233,7 +265,7 @@
                         <span class="ml-1 text-sm font-medium ${card.growth >= 0 ? 'text-green-600' : 'text-red-600'}">
                             ${card.growth >= 0 ? '+' : ''}${card.growth.toFixed(1)}%
                         </span>
-                        <span class="ml-2 text-sm text-gray-500">YoY</span>
+                        <span class="ml-2 text-sm text-gray-500">${currentPeriod === 'quarterly' ? 'vs Annual' : 'YoY'}</span>
                     </div>
                 </div>
             `).join('');
@@ -243,10 +275,11 @@
         }
 
         function populateFinancialRatios(secData) {
-            const revenue = parseFloat(secData.summary_metrics.revenue?.latest_value || 0);
-            const netIncome = parseFloat(secData.summary_metrics.net_income?.latest_value || 0);
-            const totalAssets = parseFloat(secData.summary_metrics.total_assets?.latest_value || 0);
-            const cash = parseFloat(secData.summary_metrics.cash_and_equivalents?.latest_value || 0);
+            const currentMetrics = getMetricsForPeriod(secData, currentPeriod);
+            const revenue = parseFloat(currentMetrics.revenue?.latest_value || currentMetrics.revenue?.latest_quarterly_value || 0);
+            const netIncome = parseFloat(currentMetrics.net_income?.latest_value || currentMetrics.net_income?.latest_quarterly_value || 0);
+            const totalAssets = parseFloat(currentMetrics.total_assets?.latest_value || currentMetrics.total_assets?.latest_quarterly_value || 0);
+            const cash = parseFloat(currentMetrics.cash_and_equivalents?.latest_value || currentMetrics.cash_and_equivalents?.latest_quarterly_value || 0);
 
             const profitMargin = revenue > 0 ? ((netIncome / revenue) * 100).toFixed(1) : '0.0';
             const roa = totalAssets > 0 ? ((netIncome / totalAssets) * 100).toFixed(1) : '0.0';
@@ -279,6 +312,7 @@
 
         // View mode state
         let currentView = 'overview';
+        let currentPeriod = 'latest';
         let globalSecData = null;
 
         // Button event handlers
@@ -289,6 +323,10 @@
             
             document.getElementById('detailed-btn').addEventListener('click', function() {
                 switchView('detailed');
+            });
+            
+            document.getElementById('period-selector').addEventListener('change', function(e) {
+                switchPeriod(e.target.value);
             });
         }
 
@@ -307,6 +345,71 @@
                 overviewBtn.className = 'px-4 py-2 rounded-lg font-medium bg-white text-gray-600 border border-gray-300';
                 detailedBtn.className = 'px-4 py-2 rounded-lg font-medium bg-blue-600 text-white';
                 showDetailedContent();
+            }
+        }
+
+        function switchPeriod(period) {
+            currentPeriod = period;
+            
+            if (!globalSecData) return;
+            
+            // Update summary cards with selected period data
+            populateSummaryCards(globalSecData);
+            populateFinancialRatios(globalSecData);
+            
+            // Update content based on current view
+            if (currentView === 'overview') {
+                showOverviewContent();
+            } else {
+                showDetailedContent();
+            }
+            
+            // Update the data source information
+            updateDataSourceInfo(period);
+        }
+
+        function getMetricsForPeriod(secData, period) {
+            switch(period) {
+                case 'quarterly':
+                    return secData.quarterly_metrics || {};
+                case 'annual':
+                    // Return only annual data
+                    const annualMetrics = {};
+                    for (const [key, data] of Object.entries(secData.summary_metrics)) {
+                        if (data.latest_form === '10-K') {
+                            annualMetrics[key] = data;
+                        } else {
+                            // If no annual data, try to find it from raw metrics
+                            const rawMetric = secData.raw_metrics[key];
+                            if (rawMetric && rawMetric.annual_data && rawMetric.annual_data.length > 0) {
+                                const latestAnnual = rawMetric.annual_data[rawMetric.annual_data.length - 1];
+                                annualMetrics[key] = {
+                                    ...data,
+                                    latest_value: latestAnnual.val,
+                                    latest_year: latestAnnual.fy,
+                                    latest_period: latestAnnual.end,
+                                    latest_form: latestAnnual.form
+                                };
+                            }
+                        }
+                    }
+                    return annualMetrics;
+                case 'latest':
+                default:
+                    return secData.summary_metrics;
+            }
+        }
+
+        function updateDataSourceInfo(period) {
+            const dataSourceText = {
+                'latest': 'Latest Available Data (Quarterly & Annual)',
+                'quarterly': 'Quarterly Reports (10-Q)',
+                'annual': 'Annual Reports (10-K)'
+            };
+            
+            const noteElement = document.querySelector('#data-source-note');
+            if (noteElement) {
+                noteElement.textContent = dataSourceText[period] || dataSourceText['latest'];
             }
         }
 
@@ -439,7 +542,7 @@
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 col-span-2">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Metric Details</h3>
                     <div id="metric-details" class="space-y-4">
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-3 gap-4">
                             <div class="p-4 bg-blue-50 rounded-lg">
                                 <p class="text-sm text-gray-600">Latest Value</p>
                                 <p class="text-xl font-bold text-blue-600" id="latest-value">Select a metric</p>
@@ -449,6 +552,11 @@
                                 <p class="text-sm text-gray-600">Growth Rate</p>
                                 <p class="text-xl font-bold" id="growth-rate">--</p>
                                 <p class="text-xs text-gray-500">Year over Year</p>
+                            </div>
+                            <div class="p-4 bg-purple-50 rounded-lg" id="quarterly-comparison" style="display: none;">
+                                <p class="text-sm text-gray-600">Q vs Annual</p>
+                                <p class="text-xl font-bold" id="quarterly-change">--</p>
+                                <p class="text-xs text-gray-500">Latest Quarter vs Annual</p>
                             </div>
                         </div>
                         <div class="p-4 bg-gray-50 rounded-lg">
@@ -485,11 +593,25 @@
             const latestYear = metric.latest_year;
             
             document.getElementById('latest-value').textContent = `$${latestValue}B`;
-            document.getElementById('latest-year').textContent = `FY ${latestYear}`;
+            document.getElementById('latest-year').textContent = `${metric.latest_form} ${latestYear}`;
             
             const growthElement = document.getElementById('growth-rate');
             growthElement.textContent = `${growthRate >= 0 ? '+' : ''}${growthRate.toFixed(1)}%`;
             growthElement.className = `text-xl font-bold ${growthRate >= 0 ? 'text-green-600' : 'text-red-600'}`;
+            
+            // Show quarterly comparison if available
+            const quarterlyMetric = globalSecData.quarterly_metrics[metricKey];
+            const quarterlyComparison = document.getElementById('quarterly-comparison');
+            
+            if (quarterlyMetric && quarterlyMetric.quarterly_vs_annual_change !== undefined) {
+                quarterlyComparison.style.display = 'block';
+                const quarterlyChange = quarterlyMetric.quarterly_vs_annual_change;
+                const quarterlyChangeElement = document.getElementById('quarterly-change');
+                quarterlyChangeElement.textContent = `${quarterlyChange >= 0 ? '+' : ''}${quarterlyChange.toFixed(1)}%`;
+                quarterlyChangeElement.className = `text-xl font-bold ${quarterlyChange >= 0 ? 'text-green-600' : 'text-red-600'}`;
+            } else {
+                quarterlyComparison.style.display = 'none';
+            }
             
             // Update historical context
             const contextMessages = {

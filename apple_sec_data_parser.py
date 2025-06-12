@@ -112,8 +112,8 @@ class AppleSECDataParser:
             print(f"Error exploring revenue fields: {e}")
             return []
     
-    def extract_financial_metric(self, metric_path, metric_name):
-        """Extract a specific financial metric from the SEC data"""
+    def extract_financial_metric(self, metric_path, metric_name, include_quarterly=True):
+        """Extract a specific financial metric from the SEC data with both annual and quarterly data"""
         try:
             # Navigate through the nested structure
             current_data = self.raw_data
@@ -123,22 +123,43 @@ class AppleSECDataParser:
             # Extract USD values
             if 'units' in current_data and 'USD' in current_data['units']:
                 df = pd.DataFrame(current_data['units']['USD'])
+                df['end'] = pd.to_datetime(df['end'])
+                df = df.sort_values('end')
                 
-                # Filter for annual data (10-K forms) and recent years
+                # Separate annual and quarterly data
                 annual_data = df[df['form'] == '10-K'].copy()
-                if len(annual_data) > 0:
-                    annual_data['end'] = pd.to_datetime(annual_data['end'])
-                    annual_data = annual_data.sort_values('end')
-                    
-                    # Get last 5 years of data
-                    recent_data = annual_data.tail(5)
-                    
-                    return {
-                        'metric_name': metric_name,
-                        'data': recent_data[['end', 'val', 'fy']].to_dict('records'),
-                        'latest_value': recent_data['val'].iloc[-1] if len(recent_data) > 0 else 0,
-                        'latest_year': recent_data['fy'].iloc[-1] if len(recent_data) > 0 else None
-                    }
+                quarterly_data = df[df['form'] == '10-Q'].copy() if include_quarterly else pd.DataFrame()
+                
+                # Get recent annual data (last 5 years)
+                recent_annual = annual_data.tail(5) if len(annual_data) > 0 else pd.DataFrame()
+                
+                # Get recent quarterly data (last 8 quarters)
+                recent_quarterly = quarterly_data.tail(8) if len(quarterly_data) > 0 else pd.DataFrame()
+                
+                # Combine all data for comprehensive view
+                all_recent_data = pd.concat([recent_annual, recent_quarterly]).sort_values('end')
+                
+                # Determine the most recent value (could be quarterly or annual)
+                latest_entry = all_recent_data.iloc[-1] if len(all_recent_data) > 0 else None
+                
+                # Get latest quarterly and annual separately for comparison
+                latest_quarterly = recent_quarterly.iloc[-1] if len(recent_quarterly) > 0 else None
+                latest_annual = recent_annual.iloc[-1] if len(recent_annual) > 0 else None
+                
+                return {
+                    'metric_name': metric_name,
+                    'data': all_recent_data[['end', 'val', 'fy', 'form']].to_dict('records'),
+                    'annual_data': recent_annual[['end', 'val', 'fy', 'form']].to_dict('records'),
+                    'quarterly_data': recent_quarterly[['end', 'val', 'fy', 'form']].to_dict('records'),
+                    'latest_value': latest_entry['val'] if latest_entry is not None else 0,
+                    'latest_year': latest_entry['fy'] if latest_entry is not None else None,
+                    'latest_period': latest_entry['end'].strftime('%Y-%m-%d') if latest_entry is not None else None,
+                    'latest_form': latest_entry['form'] if latest_entry is not None else None,
+                    'latest_quarterly_value': latest_quarterly['val'] if latest_quarterly is not None else None,
+                    'latest_quarterly_period': latest_quarterly['end'].strftime('%Y-%m-%d') if latest_quarterly is not None else None,
+                    'latest_annual_value': latest_annual['val'] if latest_annual is not None else None,
+                    'latest_annual_period': latest_annual['end'].strftime('%Y-%m-%d') if latest_annual is not None else None
+                }
         except (KeyError, IndexError, TypeError) as e:
             print(f"Could not extract {metric_name}: {e}")
             return None
@@ -161,6 +182,12 @@ class AppleSECDataParser:
                 })
         
         return growth_rates
+    
+    def calculate_quarterly_vs_annual_change(self, quarterly_value, annual_value):
+        """Calculate percentage change from annual to quarterly values"""
+        if not quarterly_value or not annual_value or annual_value == 0:
+            return 0
+        return round(((quarterly_value - annual_value) / annual_value) * 100, 2)
     
     def process_all_metrics(self):
         """Process all key financial metrics for the dashboard"""
@@ -285,15 +312,34 @@ class AppleSECDataParser:
             print("No processed data available. Please process metrics first.")
             return None
         
-        # Prepare summary metrics
+        # Prepare summary metrics with both quarterly and annual data
         summary_metrics = {}
+        quarterly_metrics = {}
+        
         for key, data in self.processed_data.items():
+            # Annual metrics (primary display)
             summary_metrics[key] = {
                 'name': data['metric_name'],
                 'latest_value': data['latest_value'],
                 'latest_year': data['latest_year'],
+                'latest_period': data.get('latest_period'),
+                'latest_form': data.get('latest_form'),
                 'growth_rate': data['growth_rates'][-1]['growth_rate'] if data['growth_rates'] else 0
             }
+            
+            # Quarterly metrics for comparison
+            if data.get('latest_quarterly_value'):
+                quarterly_metrics[key] = {
+                    'name': data['metric_name'],
+                    'latest_quarterly_value': data['latest_quarterly_value'],
+                    'latest_quarterly_period': data.get('latest_quarterly_period'),
+                    'latest_annual_value': data.get('latest_annual_value'),
+                    'latest_annual_period': data.get('latest_annual_period'),
+                    'quarterly_vs_annual_change': self.calculate_quarterly_vs_annual_change(
+                        data.get('latest_quarterly_value'), 
+                        data.get('latest_annual_value')
+                    )
+                }
         
         # Prepare time series data for charts
         time_series_data = []
@@ -326,9 +372,15 @@ class AppleSECDataParser:
             'company_name': self.raw_data.get('entityName', 'Apple Inc.'),
             'last_updated': datetime.now().isoformat(),
             'summary_metrics': summary_metrics,
+            'quarterly_metrics': quarterly_metrics,
             'time_series_data': time_series_data,
             'growth_analysis': growth_analysis,
-            'raw_metrics': self.processed_data
+            'raw_metrics': self.processed_data,
+            'data_sources': {
+                'annual_forms': '10-K (Annual Reports)',
+                'quarterly_forms': '10-Q (Quarterly Reports)',
+                'note': 'Dashboard shows most recent data available (quarterly or annual)'
+            }
         }
         
         return dashboard_data

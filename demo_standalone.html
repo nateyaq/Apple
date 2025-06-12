@@ -36,13 +36,26 @@
                         <h1 class="text-3xl font-bold text-gray-900 mb-2">Apple Inc. Financial Dashboard</h1>
                         <p class="text-gray-600">SEC Filing Data Analysis - Real-time EDGAR API Data</p>
                     </div>
-                    <div class="flex gap-2">
-                        <button id="overview-btn" class="px-4 py-2 rounded-lg font-medium bg-blue-600 text-white">
-                            Overview
-                        </button>
-                        <button id="detailed-btn" class="px-4 py-2 rounded-lg font-medium bg-white text-gray-600 border border-gray-300">
-                            Detailed
-                        </button>
+                    <div class="flex items-center gap-4">
+                        <!-- Period Selector -->
+                        <div class="flex items-center gap-2">
+                            <label class="text-sm font-medium text-gray-700">Period:</label>
+                            <select id="period-selector" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
+                                <option value="latest">Latest (Q2 2025)</option>
+                                <option value="quarterly">Quarterly View</option>
+                                <option value="annual">Annual View</option>
+                            </select>
+                        </div>
+                        
+                        <!-- View Selector -->
+                        <div class="flex gap-2">
+                            <button id="overview-btn" class="px-4 py-2 rounded-lg font-medium bg-blue-600 text-white">
+                                Overview
+                            </button>
+                            <button id="detailed-btn" class="px-4 py-2 rounded-lg font-medium bg-white text-gray-600 border border-gray-300">
+                                Detailed
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

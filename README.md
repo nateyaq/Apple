@@ -44,7 +44,7 @@ AppleBSA/
 ## 📊 Financial Metrics Tracked
 
 ### Core Financial Data
-- **Total Revenue**: Annual revenue from SEC 10-K filings
+- **Total Revenue**: Revenue from SEC 10-K (annual) and 10-Q (quarterly) filings
 - **Net Income**: Profit after all expenses and taxes
 - **Total Assets**: Complete asset valuation
 - **Cash & Cash Equivalents**: Liquid assets available
@@ -130,14 +130,16 @@ Years of data: 5
 
 ### Overview Mode
 - **Summary Cards**: Key financial metrics with growth indicators
+- **Period Selector**: Switch between latest, quarterly, and annual data views
 - **Trend Charts**: Revenue and income trends over time
 - **Growth Analysis**: Comparative growth rates across metrics
 - **Financial Ratios**: Calculated profitability and efficiency ratios
 
 ### Detailed Mode
 - **Metric Deep Dive**: Detailed timeline for selected metrics
-- **Quarterly Data**: Granular quarterly performance data
-- **Historical Analysis**: Multi-year trend analysis
+- **Quarterly vs Annual**: Compare quarterly performance to annual figures
+- **Quarter-over-Quarter**: Q2 2025 data from latest 10-Q filings
+- **Historical Analysis**: Multi-year trend analysis with quarterly granularity
 
 ### Data Quality Features
 - **Source Validation**: Confirms data from official SEC filings
@@ -189,6 +191,8 @@ Charts are built with Recharts. Customize by modifying the chart components in t
 - **Real-time Access**: Direct API integration for current data
 - **GAAP Compliance**: All metrics follow US-GAAP accounting standards
 - **CIK Identifier**: Apple Inc. (CIK: 0000320193)
+- **10-K Forms**: Annual reports with complete yearly financial data
+- **10-Q Forms**: Quarterly reports with most recent quarter data (Q2 2025)
 
 ### Data Quality Standards
 - **Validation**: Automated checks for data completeness and accuracy
