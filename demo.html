@@ -140,6 +140,9 @@
                 document.getElementById('loading').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
                 
+                // Store data globally for detailed view
+                globalSecData = secData;
+                
                 // Populate dashboard with data
                 populateSummaryCards(secData);
                 populateFinancialRatios(secData);
@@ -271,6 +274,7 @@
 
         // View mode state
         let currentView = 'overview';
+        let globalSecData = null;
 
         // Button event handlers
         function setupEventHandlers() {
@@ -367,11 +371,11 @@
                             <option value="research_development">Research & Development</option>
                         </select>
                     </div>
-                    <div class="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-                        <div class="text-center text-gray-500">
+                    <div id="timeline-chart" class="h-64 bg-gray-50 rounded-lg p-4">
+                        <div class="text-center text-gray-500 flex flex-col items-center justify-center h-full">
                             <i data-lucide="bar-chart-3" class="h-12 w-12 mx-auto mb-2 text-blue-500"></i>
-                            <p class="font-medium">Detailed Timeline Analysis</p>
-                            <p class="text-sm">Interactive charts available in React version</p>
+                            <p class="font-medium">Historical Data Timeline</p>
+                            <p class="text-sm">Select a metric to view historical trends</p>
                         </div>
                     </div>
                 </div>
@@ -383,23 +387,121 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div class="p-4 bg-blue-50 rounded-lg">
                                 <p class="text-sm text-gray-600">Latest Value</p>
-                                <p class="text-xl font-bold text-blue-600">$62.9B</p>
-                                <p class="text-xs text-gray-500">FY 2018</p>
+                                <p class="text-xl font-bold text-blue-600" id="latest-value">Select a metric</p>
+                                <p class="text-xs text-gray-500" id="latest-year">--</p>
                             </div>
                             <div class="p-4 bg-green-50 rounded-lg">
                                 <p class="text-sm text-gray-600">Growth Rate</p>
-                                <p class="text-xl font-bold text-red-600">-76.3%</p>
+                                <p class="text-xl font-bold" id="growth-rate">--</p>
                                 <p class="text-xs text-gray-500">Year over Year</p>
                             </div>
                         </div>
                         <div class="p-4 bg-gray-50 rounded-lg">
                             <p class="text-sm text-gray-600 mb-2">Historical Context</p>
-                            <p class="text-sm">Revenue data from SEC 10-K filings shows quarterly variations. For complete historical analysis and interactive charts, please view the React dashboard version.</p>
+                            <p class="text-sm" id="historical-context">Select a metric above to view detailed analysis and historical trends from SEC 10-K filings.</p>
+                        </div>
+                        <div id="historical-data" class="mt-4">
+                            <!-- Historical data points will be shown here -->
                         </div>
                     </div>
                 </div>
             `;
+            
+            // Add event listener for metric selector
+            document.getElementById('metric-selector').addEventListener('change', function(e) {
+                updateMetricDetails(e.target.value);
+            });
+            
             lucide.createIcons();
+            
+            // Load initial metric (revenue)
+            updateMetricDetails('revenue');
+        }
+
+        function updateMetricDetails(metricKey) {
+            if (!globalSecData) return;
+            
+            const metric = globalSecData.summary_metrics[metricKey];
+            if (!metric) return;
+            
+            // Update metric details
+            const latestValue = formatValue(metric.latest_value);
+            const growthRate = metric.growth_rate;
+            const latestYear = metric.latest_year;
+            
+            document.getElementById('latest-value').textContent = `$${latestValue}B`;
+            document.getElementById('latest-year').textContent = `FY ${latestYear}`;
+            
+            const growthElement = document.getElementById('growth-rate');
+            growthElement.textContent = `${growthRate >= 0 ? '+' : ''}${growthRate.toFixed(1)}%`;
+            growthElement.className = `text-xl font-bold ${growthRate >= 0 ? 'text-green-600' : 'text-red-600'}`;
+            
+            // Update historical context
+            const contextMessages = {
+                'revenue': 'Apple\'s revenue shows significant quarterly variations due to seasonal product launches, particularly iPhone releases in Q1.',
+                'net_income': 'Net income reflects Apple\'s strong profitability and efficient cost management across all product lines.',
+                'operating_income': 'Operating income demonstrates Apple\'s core business performance before financing and tax considerations.',
+                'total_assets': 'Total assets include cash reserves, investments, property, and intellectual property portfolios.',
+                'cash_and_equivalents': 'Apple maintains substantial cash reserves for strategic investments and shareholder returns.',
+                'research_development': 'R&D spending reflects Apple\'s commitment to innovation across hardware, software, and services.'
+            };
+            
+            document.getElementById('historical-context').textContent = contextMessages[metricKey] || 'Historical data from SEC 10-K filings.';
+            
+            // Show historical data points if available
+            const rawMetric = globalSecData.raw_metrics[metricKey];
+            if (rawMetric && rawMetric.data) {
+                const historicalHtml = `
+                    <h4 class="text-sm font-medium text-gray-700 mb-3">Recent Historical Data</h4>
+                    <div class="space-y-2 max-h-32 overflow-y-auto">
+                        ${rawMetric.data.slice(-5).map(dataPoint => `
+                            <div class="flex justify-between items-center p-2 bg-white rounded border">
+                                <span class="text-sm text-gray-600">${new Date(dataPoint.end).getFullYear()}</span>
+                                <span class="text-sm font-medium">$${formatValue(dataPoint.val)}B</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                document.getElementById('historical-data').innerHTML = historicalHtml;
+            } else {
+                document.getElementById('historical-data').innerHTML = '';
+            }
+            
+            // Update timeline chart area with simple visualization
+            const timelineChart = document.getElementById('timeline-chart');
+            if (rawMetric && rawMetric.data && rawMetric.data.length > 1) {
+                const data = rawMetric.data.slice(-5); // Last 5 data points
+                const maxVal = Math.max(...data.map(d => parseFloat(d.val)));
+                
+                timelineChart.innerHTML = `
+                    <div class="h-full flex flex-col">
+                        <h4 class="text-sm font-medium text-gray-700 mb-3">${metric.name} Timeline</h4>
+                        <div class="flex-1 flex items-end justify-around space-x-2">
+                            ${data.map(dataPoint => {
+                                const height = (parseFloat(dataPoint.val) / maxVal) * 80;
+                                return `
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-8 bg-blue-500 rounded-t" style="height: ${height}%"></div>
+                                        <span class="text-xs text-gray-500 mt-1">${new Date(dataPoint.end).getFullYear()}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="mt-2 text-xs text-gray-500 text-center">
+                            Values in billions USD
+                        </div>
+                    </div>
+                `;
+            } else {
+                timelineChart.innerHTML = `
+                    <div class="text-center text-gray-500 flex flex-col items-center justify-center h-full">
+                        <i data-lucide="bar-chart-3" class="h-12 w-12 mx-auto mb-2 text-blue-500"></i>
+                        <p class="font-medium">Limited Historical Data</p>
+                        <p class="text-sm">Insufficient data points for timeline visualization</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
         }
 
         // Initialize dashboard
