@@ -42,7 +42,6 @@
                             <label class="text-sm font-medium text-gray-700">Period:</label>
                             <select id="period-selector" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
                                 <option value="latest">Latest (Q2 2025)</option>
-                                <option value="quarterly">Quarterly View</option>
                                 <option value="annual">Annual View</option>
                             </select>
                         </div>
@@ -298,19 +297,32 @@
 
             const ratiosContainer = document.getElementById('financial-ratios');
             ratiosContainer.innerHTML = `
-                <div class="text-center p-4 bg-blue-50 rounded-lg">
+                <div class="text-center p-4 bg-blue-50 rounded-lg relative group">
                     <div class="text-2xl font-bold text-blue-600">${profitMargin}%</div>
-                    <div class="text-sm text-gray-600 mt-1">Net Profit Margin</div>
+                    <div class="text-sm text-gray-600 mt-1 flex items-center justify-center gap-1">
+                        Net Profit Margin
+                        <i data-lucide="info" class="h-4 w-4 text-blue-400 cursor-pointer" title="Net Profit Margin = Net Income / Revenue"></i>
+                        <span class="absolute left-1/2 transform -translate-x-1/2 mt-8 px-3 py-2 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-auto">Net Profit Margin = Net Income / Revenue</span>
+                    </div>
                 </div>
-                <div class="text-center p-4 bg-green-50 rounded-lg">
+                <div class="text-center p-4 bg-green-50 rounded-lg relative group">
                     <div class="text-2xl font-bold text-green-600">${roa}%</div>
-                    <div class="text-sm text-gray-600 mt-1">Return on Assets</div>
+                    <div class="text-sm text-gray-600 mt-1 flex items-center justify-center gap-1">
+                        Return on Assets
+                        <i data-lucide="info" class="h-4 w-4 text-green-400 cursor-pointer" title="Return on Assets = Net Income / Total Assets"></i>
+                        <span class="absolute left-1/2 transform -translate-x-1/2 mt-8 px-3 py-2 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-auto">Return on Assets = Net Income / Total Assets</span>
+                    </div>
                 </div>
-                <div class="text-center p-4 bg-purple-50 rounded-lg">
+                <div class="text-center p-4 bg-purple-50 rounded-lg relative group">
                     <div class="text-2xl font-bold text-purple-600">${cashRatio}%</div>
-                    <div class="text-sm text-gray-600 mt-1">Cash Ratio</div>
+                    <div class="text-sm text-gray-600 mt-1 flex items-center justify-center gap-1">
+                        Cash Ratio
+                        <i data-lucide="info" class="h-4 w-4 text-purple-400 cursor-pointer" title="Cash Ratio = Cash & Equivalents / Total Assets"></i>
+                        <span class="absolute left-1/2 transform -translate-x-1/2 mt-8 px-3 py-2 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-auto">Cash Ratio = Cash & Equivalents / Total Assets</span>
+                    </div>
                 </div>
             `;
+            lucide.createIcons();
         }
 
         function updateTimestamps(secData) {
@@ -381,8 +393,6 @@
 
         function getMetricsForPeriod(secData, period) {
             switch(period) {
-                case 'quarterly':
-                    return secData.quarterly_metrics || {};
                 case 'annual':
                     // Return only annual data
                     const annualMetrics = {};
@@ -414,7 +424,6 @@
         function updateDataSourceInfo(period) {
             const dataSourceText = {
                 'latest': 'Latest Available Data (Quarterly & Annual)',
-                'quarterly': 'Quarterly Reports (10-Q)',
                 'annual': 'Annual Reports (10-K)'
             };
             
@@ -562,12 +571,12 @@
                             <div class="p-4 bg-green-50 rounded-lg">
                                 <p class="text-sm text-gray-600">Growth Rate</p>
                                 <p class="text-xl font-bold" id="growth-rate">--</p>
-                                <p class="text-xs text-gray-500">Year over Year</p>
+                                <p class="text-xs text-gray-500 flex items-center">Year over Year <span class="inline-block align-middle relative ml-1"><i data-lucide="info" class="h-4 w-4 text-blue-400 cursor-pointer" title="Growth Rate = (Current Value - Previous Value) / Previous Value"></i><span class="absolute left-1/2 transform -translate-x-1/2 mt-6 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10">Growth Rate = (Current Value - Previous Value) / Previous Value</span></span></p>
                             </div>
                             <div class="p-4 bg-purple-50 rounded-lg" id="quarterly-comparison" style="display: none;">
                                 <p class="text-sm text-gray-600">Q vs Annual</p>
                                 <p class="text-xl font-bold" id="quarterly-change">--</p>
-                                <p class="text-xs text-gray-500">Latest Quarter vs Annual</p>
+                                <p class="text-xs text-gray-500 flex items-center">Latest Quarter vs Annual <span class="inline-block align-middle relative ml-1"><i data-lucide="info" class="h-4 w-4 text-blue-400 cursor-pointer" title="Q vs Annual = (Latest Quarter Value - Latest Annual Value) / Latest Annual Value"></i><span class="absolute left-1/2 transform -translate-x-1/2 mt-6 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10">Q vs Annual = (Latest Quarter Value - Latest Annual Value) / Latest Annual Value</span></span></p>
                             </div>
                         </div>
                         <div class="p-4 bg-gray-50 rounded-lg">
@@ -598,28 +607,52 @@
             const metric = globalSecData.summary_metrics[metricKey];
             if (!metric) return;
             
+            // Debug logs for troubleshooting
+            const rawMetric = globalSecData.raw_metrics[metricKey];
+            console.log('rawMetric:', rawMetric);
+            console.log('rawMetric.data:', rawMetric && rawMetric.data);
+            
+            // Defensive: Ensure rawMetric.data is a valid array of objects with numeric val
+            let validData = [];
+            if (rawMetric && Array.isArray(rawMetric.data)) {
+                validData = rawMetric.data.filter(d => d && !isNaN(parseFloat(d.val)) && d.end);
+            }
+            // Filter by period type (annual/quarterly) using the 'form' property
+            let periodType = (typeof currentPeriod === 'string' && currentPeriod.toLowerCase().includes('annual')) ? '10-K' : (currentPeriod.toLowerCase().includes('quarter') ? '10-Q' : null);
+            if (periodType) {
+                validData = validData.filter(d => d.form === periodType);
+            }
+            console.log('Valid data points for chart (filtered by period):', validData);
+            
             // Update metric details
             const latestValue = formatValue(metric.latest_value);
             const growthRate = metric.growth_rate;
             const latestYear = metric.latest_year;
-            
+            // Add info tooltips for growth rate and Q vs Annual
             document.getElementById('latest-value').textContent = `$${latestValue}B`;
             document.getElementById('latest-year').textContent = `${metric.latest_form} ${latestYear}`;
-            
             const growthElement = document.getElementById('growth-rate');
-            growthElement.textContent = `${growthRate >= 0 ? '+' : ''}${growthRate.toFixed(1)}%`;
-            growthElement.className = `text-xl font-bold ${growthRate >= 0 ? 'text-green-600' : 'text-red-600'}`;
-            
+            growthElement.innerHTML = `
+                ${growthRate >= 0 ? '+' : ''}${growthRate.toFixed(1)}%
+                <span class="inline-block align-middle relative ml-1">
+                    <i data-lucide="info" class="h-4 w-4 text-blue-400 cursor-pointer" title="Growth Rate = (Current Value - Previous Value) / Previous Value"></i>
+                    <span class="absolute left-1/2 transform -translate-x-1/2 mt-6 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10">Growth Rate = (Current Value - Previous Value) / Previous Value</span>
+                </span>
+            `;
             // Show quarterly comparison if available
             const quarterlyMetric = globalSecData.quarterly_metrics[metricKey];
             const quarterlyComparison = document.getElementById('quarterly-comparison');
-            
             if (quarterlyMetric && quarterlyMetric.quarterly_vs_annual_change !== undefined) {
                 quarterlyComparison.style.display = 'block';
                 const quarterlyChange = quarterlyMetric.quarterly_vs_annual_change;
                 const quarterlyChangeElement = document.getElementById('quarterly-change');
-                quarterlyChangeElement.textContent = `${quarterlyChange >= 0 ? '+' : ''}${quarterlyChange.toFixed(1)}%`;
-                quarterlyChangeElement.className = `text-xl font-bold ${quarterlyChange >= 0 ? 'text-green-600' : 'text-red-600'}`;
+                quarterlyChangeElement.innerHTML = `
+                    ${quarterlyChange >= 0 ? '+' : ''}${quarterlyChange.toFixed(1)}%
+                    <span class="inline-block align-middle relative ml-1">
+                        <i data-lucide="info" class="h-4 w-4 text-blue-400 cursor-pointer" title="Q vs Annual = (Latest Quarter Value - Latest Annual Value) / Latest Annual Value"></i>
+                        <span class="absolute left-1/2 transform -translate-x-1/2 mt-6 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10">Q vs Annual = (Latest Quarter Value - Latest Annual Value) / Latest Annual Value</span>
+                    </span>
+                `;
             } else {
                 quarterlyComparison.style.display = 'none';
             }
@@ -637,96 +670,230 @@
             document.getElementById('historical-context').textContent = contextMessages[metricKey] || 'Historical data from SEC 10-K filings.';
             
             // Show historical data points if available
-            const rawMetric = globalSecData.raw_metrics[metricKey];
-            if (rawMetric && rawMetric.data) {
-                const historicalHtml = `
-                    <h4 class="text-sm font-medium text-gray-700 mb-3">Recent Historical Data</h4>
-                    <div class="space-y-2 max-h-32 overflow-y-auto">
-                        ${rawMetric.data.slice(-5).map(dataPoint => {
+            const historicalHtml = `
+                <h4 class="text-sm font-medium text-gray-700 mb-3">Recent Historical Data</h4>
+                <div class="space-y-2 max-h-32 overflow-y-auto">
+                    ${validData.length > 0 ? (() => {
+                        // Sort by end date ascending
+                        const sorted = validData
+                            .map(d => ({...d, dateObj: new Date(d.end)}))
+                            .sort((a, b) => a.dateObj - b.dateObj)
+                            .slice(-5); // Last 5 sorted data points
+                        return sorted.map((dataPoint, idx, arr) => {
                             const date = new Date(dataPoint.end);
                             const quarter = Math.ceil((date.getMonth() + 1) / 3);
                             const year = date.getFullYear();
                             const dateLabel = `Q${quarter} ${year}`;
                             const fullDate = date.toLocaleDateString();
-                            
+                            const value = parseFloat(dataPoint.val);
+                            // Calculate trend vs previous value
+                            let trendHtml = '';
+                            if (idx > 0) {
+                                const prevValue = parseFloat(arr[idx-1].val);
+                                if (!isNaN(prevValue) && prevValue !== 0) {
+                                    const change = ((value - prevValue) / Math.abs(prevValue)) * 100;
+                                    const isUp = change >= 0;
+                                    trendHtml = `<span class=\"ml-2 text-sm font-medium ${isUp ? 'text-green-600' : 'text-red-600'}\">\n                                        <i data-lucide=\"${isUp ? 'trending-up' : 'trending-down'}\" class=\"inline h-4 w-4 ${isUp ? 'text-green-600' : 'text-red-600'}\"></i>\n                                        ${isUp ? '+' : ''}${change.toFixed(1)}%\n                                    </span>`;
+                                }
+                            }
+                            // Show form type (10-Q or 10-K)
+                            const formType = dataPoint.form ? `<span class=\"ml-2 px-2 py-0.5 rounded bg-gray-100 text-xs text-gray-700 border\">${dataPoint.form}</span>` : '';
                             return `
-                                <div class="flex justify-between items-center p-2 bg-white rounded border">
-                                    <div class="flex flex-col">
-                                        <span class="text-sm text-gray-600 font-medium">${dateLabel}</span>
-                                        <span class="text-xs text-gray-500">${fullDate}</span>
+                                <div class=\"flex justify-between items-center p-2 bg-white rounded border\">
+                                    <div class=\"flex flex-col\">
+                                        <span class=\"text-sm text-gray-600 font-medium\">${dateLabel}</span>
+                                        <span class=\"text-xs text-gray-500\">${fullDate}</span>
                                     </div>
-                                    <span class="text-sm font-medium">$${formatValue(dataPoint.val)}B</span>
+                                    <span class=\"text-sm font-medium\">$${formatValue(dataPoint.val)}B${trendHtml}${formType}</span>
                                 </div>
                             `;
-                        }).join('')}
-                    </div>
-                `;
-                document.getElementById('historical-data').innerHTML = historicalHtml;
-            } else {
-                document.getElementById('historical-data').innerHTML = '';
-            }
+                        }).join('');
+                    })() : 'No historical data available'}
+                </div>
+            `;
+            document.getElementById('historical-data').innerHTML = historicalHtml;
             
-            // Update timeline chart area with simple visualization
+            // Always define timelineChart before using it
             const timelineChart = document.getElementById('timeline-chart');
-            if (rawMetric && rawMetric.data && rawMetric.data.length > 1) {
-                // Process data to handle quarterly entries and get unique periods
-                const data = rawMetric.data.slice(-5); // Last 5 data points
-                const maxVal = Math.max(...data.map(d => parseFloat(d.val)));
-                
+            
+            // For quarterly view, ensure 5 most recent consecutive quarters are shown, with placeholders for missing data
+            if ((periodType === '10-Q' || currentPeriod === 'latest') && validData.length > 0) {
+                // Map data by quarter string (e.g., 'Q1 2024')
+                const dataByQuarter = {};
+                validData.forEach(d => {
+                    const date = new Date(d.end);
+                    const quarter = Math.ceil((date.getMonth() + 1) / 3);
+                    const year = date.getFullYear();
+                    const key = `Q${quarter} ${year}`;
+                    // Use the latest value for a given quarter if duplicates
+                    if (!dataByQuarter[key] || new Date(d.end) > new Date(dataByQuarter[key].end)) {
+                        dataByQuarter[key] = d;
+                    }
+                });
+                // Find the most recent quarter
+                const allQuarters = Object.keys(dataByQuarter).map(q => {
+                    const [qtr, yr] = q.split(' ');
+                    return {q, quarter: parseInt(qtr.replace('Q','')), year: parseInt(yr)};
+                });
+                allQuarters.sort((a, b) => (a.year - b.year) || (a.quarter - b.quarter));
+                let mostRecent = allQuarters[allQuarters.length - 1];
+                // Build the 5 most recent consecutive quarters
+                const timeline = [];
+                let q = mostRecent ? mostRecent.quarter : 4;
+                let y = mostRecent ? mostRecent.year : (new Date()).getFullYear();
+                for (let i = 0; i < 5; i++) {
+                    timeline.unshift({quarter: q, year: y});
+                    q--;
+                    if (q === 0) { q = 4; y--; }
+                }
+                // Build uniqueData array for chart, with placeholders for missing
+                const uniqueData = timeline.map(({quarter, year}) => {
+                    // Find any data point (10-Q or 10-K) for this quarter/year
+                    const found = validData.find(d => {
+                        if (!d.end) return false;
+                        const date = new Date(d.end);
+                        const q = Math.ceil((date.getMonth() + 1) / 3);
+                        const y = date.getFullYear();
+                        return q === quarter && y === year;
+                    });
+                    if (found) {
+                        return found;
+                    } else {
+                        return { missing: true, end: '', val: 0 };
+                    }
+                });
+                const maxVal = Math.max(...uniqueData.filter(d => !d.missing).map(d => parseFloat(d.val)));
+                const minBarHeight = 16;
+                const maxBarHeight = 80;
+                const allEqual = uniqueData.filter(d => !d.missing).every(d => parseFloat(d.val) === parseFloat(uniqueData.filter(d2 => !d2.missing)[0]?.val));
                 timelineChart.innerHTML = `
-                    <div class="h-full flex flex-col">
-                        <h4 class="text-sm font-medium text-gray-700 mb-3">${metric.name} Timeline</h4>
-                        <div class="flex-1 flex items-end justify-around space-x-1">
-                            ${data.map((dataPoint, index) => {
-                                const height = (parseFloat(dataPoint.val) / maxVal) * 80;
-                                const date = new Date(dataPoint.end);
-                                const quarter = Math.ceil((date.getMonth() + 1) / 3);
-                                const year = date.getFullYear();
-                                
-                                // Create more informative labels
-                                let label;
-                                if (data.length <= 3) {
-                                    // If few data points, show full quarter info
+                    <div class=\"h-full flex flex-col\">
+                        <h4 class=\"text-sm font-medium text-gray-700 mb-3\">${metric.name} Timeline</h4>
+                        <div class=\"flex-1 flex items-end justify-around space-x-1\">
+                            ${uniqueData.map((dataPoint, index) => {
+                                const value = parseFloat(dataPoint.val);
+                                // For real data, calculate label from end date; for missing, blank
+                                let label = '';
+                                if (!dataPoint.missing && dataPoint.end) {
+                                    const date = new Date(dataPoint.end);
+                                    const quarter = Math.ceil((date.getMonth() + 1) / 3);
+                                    const year = date.getFullYear();
                                     label = `Q${quarter} ${year}`;
-                                } else {
-                                    // If many data points, show abbreviated form
-                                    if (index === 0 || date.getFullYear() !== new Date(data[index-1].end).getFullYear()) {
-                                        label = `${year}`;
-                                    } else {
-                                        label = `Q${quarter}`;
-                                    }
                                 }
-                                
+                                let height;
+                                if (dataPoint.missing) {
+                                    height = minBarHeight;
+                                    return `
+                                        <div class=\"flex flex-col items-center group relative\">
+                                            <div class=\"w-6 bg-gray-400 border border-gray-600 rounded-t transition-colors\" style=\"height: ${height}px\" title=\"Missing data\"></div>
+                                            <span class=\"text-xs text-black mt-4\">${label}</span>
+                                            <div class=\"absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap\">Missing data</div>
+                                        </div>
+                                    `;
+                                }
+                                if (allEqual) {
+                                    height = maxBarHeight;
+                                } else {
+                                    height = Math.max((value / maxVal) * maxBarHeight, minBarHeight);
+                                }
+                                const date = dataPoint.end ? new Date(dataPoint.end) : null;
+                                const tooltip = dataPoint.end ? `$${formatValue(dataPoint.val)}B<br>${date.toLocaleDateString()}` : 'No date';
                                 return `
-                                    <div class="flex flex-col items-center group relative">
-                                        <div class="w-6 bg-blue-500 rounded-t transition-colors hover:bg-blue-600" 
-                                             style="height: ${height}%" 
-                                             title="$${formatValue(dataPoint.val)}B - ${date.toLocaleDateString()}">
-                                        </div>
-                                        <span class="text-xs text-gray-500 mt-1 transform -rotate-45 origin-left">${label}</span>
-                                        
-                                        <!-- Tooltip on hover -->
-                                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                            $${formatValue(dataPoint.val)}B<br>${date.toLocaleDateString()}
-                                        </div>
+                                    <div class=\"flex flex-col items-center group relative\">
+                                        <div class=\"w-6 bg-blue-900 border border-black rounded-t transition-colors hover:bg-blue-700\" style=\"height: ${height}px\" title=\"$${formatValue(dataPoint.val)}B\"></div>
+                                        <span class=\"text-xs text-black mt-4\">${label}</span>
+                                        <div class=\"absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap\">${tooltip}</div>
                                     </div>
                                 `;
                             }).join('')}
                         </div>
-                        <div class="mt-4 text-xs text-gray-500 text-center">
-                            Values in billions USD • Hover bars for details
-                        </div>
+                        <div class=\"mt-4 text-xs text-gray-500 text-center\">Values in billions USD • Hover bars for details</div>
                     </div>
                 `;
-            } else {
+                return; // Skip the rest of the function for quarterly view
+            }
+            // For annual view, ensure 5 most recent consecutive years are shown, with placeholders for missing data
+            if (periodType === '10-K' && validData.length > 0) {
+                // Map data by year string (e.g., '2024')
+                const dataByYear = {};
+                validData.forEach(d => {
+                    const date = new Date(d.end);
+                    const year = date.getFullYear();
+                    const key = `${year}`;
+                    if (!dataByYear[key] || new Date(d.end) > new Date(dataByYear[key].end)) {
+                        dataByYear[key] = d;
+                    }
+                });
+                // Find the most recent year
+                const allYears = Object.keys(dataByYear).map(y => parseInt(y));
+                allYears.sort((a, b) => a - b);
+                let mostRecent = allYears[allYears.length - 1];
+                // Build the 5 most recent consecutive years
+                const timeline = [];
+                let y = mostRecent ? mostRecent : (new Date()).getFullYear();
+                for (let i = 0; i < 5; i++) {
+                    timeline.unshift({year: y});
+                    y--;
+                }
+                // Build uniqueData array for chart, with placeholders for missing
+                console.log('Timeline keys (annual):', timeline.map(({year}) => `${year}`));
+                console.log('dataByYear keys:', Object.keys(dataByYear));
+                const uniqueData = timeline.map(({year}) => {
+                    const key = `${year}`;
+                    if (dataByYear[key]) {
+                        return dataByYear[key];
+                    } else {
+                        return { missing: true, end: '', val: 0 };
+                    }
+                });
+                const maxVal = Math.max(...uniqueData.filter(d => !d.missing).map(d => parseFloat(d.val)));
+                const minBarHeight = 16;
+                const maxBarHeight = 80;
+                const allEqual = uniqueData.filter(d => !d.missing).every(d => parseFloat(d.val) === parseFloat(uniqueData.filter(d2 => !d2.missing)[0]?.val));
                 timelineChart.innerHTML = `
-                    <div class="text-center text-gray-500 flex flex-col items-center justify-center h-full">
-                        <i data-lucide="bar-chart-3" class="h-12 w-12 mx-auto mb-2 text-blue-500"></i>
-                        <p class="font-medium">Limited Historical Data</p>
-                        <p class="text-sm">Insufficient data points for timeline visualization</p>
+                    <div class=\"h-full flex flex-col\">
+                        <h4 class=\"text-sm font-medium text-gray-700 mb-3\">${metric.name} Timeline</h4>
+                        <div class=\"flex-1 flex items-end justify-around space-x-1\">
+                            ${uniqueData.map((dataPoint, index) => {
+                                const value = parseFloat(dataPoint.val);
+                                // For real data, calculate label from end date; for missing, blank
+                                let label = '';
+                                if (!dataPoint.missing && dataPoint.end) {
+                                    const date = new Date(dataPoint.end);
+                                    const year = date.getFullYear();
+                                    label = `${year}`;
+                                }
+                                let height;
+                                if (dataPoint.missing) {
+                                    height = minBarHeight;
+                                    return `
+                                        <div class=\"flex flex-col items-center group relative\">
+                                            <div class=\"w-6 bg-gray-400 border border-gray-600 rounded-t transition-colors\" style=\"height: ${height}px\" title=\"Missing data\"></div>
+                                            <span class=\"text-xs text-black mt-4\">${label}</span>
+                                            <div class=\"absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap\">Missing data</div>
+                                        </div>
+                                    `;
+                                }
+                                if (allEqual) {
+                                    height = maxBarHeight;
+                                } else {
+                                    height = Math.max((value / maxVal) * maxBarHeight, minBarHeight);
+                                }
+                                const date = dataPoint.end ? new Date(dataPoint.end) : null;
+                                const tooltip = dataPoint.end ? `$${formatValue(dataPoint.val)}B<br>${date.toLocaleDateString()}` : 'No date';
+                                return `
+                                    <div class=\"flex flex-col items-center group relative\">
+                                        <div class=\"w-6 bg-blue-900 border border-black rounded-t transition-colors hover:bg-blue-700\" style=\"height: ${height}px\" title=\"$${formatValue(dataPoint.val)}B\"></div>
+                                        <span class=\"text-xs text-black mt-4\">${label}</span>
+                                        <div class=\"absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap\">${tooltip}</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class=\"mt-4 text-xs text-gray-500 text-center\">Values in billions USD • Hover bars for details</div>
                     </div>
                 `;
-                lucide.createIcons();
+                return; // Skip the rest of the function for annual view
             }
         }
 
