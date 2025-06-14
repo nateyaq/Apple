@@ -115,11 +115,16 @@ class AppleSECDataParser:
     def extract_financial_metric(self, metric_path, metric_name, include_quarterly=True):
         """Extract a specific financial metric from the SEC data with both annual and quarterly data"""
         try:
+            # Identify balance sheet metrics (point-in-time, not period difference)
+            balance_sheet_metrics = [
+                'Total Assets', 'Cash and Cash Equivalents', 'Shareholders Equity',
+                'Total Liabilities', 'Current Assets', 'Current Liabilities'
+            ]
+            is_balance_sheet = metric_name in balance_sheet_metrics
             # Navigate through the nested structure
             current_data = self.raw_data
             for key in metric_path.split('.'):
                 current_data = current_data[key]
-            
             # Extract USD values
             if 'units' in current_data and 'USD' in current_data['units']:
                 df = pd.DataFrame(current_data['units']['USD'])
@@ -136,13 +141,14 @@ class AppleSECDataParser:
                 print(f"[DEBUG] {metric_name}: DataFrame shape before deduplication: {df.shape}")
                 # Filter out data points that span more than 3 months for quarterly data
                 if 'start' in df.columns and 'end' in df.columns:
-                    df['start'] = pd.to_datetime(df['start'])
-                    df['end'] = pd.to_datetime(df['end'])
+                    df['start'] = pd.to_datetime(df['start'], errors='coerce')
+                    df['end'] = pd.to_datetime(df['end'], errors='coerce')
                     df['date_diff'] = (df['end'] - df['start']).dt.days
-                    # Keep only data points that are 3 months or less (approximately 90 days)
-                    df = df[df['date_diff'] <= 90]
+                    # For balance sheet, keep only 10-K/10-Q at period end (ignore date_diff)
+                    if not is_balance_sheet:
+                        df = df[df['date_diff'] <= 90]
+                        print(f"[DEBUG] Filtered out data points spanning more than 3 months")
                     df = df.drop('date_diff', axis=1)
-                    print(f"[DEBUG] Filtered out data points spanning more than 3 months")
                 # Enhanced deduplication for quarterly data: prefer correct fp and frame
                 if 'fp' in df.columns and 'end' in df.columns:
                     for quarter in ['Q1', 'Q2', 'Q3', 'Q4']:
@@ -161,7 +167,7 @@ class AppleSECDataParser:
                     after = df.shape[0]
                     print(f"[DEBUG] Enhanced deduplication: Dropped {before - after} rows by preferring correct fp and frame")
                 else:
-                    df['end'] = pd.to_datetime(df['end'])
+                    df['end'] = pd.to_datetime(df['end'], errors='coerce')
                     if 'frame' in df.columns:
                         df['has_frame'] = df['frame'].notnull()
                         df = df.sort_values(by=['end', 'has_frame'], ascending=[True, False])
@@ -177,10 +183,9 @@ class AppleSECDataParser:
                         print(f"[DEBUG] {metric_name}: No duplicate 'end' values, no deduplication performed.")
                 print(f"[DEBUG] {metric_name}: DataFrame shape after deduplication: {df.shape}")
                 df = df.sort_values('end')
-                
                 # --- Q4 Calculation Logic ---
                 # For each fiscal year, if Q1, Q2, Q3, and annual (10-K) are present but Q4 is missing, calculate Q4
-                if 'fp' in df.columns and 'fy' in df.columns and 'val' in df.columns and 'form' in df.columns:
+                if not is_balance_sheet and 'fp' in df.columns and 'fy' in df.columns and 'val' in df.columns and 'form' in df.columns:
                     new_rows = []
                     for year in df['fy'].unique():
                         year_mask = df['fy'] == year
@@ -210,18 +215,32 @@ class AppleSECDataParser:
                             new_rows.append(q4_row)
                     if new_rows:
                         df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
-                
                 # Dynamically select columns for output
                 base_cols = ['end', 'val', 'fy', 'form']
                 if 'start' in df.columns:
                     output_cols = ['start'] + base_cols
                 else:
                     output_cols = base_cols
+                # Remove rows with NaT or NaN in 'end' (invalid dates)
+                df = df[df['end'].notnull()]
+                # Ensure 'end' and 'start' are datetime before formatting
+                if not pd.api.types.is_datetime64_any_dtype(df['end']):
+                    df['end'] = pd.to_datetime(df['end'], errors='coerce')
+                df['end'] = df['end'].dt.strftime('%Y-%m-%d')
+                if 'start' in df.columns:
+                    if not pd.api.types.is_datetime64_any_dtype(df['start']):
+                        df['start'] = pd.to_datetime(df['start'], errors='coerce')
+                    df['start'] = df['start'].dt.strftime('%Y-%m-%d')
+                    # Exclude 'start' if it is None for any record
+                    df = df[df['start'].notnull()]
                 # Separate annual and quarterly data
                 annual_data = df[df['form'] == '10-K'].copy()
                 quarterly_data = df[df['form'] == '10-Q'].copy() if include_quarterly else pd.DataFrame()
-                # Get recent annual data (last 5 years)
-                recent_annual = annual_data.tail(5) if len(annual_data) > 0 else pd.DataFrame()
+                # For balance sheet, annual value is the value at fiscal year end (not a difference)
+                if is_balance_sheet:
+                    recent_annual = annual_data.groupby('fy').last().reset_index().tail(5) if len(annual_data) > 0 else pd.DataFrame()
+                else:
+                    recent_annual = annual_data.tail(5) if len(annual_data) > 0 else pd.DataFrame()
                 # Get recent quarterly data (last 8 quarters)
                 recent_quarterly = quarterly_data.tail(8) if len(quarterly_data) > 0 else pd.DataFrame()
                 # Combine all data for comprehensive view
@@ -231,12 +250,30 @@ class AppleSECDataParser:
                 # Get latest quarterly and annual separately for comparison
                 latest_quarterly = recent_quarterly.iloc[-1] if len(recent_quarterly) > 0 else None
                 latest_annual = recent_annual.iloc[-1] if len(recent_annual) > 0 else None
-                
+                # For balance sheet metrics, drop 'start' column entirely before output
+                if is_balance_sheet and 'start' in df.columns:
+                    df = df.drop(columns=['start'])
+                    output_cols = [col for col in output_cols if col != 'start']
+                # Convert DataFrame to records and clean 'start' field appropriately
+                def clean_record(rec):
+                    rec = dict(rec)
+                    # For balance sheet metrics, nothing to do (no 'start' field)
+                    if is_balance_sheet:
+                        return rec
+                    # For flow metrics, skip record if 'start' is missing or invalid
+                    else:
+                        if 'start' not in rec or rec['start'] is None or pd.isna(rec['start']) or not isinstance(rec['start'], str) or rec['start'].lower() == 'nan':
+                            return None
+                        return rec
+                # Prepare output data
+                data_records = [r for r in (clean_record(r) for r in all_recent_data[output_cols].to_dict('records')) if r is not None]
+                annual_records = [r for r in (clean_record(r) for r in recent_annual[output_cols].to_dict('records')) if r is not None]
+                quarterly_records = [r for r in (clean_record(r) for r in recent_quarterly[output_cols].to_dict('records')) if r is not None]
                 return {
                     'metric_name': metric_name,
-                    'data': all_recent_data[output_cols].to_dict('records'),
-                    'annual_data': recent_annual[output_cols].to_dict('records'),
-                    'quarterly_data': recent_quarterly[output_cols].to_dict('records'),
+                    'data': data_records,
+                    'annual_data': annual_records,
+                    'quarterly_data': quarterly_records,
                     'latest_value': latest_entry['val'] if latest_entry is not None else 0,
                     'latest_year': latest_entry['fy'] if latest_entry is not None else None,
                     'latest_period': latest_entry['end'] if latest_entry is not None else None,
