@@ -9,7 +9,7 @@ import os
 from apple_sec_data_parser import AppleSECDataParser
 
 # Update data file references to use the new data/ subfolder
-DASHBOARD_DATA_PATH = 'data/apple_sec_dashboard_data.json'
+DASHBOARD_DATA_PATH = './apple_sec_dashboard_data.json'
 
 def main():
     print("🍎 Apple Financial Dashboard - Data Refresh")

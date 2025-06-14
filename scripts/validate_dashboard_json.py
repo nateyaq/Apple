@@ -4,7 +4,7 @@ from collections import defaultdict
 from datetime import datetime
 
 # Update data file references to use the new data/ subfolder
-DASHBOARD_DATA_PATH = 'data/apple_sec_dashboard_data.json'
+DASHBOARD_DATA_PATH = './apple_sec_dashboard_data.json'
 
 # Load the JSON file
 with open(DASHBOARD_DATA_PATH, 'r') as f:

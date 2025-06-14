@@ -3,7 +3,7 @@ import json
 import pandas as pd
 
 def test_sec_data_load():
-    with open('data/apple_sec_dashboard_data.json') as f:
+    with open('./apple_sec_dashboard_data.json') as f:
         data = json.load(f)
     assert 'summary_metrics' in data
     assert isinstance(data['summary_metrics'], dict)
@@ -22,7 +22,7 @@ def test_dataframe_integrity():
 
 def test_dashboard_data_matches():
     # Example: check that dashboard data matches expected values
-    with open('data/apple_sec_dashboard_data.json') as f:
+    with open('./apple_sec_dashboard_data.json') as f:
         data = json.load(f)
     # Replace with real checks
     assert data['summary_metrics']['revenue']['latest_value'] > 0 
