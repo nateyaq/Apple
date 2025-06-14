@@ -40,16 +40,20 @@ This project creates two complementary dashboards:
 
 ## 📁 Project Structure
 
-```
-AppleBSA/
-├── apple_sec_data_parser.py          # SEC data fetching and processing
-├── apple_sec_dashboard_data.json     # Processed SEC data (generated)
-├── apple_sales_dashboard.html        # Sales analytics dashboard
-├── demo.html                         # HTML demo of financial dashboard
-├── Parse-SEC-JSON.py                 # Original SEC parsing script
-├── complete_sql_study_chat.md        # SQL study guide for interviews
-└── README.md                         # This file
-```
+- **Main files (root):**
+  - `demo.html`, `apple_sec_dashboard_data.json`, `apple_sales_dashboard.html`, `requirements.txt`, `.gitignore`, `README.md`
+- **Documentation:**
+  - `docs/CONTRIBUTING.md`, `docs/STYLE_GUIDE.md`, `docs/CURSOR_RULES.md`
+- **Python scripts:**
+  - `scripts/`
+- **Data files:**
+  - `data/`
+- **Supporting HTML:**
+  - `html/`
+- **Python tests:**
+  - `tests/`
+- **UI/Playwright tests:**
+  - `ui-tests/` (contains `package.json`, `playwright.config.js`, and Playwright test files)
 
 ## 🛠️ Technical Stack
 
@@ -282,5 +286,15 @@ This project is for educational and demonstration purposes. SEC data is publicly
 
 ## Style & Contribution Rules
 
-- All tooltips and UI must follow the rules in `STYLE_GUIDE.md`.
-- See `CONTRIBUTING.md` and `CURSOR_RULES.md` for contribution, review, and testing requirements.
+- All tooltips and UI must follow the rules in `docs/STYLE_GUIDE.md`.
+- See `docs/CONTRIBUTING.md` and `docs/CURSOR_RULES.md` for contribution, review, and testing requirements.
+
+## Running UI Tests
+
+- Change to the `ui-tests/` directory:
+  ```sh
+  cd ui-tests
+  npm install
+  npx playwright test
+  ```
+- Playwright config and tests are in `ui-tests/`.
