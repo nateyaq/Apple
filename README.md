@@ -1,4 +1,4 @@
-# Apple Financial Dashboards - Data Analysis
+# Apple Dashboards - Data Analysis
 
 A comprehensive financial dashboard that displays Apple Inc.'s real financial data sourced directly from SEC EDGAR filings. 
 
