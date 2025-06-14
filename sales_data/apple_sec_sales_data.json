@@ -1,0 +1,76 @@
+{
+  "annual": [
+    {
+      "date": "2024-11-01",
+      "accession": "0000320193-24-000123",
+      "note2_periods": [],
+      "note10_periods": [],
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/aapl-20240928.htm"
+    },
+    {
+      "date": "2023-11-03",
+      "accession": "0000320193-23-000106",
+      "note2_periods": [],
+      "note10_periods": [],
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/aapl-20230930.htm"
+    },
+    {
+      "date": "2022-10-28",
+      "accession": "0000320193-22-000108",
+      "note2_periods": [],
+      "note10_periods": [],
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/aapl-20220924.htm"
+    },
+    {
+      "date": "2021-10-29",
+      "accession": "0000320193-21-000105",
+      "note2_periods": [],
+      "note10_periods": [],
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019321000105/aapl-20210925.htm"
+    },
+    {
+      "date": "2020-10-30",
+      "accession": "0000320193-20-000096",
+      "note2_periods": [],
+      "note10_periods": [],
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000096/aapl-20200926.htm"
+    }
+  ],
+  "quarterly": [
+    {
+      "date": "2025-05-02",
+      "accession": "0000320193-25-000057",
+      "note2_periods": [],
+      "note10_periods": [],
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000057/aapl-20250329.htm"
+    },
+    {
+      "date": "2025-01-31",
+      "accession": "0000320193-25-000008",
+      "note2_periods": [],
+      "note10_periods": [],
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000008/aapl-20241228.htm"
+    },
+    {
+      "date": "2024-08-02",
+      "accession": "0000320193-24-000081",
+      "note2_periods": [],
+      "note10_periods": [],
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000081/aapl-20240629.htm"
+    },
+    {
+      "date": "2024-05-03",
+      "accession": "0000320193-24-000069",
+      "note2_periods": [],
+      "note10_periods": [],
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000069/aapl-20240330.htm"
+    },
+    {
+      "date": "2024-02-02",
+      "accession": "0000320193-24-000006",
+      "note2_periods": [],
+      "note10_periods": [],
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000006/aapl-20231230.htm"
+    }
+  ]
+}
