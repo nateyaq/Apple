@@ -251,4 +251,25 @@ This project is for educational and demonstration purposes. SEC data is publicly
 ---
 
 **Built for Apple Business Systems Analyst Interview Preparation**  
-*Demonstrating real-world financial data analysis and dashboard development capabilities* 
+*Demonstrating real-world financial data analysis and dashboard development capabilities*
+
+## Automated Testing & CI
+
+- All code is automatically tested on every push, pull request, or deployment using GitHub Actions.
+- The test suite includes:
+  - **Playwright UI tests**: Validate tooltip structure, formatting, and dashboard UI.
+  - **Python data tests**: Validate SEC data loading, DataFrame integrity, and dashboard data matching.
+- See `.github/workflows/test.yml` for details.
+
+## Local Development
+
+- To run the dashboard locally:
+  1. Start a local server: `python -m http.server 8000`
+  2. Open `http://localhost:8000/demo.html` in your browser.
+- To run UI tests: `npx playwright test`
+- To run Python tests: `pytest`
+
+## Style & Contribution Rules
+
+- All tooltips and UI must follow the rules in `STYLE_GUIDE.md`.
+- See `CONTRIBUTING.md` and `CURSOR_RULES.md` for contribution, review, and testing requirements.

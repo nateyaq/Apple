@@ -239,7 +239,7 @@ class AppleSECDataParser:
                 # Separate annual and quarterly data
                 annual_data = df[df['form'] == '10-K'].copy()
                 quarterly_data = df[df['form'] == '10-Q'].copy() if include_quarterly else pd.DataFrame()
-
+                
                 # --- Fallback: sum quarterly values for annual if missing (for operating_income and research_development) ---
                 if metric_name in ['Operating Income', 'Research & Development']:
                     # Find all years present in quarterly data
