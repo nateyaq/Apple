@@ -69,7 +69,6 @@ AppleBSA/
 
 ### Prerequisites
 - Python 3.8+
-- Node.js 16+ (for React development)
 - Internet connection (for SEC API access)
 
 ### Installation & Setup
