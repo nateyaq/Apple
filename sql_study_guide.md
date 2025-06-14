@@ -1,6 +1,6 @@
-# SQL Study Guide for Business Systems Analyst Interview
+# SQL Study Guide for Business Systems Analyst
 
-## Core SQL Concepts You Must Know
+## Core SQL Concepts
 
 ### 1. Basic Query Structure
 ```sql
