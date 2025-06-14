@@ -1,4 +1,4 @@
-# Complete SQL Study Guide for Apple Business Systems Analyst Interview
+# Complete SQL Study Guide Business Systems Analyst
 
 ## Table of Contents
 1. [Core SQL Study Guide](#core-sql-study-guide)
