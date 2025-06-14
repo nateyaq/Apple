@@ -3,17 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apple Financial Dashboard - SEC Data Demo</title>
+    <title>Apple Financial Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/recharts@2.8.0/umd/Recharts.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
         .animate-spin {
             animation: spin 1s linear infinite;
         }
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
+        }
+        .custom-tooltip {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 120%;
+            background: #222;
+            color: #fff;
+            font-size: 1rem;
+            padding: 10px 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            min-width: 220px;
+            max-width: 320px;
+            text-align: left;
+            line-height: 1.5;
+        }
+        .group:hover .custom-tooltip {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .custom-tooltip-arrow {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 8px;
+            overflow: hidden;
+            z-index: 10000;
+        }
+        .custom-tooltip-arrow svg {
+            display: block;
         }
     </style>
 </head>
@@ -38,12 +78,23 @@
                     </div>
                     <div class="flex items-center gap-4">
                         <!-- Period Selector -->
-                        <div class="flex items-center gap-2">
-                            <label class="text-sm font-medium text-gray-700">Period:</label>
-                            <select id="period-selector" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
-                                <option value="latest">Latest (Q2 2025)</option>
-                                <option value="annual">Annual View</option>
+                        <div class="flex items-center gap-2 mb-4">
+                            <label for="period-selector" class="text-sm font-medium text-gray-700">Period:</label>
+                            <select id="period-selector" class="border rounded px-2 py-1 text-sm">
+                                <option value="latest">Latest</option>
+                                <option value="annual">Annual</option>
                             </select>
+                            <div class="relative inline-block group">
+                                <i data-lucide="info" class="h-4 w-4 text-blue-400 cursor-pointer ml-1"></i>
+                                <div class="custom-tooltip">
+                                    <div class="custom-tooltip-arrow">
+                                        <svg width="16" height="8"><polygon points="0,8 8,0 16,8" style="fill:#222;"/></svg>
+                                    </div>
+                                    <strong>Annual View:</strong> Shows the latest available 10-K (annual report) for each metric.<br>
+                                    <strong>Latest View:</strong> Shows the most recent 10-Q (quarterly report) for each metric.<br>
+                                    If a 10-K is not available for the current year, the most recent prior 10-K is shown.
+                                </div>
+                            </div>
                         </div>
                         
                         <!-- View Selector -->
@@ -148,6 +199,11 @@
         <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded-lg">Send</button>
       </form>
     </div>
+
+    <!-- Single tooltip element that will be moved around -->
+    <div id="tooltip" class="fixed px-3 py-2 bg-black text-white text-xs rounded shadow-lg" style="display: none; z-index: 9999;">
+    </div>
+
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
@@ -301,24 +357,45 @@
                     <div class="text-2xl font-bold text-blue-600">${profitMargin}%</div>
                     <div class="text-sm text-gray-600 mt-1 flex items-center justify-center gap-1">
                         Net Profit Margin
-                        <i data-lucide="info" class="h-4 w-4 text-blue-400 cursor-pointer" title="Net Profit Margin = Net Income / Revenue"></i>
-                        <span class="absolute left-1/2 transform -translate-x-1/2 mt-8 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10">Net Profit Margin = Net Income / Revenue</span>
+                        <div class="relative inline-block group">
+                          <i data-lucide="info" class="h-4 w-4 text-blue-400 cursor-pointer"></i>
+                          <div class="custom-tooltip">
+                            <div class="custom-tooltip-arrow">
+                              <svg width="16" height="8"><polygon points="0,8 8,0 16,8" style="fill:#222;"/></svg>
+                            </div>
+                            Net Profit Margin = Net Income / Revenue
+                          </div>
+                        </div>
                     </div>
                 </div>
                 <div class="text-center p-4 bg-green-50 rounded-lg relative group">
                     <div class="text-2xl font-bold text-green-600">${roa}%</div>
                     <div class="text-sm text-gray-600 mt-1 flex items-center justify-center gap-1">
                         Return on Assets
-                        <i data-lucide="info" class="h-4 w-4 text-green-400 cursor-pointer" title="Return on Assets = Net Income / Total Assets"></i>
-                        <span class="absolute left-1/2 transform -translate-x-1/2 mt-8 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10">Return on Assets = Net Income / Total Assets</span>
+                        <div class="relative inline-block group">
+                          <i data-lucide="info" class="h-4 w-4 text-green-400 cursor-pointer"></i>
+                          <div class="custom-tooltip">
+                            <div class="custom-tooltip-arrow">
+                              <svg width="16" height="8"><polygon points="0,8 8,0 16,8" style="fill:#222;"/></svg>
+                            </div>
+                            Return on Assets = Net Income / Total Assets
+                          </div>
+                        </div>
                     </div>
                 </div>
                 <div class="text-center p-4 bg-purple-50 rounded-lg relative group">
                     <div class="text-2xl font-bold text-purple-600">${cashRatio}%</div>
                     <div class="text-sm text-gray-600 mt-1 flex items-center justify-center gap-1">
                         Cash Ratio
-                        <i data-lucide="info" class="h-4 w-4 text-purple-400 cursor-pointer" title="Cash Ratio = Cash & Equivalents / Total Assets"></i>
-                        <span class="absolute left-1/2 transform -translate-x-1/2 mt-8 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10">Cash Ratio = Cash & Equivalents / Total Assets</span>
+                        <div class="relative inline-block group">
+                          <i data-lucide="info" class="h-4 w-4 text-purple-400 cursor-pointer"></i>
+                          <div class="custom-tooltip">
+                            <div class="custom-tooltip-arrow">
+                              <svg width="16" height="8"><polygon points="0,8 8,0 16,8" style="fill:#222;"/></svg>
+                            </div>
+                            Cash Ratio = Cash & Equivalents / Total Assets
+                          </div>
+                        </div>
                     </div>
                 </div>
             `;
@@ -447,8 +524,8 @@
                 return;
             }
 
-            // Get current metrics from global data
-            const metrics = globalSecData.summary_metrics;
+            // Use the same metrics as the top row for consistency
+            const metrics = getMetricsForPeriod(globalSecData, currentPeriod);
             const growthAnalysis = globalSecData.growth_analysis || [];
 
             document.getElementById('charts-section').innerHTML = `
@@ -933,6 +1010,72 @@
             setupEventHandlers();
             showOverviewContent(); // Initialize with overview
         });
+
+        // Tooltip content mapping
+        const tooltipContent = {
+            'period-tooltip': `
+                <strong>Annual View:</strong> Shows the latest available 10-K (annual report) for each metric.<br>
+                <strong>Latest View:</strong> Shows the most recent 10-Q (quarterly report) for each metric.<br>
+                If a 10-K is not available for the current year, the most recent prior 10-K is shown.
+            `,
+            'profit-margin-tooltip': 'Net Profit Margin = Net Income / Revenue',
+            'roa-tooltip': 'Return on Assets = Net Income / Total Assets',
+            'cash-ratio-tooltip': 'Cash Ratio = Cash & Equivalents / Total Assets'
+        };
+
+        // Simple tooltip functionality
+        function setupTooltips() {
+            console.log('Setting up tooltips...');
+            
+            // Add click handlers to all tooltip triggers
+            document.querySelectorAll('.tooltip-trigger').forEach(trigger => {
+                trigger.onclick = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const tooltipId = this.getAttribute('data-tooltip-id');
+                    const tooltip = document.getElementById(tooltipId);
+                    
+                    if (!tooltip) {
+                        console.error('Tooltip not found:', tooltipId);
+                        return;
+                    }
+                    
+                    // Hide all tooltips
+                    document.querySelectorAll('[id$="-tooltip"]').forEach(t => {
+                        t.style.display = 'none';
+                    });
+                    
+                    // Show this tooltip
+                    tooltip.style.display = 'block';
+                };
+            });
+            
+            // Hide tooltips when clicking outside
+            document.onclick = function(e) {
+                if (!e.target.closest('.tooltip-trigger')) {
+                    document.querySelectorAll('[id$="-tooltip"]').forEach(tooltip => {
+                        tooltip.style.display = 'none';
+                    });
+                }
+            };
+        }
+
+        // Call setupTooltips when the DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupTooltips);
+        } else {
+            setupTooltips();
+        }
+        
+        // Also call it after any dynamic content updates
+        const originalUpdateDashboard = window.updateDashboard;
+        window.updateDashboard = function() {
+            if (originalUpdateDashboard) {
+                originalUpdateDashboard();
+            }
+            setupTooltips();
+        };
     </script>
 </body>
 </html> 
