@@ -40,13 +40,13 @@ jobs:
         run: pytest || true
       - name: Upload Playwright report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
       - name: Upload Python test report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: python-test-report
           path: .pytest_cache/ 
