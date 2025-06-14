@@ -3,8 +3,8 @@
 ## Table of Contents
 1. [Core SQL Study Guide](#core-sql-study-guide)
 2. [Denormalization for Analytics Deep Dive](#denormalization-for-analytics-deep-dive)
-3. [Apple Job Posting Analysis](#apple-job-posting-analysis)
-4. [Apple-Specific Interview Scenario](#apple-specific-interview-scenario)
+3. [Job Posting Analysis](#apple-job-posting-analysis)
+4. [Job-Specific Interview Scenario](#apple-specific-interview-scenario)
 
 ---
 
@@ -195,7 +195,7 @@ GROUP BY marketing_channel
 ORDER BY conversion_rate DESC;
 ```
 
-### Apple-Specific SQL Requirements (Based on Job Posting)
+### Job-Specific SQL Requirements
 
 #### 1. Advanced SQL for Data Engineering Integration
 - **Interpret Data Engineering work**: Understand complex upstream data flows
@@ -212,7 +212,7 @@ ORDER BY conversion_rate DESC;
 - **Documentation of data nuances**: Understanding business process impacts on data
 - **Upstream source mapping**: Trace data from source systems through transformations
 
-### Key Tips for Apple SQL Interview
+### Key Tips for SQL Interview
 
 #### 1. Think Corporate Finance First
 - Frame SQL solutions in terms of strategic finance decisions
