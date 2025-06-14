@@ -1,6 +1,4 @@
-# Apple Financial Dashboard - SEC Data Analysis
-
-https://nateyaq.github.io/Apple/demo.html
+# Apple Financial Dashboards - Data Analysis
 
 A comprehensive financial dashboard that displays Apple Inc.'s real financial data sourced directly from SEC EDGAR filings. 
 
