@@ -302,6 +302,7 @@
                     <div class="text-sm text-gray-600 mt-1 flex items-center justify-center gap-1">
                         Net Profit Margin
                         <i data-lucide="info" class="h-4 w-4 text-blue-400 cursor-pointer" title="Net Profit Margin = Net Income / Revenue"></i>
+                        <span class="absolute left-1/2 transform -translate-x-1/2 mt-8 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10">Net Profit Margin = Net Income / Revenue</span>
                     </div>
                 </div>
                 <div class="text-center p-4 bg-green-50 rounded-lg relative group">
@@ -309,6 +310,7 @@
                     <div class="text-sm text-gray-600 mt-1 flex items-center justify-center gap-1">
                         Return on Assets
                         <i data-lucide="info" class="h-4 w-4 text-green-400 cursor-pointer" title="Return on Assets = Net Income / Total Assets"></i>
+                        <span class="absolute left-1/2 transform -translate-x-1/2 mt-8 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10">Return on Assets = Net Income / Total Assets</span>
                     </div>
                 </div>
                 <div class="text-center p-4 bg-purple-50 rounded-lg relative group">
@@ -316,6 +318,7 @@
                     <div class="text-sm text-gray-600 mt-1 flex items-center justify-center gap-1">
                         Cash Ratio
                         <i data-lucide="info" class="h-4 w-4 text-purple-400 cursor-pointer" title="Cash Ratio = Cash & Equivalents / Total Assets"></i>
+                        <span class="absolute left-1/2 transform -translate-x-1/2 mt-8 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10">Cash Ratio = Cash & Equivalents / Total Assets</span>
                     </div>
                 </div>
             `;
@@ -625,12 +628,16 @@
             const latestValue = formatValue(metric.latest_value);
             const growthRate = metric.growth_rate;
             const latestYear = metric.latest_year;
-            // Add info tooltips for growth rate and Q vs Annual
             document.getElementById('latest-value').textContent = `$${latestValue}B`;
             document.getElementById('latest-year').textContent = `${metric.latest_form} ${latestYear}`;
+            // Add info tooltips for growth rate and Q vs Annual
             const growthElement = document.getElementById('growth-rate');
             growthElement.innerHTML = `
                 ${growthRate >= 0 ? '+' : ''}${growthRate.toFixed(1)}%
+                <span class=\"inline-block align-middle relative ml-1\">
+                    <i data-lucide=\"info\" class=\"h-4 w-4 text-blue-400 cursor-pointer\" title=\"Growth Rate = (Current Value - Previous Value) / Previous Value\"></i>
+                    <span class=\"absolute left-1/2 transform -translate-x-1/2 mt-6 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10\">Growth Rate = (Current Value - Previous Value) / Previous Value</span>
+                </span>
             `;
             // Show quarterly comparison if available
             const quarterlyMetric = globalSecData.quarterly_metrics[metricKey];
@@ -641,6 +648,10 @@
                 const quarterlyChangeElement = document.getElementById('quarterly-change');
                 quarterlyChangeElement.innerHTML = `
                     ${quarterlyChange >= 0 ? '+' : ''}${quarterlyChange.toFixed(1)}%
+                    <span class=\"inline-block align-middle relative ml-1\">
+                        <i data-lucide=\"info\" class=\"h-4 w-4 text-blue-400 cursor-pointer\" title=\"Q vs Annual = (Latest Quarter Value - Latest Annual Value) / Latest Annual Value\"></i>
+                        <span class=\"absolute left-1/2 transform -translate-x-1/2 mt-6 px-3 py-2 bg-black text-white text-xs rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap z-10\">Q vs Annual = (Latest Quarter Value - Latest Annual Value) / Latest Annual Value</span>
+                    </span>
                 `;
             } else {
                 quarterlyComparison.style.display = 'none';
