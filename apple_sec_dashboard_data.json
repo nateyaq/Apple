@@ -1,6 +1,6 @@
 {
   "company_name": "Apple Inc.",
-  "last_updated": "2025-06-14T02:07:01.827899",
+  "last_updated": "2025-06-14T02:12:39.133948",
   "summary_metrics": {
     "revenue": {
       "name": "Total Revenue",
@@ -34,13 +34,21 @@
       "latest_form": "10-Q",
       "growth_rate": -7.05
     },
-    "operating_income": {
-      "name": "Operating Income",
-      "latest_value": "44867000000",
+    "research_development": {
+      "name": "Research & Development",
+      "latest_value": "8550000000",
       "latest_year": 2025.0,
       "latest_period": "2025-03-29",
       "latest_form": "10-Q",
-      "growth_rate": -23.01
+      "growth_rate": 3.41
+    },
+    "operating_income": {
+      "name": "Operating Income",
+      "latest_value": "29589000000",
+      "latest_year": 2025.0,
+      "latest_period": "2025-03-29",
+      "latest_form": "10-Q",
+      "growth_rate": -30.92
     },
     "shareholders_equity": {
       "name": "Shareholders Equity",
@@ -56,17 +64,17 @@
       "name": "Total Revenue",
       "latest_quarterly_value": "95359000000",
       "latest_quarterly_period": "2025-03-29",
-      "latest_annual_value": "64698000000",
-      "latest_annual_period": "2020-09-26",
-      "quarterly_vs_annual_change": 47.39
+      "latest_annual_value": "100541000000",
+      "latest_annual_period": "2022-09-24",
+      "quarterly_vs_annual_change": -5.15
     },
     "net_income": {
       "name": "Net Income",
       "latest_quarterly_value": "24780000000",
       "latest_quarterly_period": "2025-03-29",
-      "latest_annual_value": "12673000000",
-      "latest_annual_period": "2020-09-26",
-      "quarterly_vs_annual_change": 95.53
+      "latest_annual_value": "25764000000",
+      "latest_annual_period": "2022-09-24",
+      "quarterly_vs_annual_change": -3.82
     },
     "total_assets": {
       "name": "Total Assets",
@@ -84,13 +92,21 @@
       "latest_annual_period": "2023-09-30",
       "quarterly_vs_annual_change": -6.02
     },
+    "research_development": {
+      "name": "Research & Development",
+      "latest_quarterly_value": "8550000000",
+      "latest_quarterly_period": "2025-03-29",
+      "latest_annual_value": "3643000000",
+      "latest_annual_period": "2022-09-24",
+      "quarterly_vs_annual_change": 134.7
+    },
     "operating_income": {
       "name": "Operating Income",
-      "latest_quarterly_value": "44867000000",
+      "latest_quarterly_value": "29589000000",
       "latest_quarterly_period": "2025-03-29",
-      "latest_annual_value": "24689000000",
-      "latest_annual_period": "2020-09-26",
-      "quarterly_vs_annual_change": 81.73
+      "latest_annual_value": "32105000000",
+      "latest_annual_period": "2022-09-24",
+      "quarterly_vs_annual_change": -7.84
     },
     "shareholders_equity": {
       "name": "Shareholders Equity",
@@ -103,22 +119,28 @@
   },
   "time_series_data": [
     {
-      "year": 2020.0,
-      "revenue": 64.698,
-      "net_income": 12.673,
-      "profit_margin": 19.587931620761072
+      "year": 2021.0,
+      "revenue": 50.357,
+      "net_income": 10.518,
+      "profit_margin": 20.88686776416387
+    },
+    {
+      "year": 2022.0,
+      "revenue": -7.942,
+      "net_income": -16.718,
+      "profit_margin": 0
     },
     {
       "year": 2023.0,
-      "revenue": 82.959,
-      "net_income": 19.442,
-      "profit_margin": 23.43567304331055
+      "revenue": 61.635,
+      "net_income": 15.598,
+      "profit_margin": 25.30704956599335
     },
     {
       "year": 2024.0,
-      "revenue": 85.777,
-      "net_income": 21.448,
-      "profit_margin": 25.004371801298714
+      "revenue": 391.035,
+      "net_income": 93.736,
+      "profit_margin": 23.971255769943866
     },
     {
       "year": 2025.0,
@@ -130,12 +152,12 @@
   "growth_analysis": [
     {
       "metric": "Total Revenue",
-      "avg_growth_rate": 4.05,
+      "avg_growth_rate": -55.33,
       "latest_growth": -23.28
     },
     {
       "metric": "Net Income",
-      "avg_growth_rate": 8.52,
+      "avg_growth_rate": -11.06,
       "latest_growth": -31.79
     },
     {
@@ -149,9 +171,14 @@
       "latest_growth": -7.05
     },
     {
+      "metric": "Research & Development",
+      "avg_growth_rate": 15.58,
+      "latest_growth": 3.41
+    },
+    {
       "metric": "Operating Income",
-      "avg_growth_rate": 6.42,
-      "latest_growth": -23.01
+      "avg_growth_rate": -25.41,
+      "latest_growth": -30.92
     },
     {
       "metric": "Shareholders Equity",
@@ -164,45 +191,38 @@
       "metric_name": "Total Revenue",
       "data": [
         {
-          "start": "2018-09-30",
-          "end": "2018-12-29",
-          "val": 84310000000,
-          "fy": 2020,
-          "form": "10-K"
-        },
-        {
-          "start": "2018-12-30",
-          "end": "2019-03-30",
-          "val": 58015000000,
-          "fy": 2020,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-03-31",
-          "end": "2019-06-29",
-          "val": 53809000000,
-          "fy": 2020,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-06-30",
+          "start": "2020-06-27",
           "end": "2019-09-28",
-          "val": 64040000000,
-          "fy": 2020,
+          "val": 50357000000,
+          "fy": 2021,
           "form": "10-K"
         },
         {
-          "start": "2020-06-28",
+          "start": "2021-06-26",
           "end": "2020-09-26",
-          "val": 64698000000,
-          "fy": 2020,
+          "val": -7942000000,
+          "fy": 2022,
           "form": "10-K"
         },
         {
-          "start": "2022-03-27",
-          "end": "2022-06-25",
-          "val": 82959000000,
+          "start": "2022-06-25",
+          "end": "2021-09-25",
+          "val": 61635000000,
           "fy": 2023,
+          "form": "10-K"
+        },
+        {
+          "start": "2023-07-01",
+          "end": "2022-09-24",
+          "val": 100541000000,
+          "fy": 2024,
+          "form": "10-K"
+        },
+        {
+          "start": "2022-09-25",
+          "end": "2022-12-31",
+          "val": 117154000000,
+          "fy": 2024,
           "form": "10-Q"
         },
         {
@@ -241,6 +261,13 @@
           "form": "10-Q"
         },
         {
+          "start": "2023-10-01",
+          "end": "2024-09-28",
+          "val": 391035000000,
+          "fy": 2024,
+          "form": "10-K"
+        },
+        {
           "start": "2024-09-29",
           "end": "2024-12-28",
           "val": 124300000000,
@@ -257,38 +284,38 @@
       ],
       "annual_data": [
         {
-          "start": "2018-09-30",
-          "end": "2018-12-29",
-          "val": 84310000000,
-          "fy": 2020,
-          "form": "10-K"
-        },
-        {
-          "start": "2018-12-30",
-          "end": "2019-03-30",
-          "val": 58015000000,
-          "fy": 2020,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-03-31",
-          "end": "2019-06-29",
-          "val": 53809000000,
-          "fy": 2020,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-06-30",
+          "start": "2020-06-27",
           "end": "2019-09-28",
-          "val": 64040000000,
-          "fy": 2020,
+          "val": 50357000000,
+          "fy": 2021,
           "form": "10-K"
         },
         {
-          "start": "2020-06-28",
+          "start": "2021-06-26",
           "end": "2020-09-26",
-          "val": 64698000000,
-          "fy": 2020,
+          "val": -7942000000,
+          "fy": 2022,
+          "form": "10-K"
+        },
+        {
+          "start": "2022-06-25",
+          "end": "2021-09-25",
+          "val": 61635000000,
+          "fy": 2023,
+          "form": "10-K"
+        },
+        {
+          "start": "2023-10-01",
+          "end": "2024-09-28",
+          "val": 391035000000,
+          "fy": 2024,
+          "form": "10-K"
+        },
+        {
+          "start": "2023-07-01",
+          "end": "2022-09-24",
+          "val": 100541000000,
+          "fy": 2024,
           "form": "10-K"
         },
         {
@@ -301,10 +328,10 @@
       ],
       "quarterly_data": [
         {
-          "start": "2022-03-27",
-          "end": "2022-06-25",
-          "val": 82959000000,
-          "fy": 2023,
+          "start": "2022-09-25",
+          "end": "2022-12-31",
+          "val": 117154000000,
+          "fy": 2024,
           "form": "10-Q"
         },
         {
@@ -363,32 +390,28 @@
       "latest_form": "10-Q",
       "latest_quarterly_value": "95359000000",
       "latest_quarterly_period": "2025-03-29",
-      "latest_annual_value": "64698000000",
-      "latest_annual_period": "2020-09-26",
+      "latest_annual_value": "100541000000",
+      "latest_annual_period": "2022-09-24",
       "growth_rates": [
         {
-          "year": 2020,
-          "growth_rate": -31.19
-        },
-        {
-          "year": 2020,
-          "growth_rate": -7.25
-        },
-        {
-          "year": 2020,
-          "growth_rate": 19.01
-        },
-        {
-          "year": 2020,
-          "growth_rate": 1.03
+          "year": 2022,
+          "growth_rate": -115.77
         },
         {
           "year": 2023,
-          "growth_rate": 28.22
+          "growth_rate": -876.06
         },
         {
           "year": 2024,
-          "growth_rate": 14.32
+          "growth_rate": 63.12
+        },
+        {
+          "year": 2024,
+          "growth_rate": 16.52
+        },
+        {
+          "year": 2024,
+          "growth_rate": -19.05
         },
         {
           "year": 2024,
@@ -407,8 +430,12 @@
           "growth_rate": -5.48
         },
         {
+          "year": 2024,
+          "growth_rate": 355.87
+        },
+        {
           "year": 2025,
-          "growth_rate": 44.91
+          "growth_rate": -68.21
         },
         {
           "year": 2025,
@@ -421,45 +448,38 @@
       "metric_name": "Net Income",
       "data": [
         {
-          "start": "2018-09-30",
-          "end": "2018-12-29",
-          "val": 19965000000,
-          "fy": 2020.0,
-          "form": "10-K"
-        },
-        {
-          "start": "2018-12-30",
-          "end": "2019-03-30",
-          "val": 11561000000,
-          "fy": 2020.0,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-03-31",
-          "end": "2019-06-29",
-          "val": 10044000000,
-          "fy": 2020.0,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-06-30",
+          "start": "2020-06-27",
           "end": "2019-09-28",
-          "val": 13686000000,
-          "fy": 2020.0,
+          "val": 10518000000,
+          "fy": 2021.0,
           "form": "10-K"
         },
         {
-          "start": "2020-06-28",
+          "start": "2021-06-26",
           "end": "2020-09-26",
-          "val": 12673000000,
-          "fy": 2020.0,
+          "val": -16718000000,
+          "fy": 2022.0,
           "form": "10-K"
         },
         {
-          "start": "2022-03-27",
-          "end": "2022-06-25",
-          "val": 19442000000,
+          "start": "2022-06-25",
+          "end": "2021-09-25",
+          "val": 15598000000,
           "fy": 2023.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2023-07-01",
+          "end": "2022-09-24",
+          "val": 25764000000,
+          "fy": 2024.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2022-09-25",
+          "end": "2022-12-31",
+          "val": 29998000000,
+          "fy": 2024.0,
           "form": "10-Q"
         },
         {
@@ -498,6 +518,13 @@
           "form": "10-Q"
         },
         {
+          "start": "2023-10-01",
+          "end": "2024-09-28",
+          "val": 93736000000,
+          "fy": 2024.0,
+          "form": "10-K"
+        },
+        {
           "start": "2024-09-29",
           "end": "2024-12-28",
           "val": 36330000000,
@@ -514,38 +541,38 @@
       ],
       "annual_data": [
         {
-          "start": "2018-09-30",
-          "end": "2018-12-29",
-          "val": 19965000000,
-          "fy": 2020.0,
-          "form": "10-K"
-        },
-        {
-          "start": "2018-12-30",
-          "end": "2019-03-30",
-          "val": 11561000000,
-          "fy": 2020.0,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-03-31",
-          "end": "2019-06-29",
-          "val": 10044000000,
-          "fy": 2020.0,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-06-30",
+          "start": "2020-06-27",
           "end": "2019-09-28",
-          "val": 13686000000,
-          "fy": 2020.0,
+          "val": 10518000000,
+          "fy": 2021.0,
           "form": "10-K"
         },
         {
-          "start": "2020-06-28",
+          "start": "2021-06-26",
           "end": "2020-09-26",
-          "val": 12673000000,
-          "fy": 2020.0,
+          "val": -16718000000,
+          "fy": 2022.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2022-06-25",
+          "end": "2021-09-25",
+          "val": 15598000000,
+          "fy": 2023.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2023-10-01",
+          "end": "2024-09-28",
+          "val": 93736000000,
+          "fy": 2024.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2023-07-01",
+          "end": "2022-09-24",
+          "val": 25764000000,
+          "fy": 2024.0,
           "form": "10-K"
         },
         {
@@ -558,10 +585,10 @@
       ],
       "quarterly_data": [
         {
-          "start": "2022-03-27",
-          "end": "2022-06-25",
-          "val": 19442000000,
-          "fy": 2023.0,
+          "start": "2022-09-25",
+          "end": "2022-12-31",
+          "val": 29998000000,
+          "fy": 2024.0,
           "form": "10-Q"
         },
         {
@@ -620,32 +647,28 @@
       "latest_form": "10-Q",
       "latest_quarterly_value": "24780000000",
       "latest_quarterly_period": "2025-03-29",
-      "latest_annual_value": "12673000000",
-      "latest_annual_period": "2020-09-26",
+      "latest_annual_value": "25764000000",
+      "latest_annual_period": "2022-09-24",
       "growth_rates": [
         {
-          "year": 2020.0,
-          "growth_rate": -42.09
-        },
-        {
-          "year": 2020.0,
-          "growth_rate": -13.12
-        },
-        {
-          "year": 2020.0,
-          "growth_rate": 36.26
-        },
-        {
-          "year": 2020.0,
-          "growth_rate": -7.4
+          "year": 2022.0,
+          "growth_rate": -258.95
         },
         {
           "year": 2023.0,
-          "growth_rate": 53.41
+          "growth_rate": -193.3
         },
         {
           "year": 2024.0,
-          "growth_rate": 24.27
+          "growth_rate": 65.18
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": 16.43
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": -19.46
         },
         {
           "year": 2024.0,
@@ -664,8 +687,12 @@
           "growth_rate": -9.26
         },
         {
+          "year": 2024.0,
+          "growth_rate": 337.04
+        },
+        {
           "year": 2025.0,
-          "growth_rate": 69.39
+          "growth_rate": -61.24
         },
         {
           "year": 2025.0,
@@ -1122,262 +1149,519 @@
       ],
       "source_field": "CashAndCashEquivalentsAtCarryingValue"
     },
-    "operating_income": {
-      "metric_name": "Operating Income",
+    "research_development": {
+      "metric_name": "Research & Development",
       "data": [
         {
-          "start": "2018-09-30",
-          "end": "2018-12-29",
-          "val": 32031000000,
+          "start": "2019-06-29",
+          "end": "2018-09-29",
+          "val": 2129000000,
           "fy": 2020.0,
           "form": "10-K"
         },
         {
-          "start": "2018-12-30",
-          "end": "2019-03-30",
-          "val": 21821000000,
-          "fy": 2020.0,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-03-31",
-          "end": "2019-06-29",
-          "val": 20227000000,
-          "fy": 2020.0,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-06-30",
+          "start": "2020-06-27",
           "end": "2019-09-28",
-          "val": 24313000000,
-          "fy": 2020.0,
+          "val": 2443000000,
+          "fy": 2021.0,
           "form": "10-K"
         },
         {
-          "start": "2020-06-28",
+          "start": "2021-06-26",
           "end": "2020-09-26",
-          "val": 24689000000,
-          "fy": 2020.0,
+          "val": 2610000000,
+          "fy": 2022.0,
           "form": "10-K"
         },
         {
-          "start": "2022-03-27",
-          "end": "2022-06-25",
-          "val": 35885000000,
+          "start": "2022-06-25",
+          "end": "2021-09-25",
+          "val": 2424000000,
           "fy": 2023.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2023-07-01",
+          "end": "2022-09-24",
+          "val": 3643000000,
+          "fy": 2024.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2022-09-25",
+          "end": "2022-12-31",
+          "val": 7709000000,
+          "fy": 2024.0,
           "form": "10-Q"
         },
         {
           "start": "2023-01-01",
           "end": "2023-04-01",
-          "val": 41976000000,
+          "val": 7457000000,
           "fy": 2024.0,
           "form": "10-Q"
         },
         {
           "start": "2023-04-02",
           "end": "2023-07-01",
-          "val": 36413000000,
+          "val": 7442000000,
           "fy": 2024.0,
           "form": "10-Q"
         },
         {
           "start": "2023-10-01",
           "end": "2023-12-30",
-          "val": 54855000000,
+          "val": 7696000000,
           "fy": 2025.0,
           "form": "10-Q"
         },
         {
           "start": "2023-12-31",
           "end": "2024-03-30",
-          "val": 42271000000,
+          "val": 7903000000,
           "fy": 2025.0,
           "form": "10-Q"
         },
         {
           "start": "2024-03-31",
           "end": "2024-06-29",
-          "val": 39678000000,
+          "val": 8006000000,
           "fy": 2024.0,
           "form": "10-Q"
         },
         {
           "start": "2024-09-29",
           "end": "2024-12-28",
-          "val": 58275000000,
+          "val": 8268000000,
           "fy": 2025.0,
           "form": "10-Q"
         },
         {
           "start": "2024-12-29",
           "end": "2025-03-29",
-          "val": 44867000000,
+          "val": 8550000000,
           "fy": 2025.0,
           "form": "10-Q"
         }
       ],
       "annual_data": [
         {
-          "start": "2018-09-30",
-          "end": "2018-12-29",
-          "val": 32031000000,
+          "start": "2019-06-29",
+          "end": "2018-09-29",
+          "val": 2129000000,
           "fy": 2020.0,
           "form": "10-K"
         },
         {
-          "start": "2018-12-30",
-          "end": "2019-03-30",
-          "val": 21821000000,
-          "fy": 2020.0,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-03-31",
-          "end": "2019-06-29",
-          "val": 20227000000,
-          "fy": 2020.0,
-          "form": "10-K"
-        },
-        {
-          "start": "2019-06-30",
+          "start": "2020-06-27",
           "end": "2019-09-28",
-          "val": 24313000000,
-          "fy": 2020.0,
+          "val": 2443000000,
+          "fy": 2021.0,
           "form": "10-K"
         },
         {
-          "start": "2020-06-28",
+          "start": "2021-06-26",
           "end": "2020-09-26",
-          "val": 24689000000,
-          "fy": 2020.0,
+          "val": 2610000000,
+          "fy": 2022.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2022-06-25",
+          "end": "2021-09-25",
+          "val": 2424000000,
+          "fy": 2023.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2023-07-01",
+          "end": "2022-09-24",
+          "val": 3643000000,
+          "fy": 2024.0,
           "form": "10-K"
         },
         {
           "start": "2023-10-01",
           "end": "2025-03-29",
-          "val": 200268000000,
+          "val": 32417000000,
           "fy": 2025.0,
           "form": "synthetic-annual"
         }
       ],
       "quarterly_data": [
         {
-          "start": "2022-03-27",
-          "end": "2022-06-25",
-          "val": 35885000000,
-          "fy": 2023.0,
+          "start": "2022-09-25",
+          "end": "2022-12-31",
+          "val": 7709000000,
+          "fy": 2024.0,
           "form": "10-Q"
         },
         {
           "start": "2023-01-01",
           "end": "2023-04-01",
-          "val": 41976000000,
+          "val": 7457000000,
           "fy": 2024.0,
           "form": "10-Q"
         },
         {
           "start": "2023-04-02",
           "end": "2023-07-01",
-          "val": 36413000000,
+          "val": 7442000000,
           "fy": 2024.0,
           "form": "10-Q"
         },
         {
           "start": "2023-10-01",
           "end": "2023-12-30",
-          "val": 54855000000,
+          "val": 7696000000,
           "fy": 2025.0,
           "form": "10-Q"
         },
         {
           "start": "2023-12-31",
           "end": "2024-03-30",
-          "val": 42271000000,
+          "val": 7903000000,
           "fy": 2025.0,
           "form": "10-Q"
         },
         {
           "start": "2024-03-31",
           "end": "2024-06-29",
-          "val": 39678000000,
+          "val": 8006000000,
           "fy": 2024.0,
           "form": "10-Q"
         },
         {
           "start": "2024-09-29",
           "end": "2024-12-28",
-          "val": 58275000000,
+          "val": 8268000000,
           "fy": 2025.0,
           "form": "10-Q"
         },
         {
           "start": "2024-12-29",
           "end": "2025-03-29",
-          "val": 44867000000,
+          "val": 8550000000,
           "fy": 2025.0,
           "form": "10-Q"
         }
       ],
-      "latest_value": "44867000000",
+      "latest_value": "8550000000",
       "latest_year": 2025.0,
       "latest_period": "2025-03-29",
       "latest_form": "10-Q",
-      "latest_quarterly_value": "44867000000",
+      "latest_quarterly_value": "8550000000",
       "latest_quarterly_period": "2025-03-29",
-      "latest_annual_value": "24689000000",
-      "latest_annual_period": "2020-09-26",
+      "latest_annual_value": "3643000000",
+      "latest_annual_period": "2022-09-24",
       "growth_rates": [
         {
-          "year": 2020.0,
-          "growth_rate": -31.88
+          "year": 2021.0,
+          "growth_rate": 14.75
         },
         {
-          "year": 2020.0,
-          "growth_rate": -7.3
-        },
-        {
-          "year": 2020.0,
-          "growth_rate": 20.2
-        },
-        {
-          "year": 2020.0,
-          "growth_rate": 1.55
+          "year": 2022.0,
+          "growth_rate": 6.84
         },
         {
           "year": 2023.0,
-          "growth_rate": 45.35
+          "growth_rate": -7.13
         },
         {
           "year": 2024.0,
-          "growth_rate": 16.97
+          "growth_rate": 50.29
         },
         {
           "year": 2024.0,
-          "growth_rate": -13.25
-        },
-        {
-          "year": 2025.0,
-          "growth_rate": 50.65
-        },
-        {
-          "year": 2025.0,
-          "growth_rate": -22.94
+          "growth_rate": 111.61
         },
         {
           "year": 2024.0,
-          "growth_rate": -6.13
+          "growth_rate": -3.27
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": -0.2
         },
         {
           "year": 2025.0,
-          "growth_rate": 46.87
+          "growth_rate": 3.41
         },
         {
           "year": 2025.0,
-          "growth_rate": -23.01
+          "growth_rate": 2.69
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": 1.3
+        },
+        {
+          "year": 2025.0,
+          "growth_rate": 3.27
+        },
+        {
+          "year": 2025.0,
+          "growth_rate": 3.41
         }
       ],
-      "source_field": "GrossProfit"
+      "source_field": "ResearchAndDevelopmentExpense"
+    },
+    "operating_income": {
+      "metric_name": "Operating Income",
+      "data": [
+        {
+          "start": "2019-06-29",
+          "end": "2018-09-29",
+          "val": 22593000000,
+          "fy": 2020.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2020-06-27",
+          "end": "2019-09-28",
+          "val": 12417000000,
+          "fy": 2021.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2021-06-26",
+          "end": "2020-09-26",
+          "val": -18875000000,
+          "fy": 2022.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2022-06-25",
+          "end": "2021-09-25",
+          "val": 14406000000,
+          "fy": 2023.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2023-07-01",
+          "end": "2022-09-24",
+          "val": 32105000000,
+          "fy": 2024.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2022-09-25",
+          "end": "2022-12-31",
+          "val": 36016000000,
+          "fy": 2024.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2023-01-01",
+          "end": "2023-04-01",
+          "val": 28318000000,
+          "fy": 2024.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2023-04-02",
+          "end": "2023-07-01",
+          "val": 22998000000,
+          "fy": 2024.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2023-10-01",
+          "end": "2023-12-30",
+          "val": 40373000000,
+          "fy": 2025.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2023-12-31",
+          "end": "2024-03-30",
+          "val": 27900000000,
+          "fy": 2025.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2024-03-31",
+          "end": "2024-06-29",
+          "val": 25352000000,
+          "fy": 2024.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2024-09-29",
+          "end": "2024-12-28",
+          "val": 42832000000,
+          "fy": 2025.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2024-12-29",
+          "end": "2025-03-29",
+          "val": 29589000000,
+          "fy": 2025.0,
+          "form": "10-Q"
+        }
+      ],
+      "annual_data": [
+        {
+          "start": "2019-06-29",
+          "end": "2018-09-29",
+          "val": 22593000000,
+          "fy": 2020.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2020-06-27",
+          "end": "2019-09-28",
+          "val": 12417000000,
+          "fy": 2021.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2021-06-26",
+          "end": "2020-09-26",
+          "val": -18875000000,
+          "fy": 2022.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2022-06-25",
+          "end": "2021-09-25",
+          "val": 14406000000,
+          "fy": 2023.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2023-07-01",
+          "end": "2022-09-24",
+          "val": 32105000000,
+          "fy": 2024.0,
+          "form": "10-K"
+        },
+        {
+          "start": "2023-10-01",
+          "end": "2025-03-29",
+          "val": 140694000000,
+          "fy": 2025.0,
+          "form": "synthetic-annual"
+        }
+      ],
+      "quarterly_data": [
+        {
+          "start": "2022-09-25",
+          "end": "2022-12-31",
+          "val": 36016000000,
+          "fy": 2024.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2023-01-01",
+          "end": "2023-04-01",
+          "val": 28318000000,
+          "fy": 2024.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2023-04-02",
+          "end": "2023-07-01",
+          "val": 22998000000,
+          "fy": 2024.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2023-10-01",
+          "end": "2023-12-30",
+          "val": 40373000000,
+          "fy": 2025.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2023-12-31",
+          "end": "2024-03-30",
+          "val": 27900000000,
+          "fy": 2025.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2024-03-31",
+          "end": "2024-06-29",
+          "val": 25352000000,
+          "fy": 2024.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2024-09-29",
+          "end": "2024-12-28",
+          "val": 42832000000,
+          "fy": 2025.0,
+          "form": "10-Q"
+        },
+        {
+          "start": "2024-12-29",
+          "end": "2025-03-29",
+          "val": 29589000000,
+          "fy": 2025.0,
+          "form": "10-Q"
+        }
+      ],
+      "latest_value": "29589000000",
+      "latest_year": 2025.0,
+      "latest_period": "2025-03-29",
+      "latest_form": "10-Q",
+      "latest_quarterly_value": "29589000000",
+      "latest_quarterly_period": "2025-03-29",
+      "latest_annual_value": "32105000000",
+      "latest_annual_period": "2022-09-24",
+      "growth_rates": [
+        {
+          "year": 2021.0,
+          "growth_rate": -45.04
+        },
+        {
+          "year": 2022.0,
+          "growth_rate": -252.01
+        },
+        {
+          "year": 2023.0,
+          "growth_rate": -176.32
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": 122.86
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": 12.18
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": -21.37
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": -18.79
+        },
+        {
+          "year": 2025.0,
+          "growth_rate": 75.55
+        },
+        {
+          "year": 2025.0,
+          "growth_rate": -30.89
+        },
+        {
+          "year": 2024.0,
+          "growth_rate": -9.13
+        },
+        {
+          "year": 2025.0,
+          "growth_rate": 68.95
+        },
+        {
+          "year": 2025.0,
+          "growth_rate": -30.92
+        }
+      ],
+      "source_field": "OperatingIncomeLoss"
     },
     "shareholders_equity": {
       "metric_name": "Shareholders Equity",

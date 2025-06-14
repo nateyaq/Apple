@@ -147,8 +147,10 @@ class AppleSECDataParser:
                     df['date_diff'] = (df['end'] - df['start']).dt.days
                     # For balance sheet, keep only 10-K/10-Q at period end (ignore date_diff)
                     if not is_balance_sheet:
-                        df = df[df['date_diff'] <= 90]
-                        print(f"[DEBUG] Filtered out data points spanning more than 3 months")
+                        # Only filter out data points that are explicitly marked as quarterly but span more than 4 months
+                        quarterly_mask = (df['form'] == '10-Q') & (df['date_diff'] > 120)
+                        df = df[~quarterly_mask]
+                        print(f"[DEBUG] Filtered out {quarterly_mask.sum()} quarterly data points spanning more than 4 months")
                     df = df.drop('date_diff', axis=1)
                 # Enhanced deduplication for quarterly data: prefer correct fp and frame
                 if 'fp' in df.columns and 'end' in df.columns:
