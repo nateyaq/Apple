@@ -123,42 +123,128 @@ class AppleSECDataParser:
             # Extract USD values
             if 'units' in current_data and 'USD' in current_data['units']:
                 df = pd.DataFrame(current_data['units']['USD'])
-                df['end'] = pd.to_datetime(df['end'])
+                print(f"\nExtracting {metric_name} from {metric_path}")
+                print("Columns:", df.columns.tolist())
+                print("Sample data:", df.head())
+                # Check for required columns
+                if 'end' not in df.columns or 'val' not in df.columns or 'form' not in df.columns:
+                    print(f"[WARN] Missing required columns for {metric_name}: must have at least 'end', 'val', 'form'. Skipping this metric.")
+                    return None
+                if df.empty:
+                    print(f"[WARN] DataFrame is empty for {metric_name}. Skipping this metric.")
+                    return None
+                print(f"[DEBUG] {metric_name}: DataFrame shape before deduplication: {df.shape}")
+                # Filter out data points that span more than 3 months for quarterly data
+                if 'start' in df.columns and 'end' in df.columns:
+                    df['start'] = pd.to_datetime(df['start'])
+                    df['end'] = pd.to_datetime(df['end'])
+                    df['date_diff'] = (df['end'] - df['start']).dt.days
+                    # Keep only data points that are 3 months or less (approximately 90 days)
+                    df = df[df['date_diff'] <= 90]
+                    df = df.drop('date_diff', axis=1)
+                    print(f"[DEBUG] Filtered out data points spanning more than 3 months")
+                # Enhanced deduplication for quarterly data: prefer correct fp and frame
+                if 'fp' in df.columns and 'end' in df.columns:
+                    for quarter in ['Q1', 'Q2', 'Q3', 'Q4']:
+                        mask = df['fp'] == quarter
+                        if mask.any():
+                            df.loc[mask, 'is_correct_fp'] = True
+                        else:
+                            df['is_correct_fp'] = False
+                    if 'frame' in df.columns:
+                        df['has_frame'] = df['frame'].notnull()
+                    else:
+                        df['has_frame'] = False
+                    df = df.sort_values(by=['end', 'is_correct_fp', 'has_frame'], ascending=[True, False, False])
+                    before = df.shape[0]
+                    df = df.drop_duplicates(subset=['end'], keep='first')
+                    after = df.shape[0]
+                    print(f"[DEBUG] Enhanced deduplication: Dropped {before - after} rows by preferring correct fp and frame")
+                else:
+                    df['end'] = pd.to_datetime(df['end'])
+                    if 'frame' in df.columns:
+                        df['has_frame'] = df['frame'].notnull()
+                        df = df.sort_values(by=['end', 'has_frame'], ascending=[True, False])
+                    else:
+                        df = df.sort_values(by=['end'], ascending=[True])
+                    before = df.shape[0]
+                    # Only deduplicate if there are exact duplicate 'end' values
+                    if df['end'].duplicated().any():
+                        df = df.drop_duplicates(subset=['end'], keep='first')
+                        after = df.shape[0]
+                        print(f"[DEBUG] {metric_name}: Dropped {before - after} rows by deduplication (end only)")
+                    else:
+                        print(f"[DEBUG] {metric_name}: No duplicate 'end' values, no deduplication performed.")
+                print(f"[DEBUG] {metric_name}: DataFrame shape after deduplication: {df.shape}")
                 df = df.sort_values('end')
                 
+                # --- Q4 Calculation Logic ---
+                # For each fiscal year, if Q1, Q2, Q3, and annual (10-K) are present but Q4 is missing, calculate Q4
+                if 'fp' in df.columns and 'fy' in df.columns and 'val' in df.columns and 'form' in df.columns:
+                    new_rows = []
+                    for year in df['fy'].unique():
+                        year_mask = df['fy'] == year
+                        annual = df[year_mask & (df['form'] == '10-K')]
+                        q1 = df[year_mask & (df['fp'] == 'Q1')]
+                        q2 = df[year_mask & (df['fp'] == 'Q2')]
+                        q3 = df[year_mask & (df['fp'] == 'Q3')]
+                        q4 = df[year_mask & (df['fp'] == 'Q4')]
+                        if not annual.empty and not q1.empty and not q2.empty and not q3.empty and q4.empty:
+                            q4_val = annual.iloc[0]['val'] - (q1.iloc[0]['val'] + q2.iloc[0]['val'] + q3.iloc[0]['val'])
+                            # Estimate Q4 start as Q3 end, end as annual end
+                            q4_start = q3.iloc[0]['end'] if 'end' in q3.columns else None
+                            q4_end = annual.iloc[0]['end'] if 'end' in annual.columns else None
+                            q4_row = {col: None for col in df.columns}
+                            q4_row['fy'] = year
+                            q4_row['fp'] = 'Q4'
+                            q4_row['form'] = '10-K'
+                            q4_row['val'] = q4_val
+                            if q4_start is not None:
+                                q4_row['start'] = q4_start
+                            if q4_end is not None:
+                                q4_row['end'] = q4_end
+                            # Copy over other fields from annual as appropriate
+                            for col in ['accn', 'filed', 'frame']:
+                                if col in df.columns and col in annual.columns:
+                                    q4_row[col] = annual.iloc[0][col]
+                            new_rows.append(q4_row)
+                    if new_rows:
+                        df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
+                
+                # Dynamically select columns for output
+                base_cols = ['end', 'val', 'fy', 'form']
+                if 'start' in df.columns:
+                    output_cols = ['start'] + base_cols
+                else:
+                    output_cols = base_cols
                 # Separate annual and quarterly data
                 annual_data = df[df['form'] == '10-K'].copy()
                 quarterly_data = df[df['form'] == '10-Q'].copy() if include_quarterly else pd.DataFrame()
-                
                 # Get recent annual data (last 5 years)
                 recent_annual = annual_data.tail(5) if len(annual_data) > 0 else pd.DataFrame()
-                
                 # Get recent quarterly data (last 8 quarters)
                 recent_quarterly = quarterly_data.tail(8) if len(quarterly_data) > 0 else pd.DataFrame()
-                
                 # Combine all data for comprehensive view
                 all_recent_data = pd.concat([recent_annual, recent_quarterly]).sort_values('end')
-                
                 # Determine the most recent value (could be quarterly or annual)
                 latest_entry = all_recent_data.iloc[-1] if len(all_recent_data) > 0 else None
-                
                 # Get latest quarterly and annual separately for comparison
                 latest_quarterly = recent_quarterly.iloc[-1] if len(recent_quarterly) > 0 else None
                 latest_annual = recent_annual.iloc[-1] if len(recent_annual) > 0 else None
                 
                 return {
                     'metric_name': metric_name,
-                    'data': all_recent_data[['end', 'val', 'fy', 'form']].to_dict('records'),
-                    'annual_data': recent_annual[['end', 'val', 'fy', 'form']].to_dict('records'),
-                    'quarterly_data': recent_quarterly[['end', 'val', 'fy', 'form']].to_dict('records'),
+                    'data': all_recent_data[output_cols].to_dict('records'),
+                    'annual_data': recent_annual[output_cols].to_dict('records'),
+                    'quarterly_data': recent_quarterly[output_cols].to_dict('records'),
                     'latest_value': latest_entry['val'] if latest_entry is not None else 0,
                     'latest_year': latest_entry['fy'] if latest_entry is not None else None,
-                    'latest_period': latest_entry['end'].strftime('%Y-%m-%d') if latest_entry is not None else None,
+                    'latest_period': latest_entry['end'] if latest_entry is not None else None,
                     'latest_form': latest_entry['form'] if latest_entry is not None else None,
                     'latest_quarterly_value': latest_quarterly['val'] if latest_quarterly is not None else None,
-                    'latest_quarterly_period': latest_quarterly['end'].strftime('%Y-%m-%d') if latest_quarterly is not None else None,
+                    'latest_quarterly_period': latest_quarterly['end'] if latest_quarterly is not None else None,
                     'latest_annual_value': latest_annual['val'] if latest_annual is not None else None,
-                    'latest_annual_period': latest_annual['end'].strftime('%Y-%m-%d') if latest_annual is not None else None
+                    'latest_annual_period': latest_annual['end'] if latest_annual is not None else None
                 }
         except (KeyError, IndexError, TypeError) as e:
             print(f"Could not extract {metric_name}: {e}")
