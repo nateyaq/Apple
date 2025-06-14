@@ -24,5 +24,5 @@ def test_dashboard_data_matches():
     # Example: check that dashboard data matches expected values
     with open('./apple_sec_dashboard_data.json') as f:
         data = json.load(f)
-    # Replace with real checks
-    assert data['summary_metrics']['revenue']['latest_value'] > 0 
+    value = data['summary_metrics']['revenue']['latest_value']
+    assert float(value) > 0 
