@@ -34,7 +34,7 @@ LIMIT 10;
 - `UPPER()`, `LOWER()` - Change case
 - `LENGTH()` - Get string length
 
-### 3. Join Types (Critical for Business Analysis)
+### 3. Join Types
 
 #### INNER JOIN
 ```sql
@@ -57,7 +57,7 @@ FROM table_a a
 FULL OUTER JOIN table_b b ON a.id = b.a_id;
 ```
 
-### 4. Window Functions (Advanced but Important)
+### 4. Window Functions
 
 #### ROW_NUMBER()
 ```sql
