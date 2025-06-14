@@ -240,6 +240,22 @@ class AppleSECDataParser:
                 annual_data = df[df['form'] == '10-K'].copy()
                 quarterly_data = df[df['form'] == '10-Q'].copy() if include_quarterly else pd.DataFrame()
 
+                # Remove future-dated annual and quarterly data (apply while still DataFrame)
+                from datetime import datetime
+                current_year = datetime.now().year
+                if not annual_data.empty and 'fy' in annual_data.columns:
+                    annual_data = annual_data[annual_data['fy'] <= current_year]
+                    if 'end' in annual_data.columns:
+                        annual_data['end_dt'] = pd.to_datetime(annual_data['end'], errors='coerce')
+                        annual_data = annual_data[annual_data['end_dt'] <= pd.Timestamp.now()]
+                        annual_data = annual_data.drop(columns=['end_dt'])
+                if not quarterly_data.empty and 'fy' in quarterly_data.columns:
+                    quarterly_data = quarterly_data[quarterly_data['fy'] <= current_year]
+                    if 'end' in quarterly_data.columns:
+                        quarterly_data['end_dt'] = pd.to_datetime(quarterly_data['end'], errors='coerce')
+                        quarterly_data = quarterly_data[quarterly_data['end_dt'] <= pd.Timestamp.now()]
+                        quarterly_data = quarterly_data.drop(columns=['end_dt'])
+
                 # --- PATCH: Only use true annual 10-Ks for flow metrics ---
                 if not is_balance_sheet and not annual_data.empty:
                     # Apple's fiscal year ends on the last Saturday of September (typically 9/24-9/30)
@@ -329,13 +345,27 @@ class AppleSECDataParser:
                         quarterly_records.append(cleaned)
                         prev_end = cleaned.get('end', prev_end)
                 # Remove synthetic annual data generation
+                def safe_int(val):
+                    try:
+                        return int(val)
+                    except Exception:
+                        return val
                 return {
                     'metric_name': metric_name,
-                    'data': data_records,
-                    'annual_data': annual_records,
-                    'quarterly_data': quarterly_records,
+                    'data': [
+                        {**rec, 'fy': safe_int(rec.get('fy')) if rec.get('fy') is not None else None}
+                        for rec in data_records
+                    ],
+                    'annual_data': [
+                        {**rec, 'fy': safe_int(rec.get('fy')) if rec.get('fy') is not None else None}
+                        for rec in annual_records
+                    ],
+                    'quarterly_data': [
+                        {**rec, 'fy': safe_int(rec.get('fy')) if rec.get('fy') is not None else None}
+                        for rec in quarterly_records
+                    ],
                     'latest_value': latest_entry['val'] if latest_entry is not None else 0,
-                    'latest_year': latest_entry['fy'] if latest_entry is not None else None,
+                    'latest_year': safe_int(latest_entry['fy']) if latest_entry is not None else None,
                     'latest_period': latest_entry['end'] if latest_entry is not None else None,
                     'latest_form': latest_entry['form'] if latest_entry is not None else None,
                     'latest_quarterly_value': latest_quarterly['val'] if latest_quarterly is not None else None,

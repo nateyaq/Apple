@@ -1,12 +1,14 @@
 import json
 import re
 from collections import defaultdict
+from datetime import datetime
 
 # Load the JSON file
 with open('apple_sec_dashboard_data.json', 'r') as f:
     data = json.load(f)
 
 issues = []
+current_year = datetime.now().year
 
 def check_type_consistency(section, key, expected_type):
     values = []
@@ -75,6 +77,85 @@ def check_raw_metrics(raw_metrics):
                 except Exception:
                     pass
 
+def check_future_years():
+    # Check summary_metrics
+    for metric, v in data.get('summary_metrics', {}).items():
+        year = v.get('latest_year')
+        if year is not None and float(year) > current_year:
+            issues.append(f"Future year in summary_metrics.{metric}: {year}")
+    # Check quarterly_metrics
+    for metric, v in data.get('quarterly_metrics', {}).items():
+        for key in ['latest_quarterly_period', 'latest_annual_period']:
+            period = v.get(key)
+            if period:
+                try:
+                    y = int(str(period)[:4])
+                    if y > current_year:
+                        issues.append(f"Future year in quarterly_metrics.{metric}.{key}: {period}")
+                except Exception:
+                    pass
+        for key in ['latest_quarterly_value', 'latest_annual_value']:
+            year = v.get(key)
+            if year is not None and isinstance(year, (int, float)) and year > current_year:
+                issues.append(f"Future year in quarterly_metrics.{metric}.{key}: {year}")
+    # Check time_series_data
+    for entry in data.get('time_series_data', []):
+        year = entry.get('year')
+        if year is not None and float(year) > current_year:
+            issues.append(f"Future year in time_series_data: {year}")
+    # Check raw_metrics
+    for metric, meta in data.get('raw_metrics', {}).items():
+        for entry in meta.get('data', []):
+            fy = entry.get('fy')
+            if fy is not None and float(fy) > current_year:
+                issues.append(f"Future year in raw_metrics.{metric}.data: {fy}")
+        for entry in meta.get('annual_data', []):
+            fy = entry.get('fy')
+            if fy is not None and float(fy) > current_year:
+                issues.append(f"Future year in raw_metrics.{metric}.annual_data: {fy}")
+        for entry in meta.get('quarterly_data', []):
+            fy = entry.get('fy')
+            if fy is not None and float(fy) > current_year:
+                issues.append(f"Future year in raw_metrics.{metric}.quarterly_data: {fy}")
+
+def check_year_type():
+    # Check summary_metrics
+    for metric, v in data.get('summary_metrics', {}).items():
+        year = v.get('latest_year')
+        if year is not None and not isinstance(year, int):
+            issues.append(f"Non-integer year in summary_metrics.{metric}: {year} ({type(year)})")
+    # Check quarterly_metrics (only check *_period fields for year type, not *_value fields)
+    for metric, v in data.get('quarterly_metrics', {}).items():
+        for key in ['latest_quarterly_period', 'latest_annual_period']:
+            period = v.get(key)
+            if period:
+                try:
+                    y = int(str(period)[:4])
+                    if not isinstance(y, int):
+                        issues.append(f"Non-integer year in quarterly_metrics.{metric}.{key}: {period} ({type(y)})")
+                except Exception:
+                    pass
+        # Do NOT check *_value fields here (they are amounts, not years)
+    # Check time_series_data
+    for entry in data.get('time_series_data', []):
+        year = entry.get('year')
+        if year is not None and not isinstance(year, int):
+            issues.append(f"Non-integer year in time_series_data: {year} ({type(year)})")
+    # Check raw_metrics
+    for metric, meta in data.get('raw_metrics', {}).items():
+        for entry in meta.get('data', []):
+            fy = entry.get('fy')
+            if fy is not None and not isinstance(fy, int):
+                issues.append(f"Non-integer year in raw_metrics.{metric}.data: {fy} ({type(fy)})")
+        for entry in meta.get('annual_data', []):
+            fy = entry.get('fy')
+            if fy is not None and not isinstance(fy, int):
+                issues.append(f"Non-integer year in raw_metrics.{metric}.annual_data: {fy} ({type(fy)})")
+        for entry in meta.get('quarterly_data', []):
+            fy = entry.get('fy')
+            if fy is not None and not isinstance(fy, int):
+                issues.append(f"Non-integer year in raw_metrics.{metric}.quarterly_data: {fy} ({type(fy)})")
+
 def main():
     print("--- Validating summary_metrics ---")
     check_type_consistency(data['summary_metrics'], 'latest_year', (int, float, str))
@@ -93,6 +174,12 @@ def main():
 
     print("--- Validating raw_metrics ---")
     check_raw_metrics(data['raw_metrics'])
+
+    print("--- Checking for future years ---")
+    check_future_years()
+
+    print("--- Checking for integer year fields ---")
+    check_year_type()
 
     print("\n--- Issues found ---")
     if issues:
