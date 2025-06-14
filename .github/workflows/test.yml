@@ -37,7 +37,7 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test || true
       - name: Run Python tests
-        run: pytest || true
+        run: pytest --junitxml=python-test-results.xml || true
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
@@ -49,4 +49,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: python-test-report
-          path: .pytest_cache/ 
+          path: .pytest_cache/
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: python-test-results.xml 

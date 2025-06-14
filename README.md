@@ -1,4 +1,15 @@
-# Apple Dashboards - Data Analysis
+# Apple Financial Dashboard
+
+![CI](https://github.com/nateyaq/Apple/actions/workflows/test.yml/badge.svg)
+![License](https://img.shields.io/github/license/nateyaq/Apple)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/nateyaq/Apple)
+![Python](https://img.shields.io/badge/python-3.11-blue)
+![GitHub issues](https://img.shields.io/github/issues/nateyaq/Apple)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/nateyaq/Apple)
+![Code Size](https://img.shields.io/github/languages/code-size/nateyaq/Apple)
+![Top Language](https://img.shields.io/github/languages/top/nateyaq/Apple)
+
+<!-- The test results badge will be auto-added by the publish-unit-test-result-action -->
 
 Apple Inc.'s real financial data sourced directly from SEC EDGAR filings. 
 
