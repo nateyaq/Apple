@@ -239,6 +239,19 @@ class AppleSECDataParser:
                 # Separate annual and quarterly data
                 annual_data = df[df['form'] == '10-K'].copy()
                 quarterly_data = df[df['form'] == '10-Q'].copy() if include_quarterly else pd.DataFrame()
+
+                # --- PATCH: Only use true annual 10-Ks for flow metrics ---
+                if not is_balance_sheet and not annual_data.empty:
+                    # Apple's fiscal year ends on the last Saturday of September (typically 9/24-9/30)
+                    # Only keep 10-Ks with end date in September (9/24-9/30)
+                    annual_data['end_dt'] = pd.to_datetime(annual_data['end'], errors='coerce')
+                    annual_data = annual_data[annual_data['end_dt'].dt.month == 9]
+                    annual_data = annual_data[annual_data['end_dt'].dt.day.between(24, 30)]
+                    # For each fiscal year, keep the record with the latest end date
+                    annual_data = annual_data.sort_values(['fy', 'end_dt']).groupby('fy').last().reset_index()
+                    # Drop helper column
+                    annual_data = annual_data.drop(columns=['end_dt'])
+
                 # For balance sheet, annual value is the value at fiscal year end (not a difference)
                 if is_balance_sheet:
                     recent_annual = annual_data.groupby('fy').last().reset_index().tail(10) if len(annual_data) > 0 else pd.DataFrame()
