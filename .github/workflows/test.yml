@@ -22,10 +22,8 @@ jobs:
           python-version: '3.11'
       - name: Install Node.js dependencies
         run: npm install
-        continue-on-error: true
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-        continue-on-error: true
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
@@ -34,8 +32,9 @@ jobs:
         run: |
           python -m http.server 8000 &
           sleep 5
+          curl --retry 10 --retry-connrefused --retry-delay 2 http://localhost:8000/demo.html
       - name: Run Playwright tests
-        run: npx playwright test || true
+        run: npx playwright test --timeout=30000 || true
       - name: Run Python tests
         run: pytest --junitxml=python-test-results.xml || true
       - name: Upload Playwright report

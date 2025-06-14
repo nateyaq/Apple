@@ -1,5 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
+test.setTimeout(30000); // 30 seconds per test
+
 // Update the path if your demo.html is served from a different location
 const DEMO_URL = 'http://localhost:8000/demo.html';
 
