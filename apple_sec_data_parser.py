@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import warnings
+from dateutil.relativedelta import relativedelta
 warnings.filterwarnings('ignore')
 
 class AppleSECDataParser:
@@ -255,20 +256,87 @@ class AppleSECDataParser:
                     df = df.drop(columns=['start'])
                     output_cols = [col for col in output_cols if col != 'start']
                 # Convert DataFrame to records and clean 'start' field appropriately
-                def clean_record(rec):
+                def clean_record(rec, prev_end=None, freq='A'):
                     rec = dict(rec)
                     # For balance sheet metrics, nothing to do (no 'start' field)
                     if is_balance_sheet:
                         return rec
-                    # For flow metrics, skip record if 'start' is missing or invalid
-                    else:
-                        if 'start' not in rec or rec['start'] is None or pd.isna(rec['start']) or not isinstance(rec['start'], str) or rec['start'].lower() == 'nan':
-                            return None
-                        return rec
-                # Prepare output data
-                data_records = [r for r in (clean_record(r) for r in all_recent_data[output_cols].to_dict('records')) if r is not None]
-                annual_records = [r for r in (clean_record(r) for r in recent_annual[output_cols].to_dict('records')) if r is not None]
-                quarterly_records = [r for r in (clean_record(r) for r in recent_quarterly[output_cols].to_dict('records')) if r is not None]
+                    # For flow metrics, infer 'start' if missing/invalid
+                    start = rec.get('start')
+                    end = rec.get('end')
+                    if (start is None or pd.isna(start) or not isinstance(start, str) or start.lower() == 'nan'):
+                        # Try to infer from previous period's end
+                        if prev_end is not None:
+                            try:
+                                prev_end_dt = pd.to_datetime(prev_end)
+                                inferred_start = (prev_end_dt + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
+                                rec['start'] = inferred_start
+                            except Exception:
+                                pass
+                        elif end is not None:
+                            try:
+                                end_dt = pd.to_datetime(end)
+                                if freq == 'A':
+                                    inferred_start = (end_dt - relativedelta(years=1) + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
+                                elif freq == 'Q':
+                                    inferred_start = (end_dt - relativedelta(months=3) + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
+                                else:
+                                    inferred_start = None
+                                if inferred_start:
+                                    rec['start'] = inferred_start
+                            except Exception:
+                                pass
+                    # If still missing, skip record
+                    if 'start' not in rec or rec['start'] is None or pd.isna(rec['start']) or not isinstance(rec['start'], str) or rec['start'].lower() == 'nan':
+                        return None
+                    return rec
+                # Prepare output data with inferred 'start' for flow metrics
+                prev_end = None
+                freq = 'A' if (not is_balance_sheet and all_recent_data['form'].isin(['10-K']).all()) else 'Q'
+                data_records = []
+                for r in all_recent_data[output_cols].to_dict('records'):
+                    cleaned = clean_record(r, prev_end, freq)
+                    if cleaned is not None:
+                        data_records.append(cleaned)
+                        prev_end = cleaned.get('end', prev_end)
+                prev_end = None
+                annual_records = []
+                for r in recent_annual[output_cols].to_dict('records'):
+                    cleaned = clean_record(r, prev_end, 'A')
+                    if cleaned is not None:
+                        annual_records.append(cleaned)
+                        prev_end = cleaned.get('end', prev_end)
+                prev_end = None
+                quarterly_records = []
+                for r in recent_quarterly[output_cols].to_dict('records'):
+                    cleaned = clean_record(r, prev_end, 'Q')
+                    if cleaned is not None:
+                        quarterly_records.append(cleaned)
+                        prev_end = cleaned.get('end', prev_end)
+                # Reconstruct annual data for missing years by summing quarterly values (for flow metrics)
+                if not is_balance_sheet:
+                    # Find years missing from annual_data but present in quarterly_data
+                    annual_years = set([r['fy'] for r in annual_records])
+                    quarterly_years = set([r['fy'] for r in quarterly_records])
+                    missing_years = sorted(list(quarterly_years - annual_years))
+                    for year in missing_years:
+                        quarters = [r for r in quarterly_records if r['fy'] == year]
+                        # Only reconstruct if all 4 quarters are present
+                        if len(quarters) == 4:
+                            total_val = sum(q['val'] for q in quarters)
+                            # Use the end date of the last quarter as the annual end
+                            annual_end = max(q['end'] for q in quarters)
+                            annual_start = min(q['start'] for q in quarters)
+                            annual_rec = {
+                                'start': annual_start,
+                                'end': annual_end,
+                                'val': total_val,
+                                'fy': year,
+                                'form': 'synthetic-annual'
+                            }
+                            annual_records.append(annual_rec)
+                    # Sort annual_records by year
+                    annual_records = sorted(annual_records, key=lambda r: r['fy'])
                 return {
                     'metric_name': metric_name,
                     'data': data_records,

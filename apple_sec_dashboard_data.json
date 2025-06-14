@@ -1,6 +1,6 @@
 {
   "company_name": "Apple Inc.",
-  "last_updated": "2025-06-14T01:57:55.096736",
+  "last_updated": "2025-06-14T02:07:01.827899",
   "summary_metrics": {
     "revenue": {
       "name": "Total Revenue",
@@ -290,6 +290,13 @@
           "val": 64698000000,
           "fy": 2020,
           "form": "10-K"
+        },
+        {
+          "start": "2023-10-01",
+          "end": "2025-03-29",
+          "val": 429987000000,
+          "fy": 2025,
+          "form": "synthetic-annual"
         }
       ],
       "quarterly_data": [
@@ -540,6 +547,13 @@
           "val": 12673000000,
           "fy": 2020.0,
           "form": "10-K"
+        },
+        {
+          "start": "2023-10-01",
+          "end": "2025-03-29",
+          "val": 118662000000,
+          "fy": 2025.0,
+          "form": "synthetic-annual"
         }
       ],
       "quarterly_data": [
@@ -1238,6 +1252,13 @@
           "val": 24689000000,
           "fy": 2020.0,
           "form": "10-K"
+        },
+        {
+          "start": "2023-10-01",
+          "end": "2025-03-29",
+          "val": 200268000000,
+          "fy": 2025.0,
+          "form": "synthetic-annual"
         }
       ],
       "quarterly_data": [
