@@ -43,7 +43,7 @@ AppleBSA/
 ## 🛠️ Technical Stack
 
 - **Data Processing**: Python, Pandas, Requests
-- **Frontend**: React, TypeScript, Tailwind CSS
+- **Frontend**: HTML, Tailwind CSS
 - **Charts**: Recharts library
 - **Icons**: Lucide React
 - **Data Source**: SEC EDGAR API
