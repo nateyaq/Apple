@@ -2,7 +2,11 @@
 
 https://nateyaq.github.io/Apple/demo.html
 
-A comprehensive financial dashboard that displays Apple Inc.'s real financial data sourced directly from SEC EDGAR filings. This project demonstrates advanced data processing, financial analysis, and dashboard visualization capabilities suitable for business systems analyst roles.
+A comprehensive financial dashboard that displays Apple Inc.'s real financial data sourced directly from SEC EDGAR filings. 
+
+https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json
+
+This project demonstrates advanced data processing, financial analysis, and dashboard visualization capabilities suitable for business systems analyst roles.
 
 ## 🚀 Project Overview
 
