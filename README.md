@@ -32,8 +32,7 @@ This project creates two complementary dashboards:
 AppleBSA/
 ├── apple_sec_data_parser.py          # SEC data fetching and processing
 ├── apple_sec_dashboard_data.json     # Processed SEC data (generated)
-├── apple_financial_dashboard.tsx     # React dashboard component
-├── apple_sales_dashboard.tsx         # Sales analytics dashboard
+├── apple_sales_dashboard.html        # Sales analytics dashboard
 ├── demo.html                         # HTML demo of financial dashboard
 ├── Parse-SEC-JSON.py                 # Original SEC parsing script
 ├── complete_sql_study_chat.md        # SQL study guide for interviews
@@ -93,7 +92,7 @@ AppleBSA/
 
 4. **View the dashboard**
    - Open `demo.html` in a web browser for the HTML version
-   - Or integrate `apple_financial_dashboard.tsx` into a React application
+   - Or `apple_sales_dashboard.html` in a web browser for the HTML version
 
 ### Running the SEC Data Parser
 
