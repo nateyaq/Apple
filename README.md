@@ -12,8 +12,11 @@ This project demonstrates advanced data processing, financial analysis, and dash
 
 This project creates two complementary dashboards:
 1. **Sales Analytics Dashboard** (`apple_sales_dashboard.html`) - Simulated sales and territory data for business analysis scenarios
+   
    https://nateyaq.github.io/Apple/apple_sales_dashboard.html
-3. **Financial Dashboard** (`demo.html`) - Real SEC filing data from Apple Inc.
+   
+2. **Financial Dashboard** (`demo.html`) - Real SEC filing data from Apple Inc.
+   
    https://nateyaq.github.io/Apple/demo.html
 
 ### Key Features
