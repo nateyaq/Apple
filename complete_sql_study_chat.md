@@ -471,7 +471,7 @@ product_analytics (
 ### Key Requirements Summary
 
 **Position**: Business Systems Analyst - Sales & Finance Analytics
-**Location**: Cupertino, California + Various US Locations
+**Location**: Cupertino, California
 
 ### Core Responsibilities
 - Work cross-functionally with sales, finance and technical teams
