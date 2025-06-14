@@ -1,75 +1,2122 @@
 {
-  "annual": [
+  "filings": [
     {
       "date": "2024-11-01",
       "accession": "0000320193-24-000123",
-      "note2_periods": [],
-      "note10_periods": [],
+      "form_type": "10-K",
+      "note2": [
+        {
+          "product": "Mac",
+          "values": {
+            "2024": {
+              "value": 78314.0
+            }
+          }
+        }
+      ],
+      "note10": [
+        {
+          "region": "Americas",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 167045.0
+            },
+            "Period 2": {
+              "value": 162560.0
+            },
+            "Period 3": {
+              "value": 169658.0
+            }
+          }
+        },
+        {
+          "region": "Americas",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 67656.0
+            },
+            "Period 2": {
+              "value": 60508.0
+            },
+            "Period 3": {
+              "value": 62683.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 101328.0
+            },
+            "Period 2": {
+              "value": 94294.0
+            },
+            "Period 3": {
+              "value": 95118.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 41790.0
+            },
+            "Period 2": {
+              "value": 36098.0
+            },
+            "Period 3": {
+              "value": 35233.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 66952.0
+            },
+            "Period 2": {
+              "value": 72559.0
+            },
+            "Period 3": {
+              "value": 74200.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 27082.0
+            },
+            "Period 2": {
+              "value": 30328.0
+            },
+            "Period 3": {
+              "value": 31153.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 25052.0
+            },
+            "Period 2": {
+              "value": 24257.0
+            },
+            "Period 3": {
+              "value": 25977.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 12454.0
+            },
+            "Period 2": {
+              "value": 11888.0
+            },
+            "Period 3": {
+              "value": 12257.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 30658.0
+            },
+            "Period 2": {
+              "value": 29615.0
+            },
+            "Period 3": {
+              "value": 29375.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 13062.0
+            },
+            "Period 2": {
+              "value": 12066.0
+            },
+            "Period 3": {
+              "value": 11569.0
+            }
+          }
+        }
+      ],
       "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/aapl-20240928.htm"
     },
     {
       "date": "2023-11-03",
       "accession": "0000320193-23-000106",
-      "note2_periods": [],
-      "note10_periods": [],
+      "form_type": "10-K",
+      "note2": [
+        {
+          "product": "Mac",
+          "values": {
+            "2023": {
+              "value": 81060.0
+            }
+          }
+        }
+      ],
+      "note10": [
+        {
+          "region": "Americas",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 162560.0
+            },
+            "Period 2": {
+              "value": 169658.0
+            },
+            "Period 3": {
+              "value": 153306.0
+            }
+          }
+        },
+        {
+          "region": "Americas",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 60508.0
+            },
+            "Period 2": {
+              "value": 62683.0
+            },
+            "Period 3": {
+              "value": 53382.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 94294.0
+            },
+            "Period 2": {
+              "value": 95118.0
+            },
+            "Period 3": {
+              "value": 89307.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 36098.0
+            },
+            "Period 2": {
+              "value": 35233.0
+            },
+            "Period 3": {
+              "value": 32505.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 72559.0
+            },
+            "Period 2": {
+              "value": 74200.0
+            },
+            "Period 3": {
+              "value": 68366.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 30328.0
+            },
+            "Period 2": {
+              "value": 31153.0
+            },
+            "Period 3": {
+              "value": 28504.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 24257.0
+            },
+            "Period 2": {
+              "value": 25977.0
+            },
+            "Period 3": {
+              "value": 28482.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 11888.0
+            },
+            "Period 2": {
+              "value": 12257.0
+            },
+            "Period 3": {
+              "value": 12798.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 29615.0
+            },
+            "Period 2": {
+              "value": 29375.0
+            },
+            "Period 3": {
+              "value": 26356.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 12066.0
+            },
+            "Period 2": {
+              "value": 11569.0
+            },
+            "Period 3": {
+              "value": 9817.0
+            }
+          }
+        }
+      ],
       "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/aapl-20230930.htm"
     },
     {
       "date": "2022-10-28",
       "accession": "0000320193-22-000108",
-      "note2_periods": [],
-      "note10_periods": [],
+      "form_type": "10-K",
+      "note2": [
+        {
+          "product": "Services",
+          "values": {
+            "2022.0": {
+              "value": 47710.0
+            },
+            "Years ended September 24, 2022": {
+              "value": 20715.0
+            },
+            "2022": {
+              "value": 78129.0
+            },
+            "2021": {
+              "value": 53768.0
+            }
+          }
+        },
+        {
+          "product": "iPhone",
+          "values": {
+            "2022": {
+              "value": 205489.0
+            },
+            "2021": {
+              "value": 137781.0
+            }
+          }
+        },
+        {
+          "product": "Mac",
+          "values": {
+            "2022": {
+              "value": 78659.0
+            },
+            "2021": {
+              "value": 28622.0
+            }
+          }
+        },
+        {
+          "product": "Ipad",
+          "values": {
+            "2022": {
+              "value": 29292.0
+            },
+            "2021": {
+              "value": 23724.0
+            }
+          }
+        },
+        {
+          "product": "Wearables, Home and Accessories",
+          "values": {
+            "2022": {
+              "value": 41241.0
+            },
+            "2021": {
+              "value": 30620.0
+            }
+          }
+        }
+      ],
+      "note10": [
+        {
+          "region": "Americas",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 169658.0
+            },
+            "Period 2": {
+              "value": 153306.0
+            },
+            "Period 3": {
+              "value": 124556.0
+            }
+          }
+        },
+        {
+          "region": "Americas",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 62683.0
+            },
+            "Period 2": {
+              "value": 53382.0
+            },
+            "Period 3": {
+              "value": 37722.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 95118.0
+            },
+            "Period 2": {
+              "value": 89307.0
+            },
+            "Period 3": {
+              "value": 68640.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 35233.0
+            },
+            "Period 2": {
+              "value": 32505.0
+            },
+            "Period 3": {
+              "value": 22170.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 74200.0
+            },
+            "Period 2": {
+              "value": 68366.0
+            },
+            "Period 3": {
+              "value": 40308.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 31153.0
+            },
+            "Period 2": {
+              "value": 28504.0
+            },
+            "Period 3": {
+              "value": 15261.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 25977.0
+            },
+            "Period 2": {
+              "value": 28482.0
+            },
+            "Period 3": {
+              "value": 21418.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 12257.0
+            },
+            "Period 2": {
+              "value": 12798.0
+            },
+            "Period 3": {
+              "value": 9279.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 29375.0
+            },
+            "Period 2": {
+              "value": 26356.0
+            },
+            "Period 3": {
+              "value": 19593.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 11569.0
+            },
+            "Period 2": {
+              "value": 9817.0
+            },
+            "Period 3": {
+              "value": 6808.0
+            }
+          }
+        }
+      ],
       "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/aapl-20220924.htm"
     },
     {
       "date": "2021-10-29",
       "accession": "0000320193-21-000105",
-      "note2_periods": [],
-      "note10_periods": [],
+      "form_type": "10-K",
+      "note2": [
+        {
+          "product": "Services",
+          "values": {
+            "2021.0": {
+              "value": 35495.0
+            },
+            "Years ended September 25, 2021": {
+              "value": 18273.0
+            },
+            "2021": {
+              "value": 68425.0
+            },
+            "2020": {
+              "value": 46291.0
+            }
+          }
+        },
+        {
+          "product": "iPhone",
+          "values": {
+            "2021": {
+              "value": 191973.0
+            },
+            "2020": {
+              "value": 142381.0
+            }
+          }
+        },
+        {
+          "product": "Mac",
+          "values": {
+            "2021": {
+              "value": 75291.0
+            },
+            "2020": {
+              "value": 25740.0
+            }
+          }
+        },
+        {
+          "product": "Ipad",
+          "values": {
+            "2021": {
+              "value": 31862.0
+            },
+            "2020": {
+              "value": 21280.0
+            }
+          }
+        },
+        {
+          "product": "Wearables, Home and Accessories",
+          "values": {
+            "2021": {
+              "value": 38367.0
+            },
+            "2020": {
+              "value": 24482.0
+            }
+          }
+        }
+      ],
+      "note10": [
+        {
+          "region": "Americas",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 153306.0
+            },
+            "Period 2": {
+              "value": 124556.0
+            },
+            "Period 3": {
+              "value": 116914.0
+            }
+          }
+        },
+        {
+          "region": "Americas",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 53382.0
+            },
+            "Period 2": {
+              "value": 37722.0
+            },
+            "Period 3": {
+              "value": 35099.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 89307.0
+            },
+            "Period 2": {
+              "value": 68640.0
+            },
+            "Period 3": {
+              "value": 60288.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 32505.0
+            },
+            "Period 2": {
+              "value": 22170.0
+            },
+            "Period 3": {
+              "value": 19195.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 68366.0
+            },
+            "Period 2": {
+              "value": 40308.0
+            },
+            "Period 3": {
+              "value": 43678.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 28504.0
+            },
+            "Period 2": {
+              "value": 15261.0
+            },
+            "Period 3": {
+              "value": 16232.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 28482.0
+            },
+            "Period 2": {
+              "value": 21418.0
+            },
+            "Period 3": {
+              "value": 21506.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 12798.0
+            },
+            "Period 2": {
+              "value": 9279.0
+            },
+            "Period 3": {
+              "value": 9369.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 26356.0
+            },
+            "Period 2": {
+              "value": 19593.0
+            },
+            "Period 3": {
+              "value": 17788.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 9817.0
+            },
+            "Period 2": {
+              "value": 6808.0
+            },
+            "Period 3": {
+              "value": 6055.0
+            }
+          }
+        }
+      ],
       "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019321000105/aapl-20210925.htm"
     },
     {
       "date": "2020-10-30",
       "accession": "0000320193-20-000096",
-      "note2_periods": [],
-      "note10_periods": [],
+      "form_type": "10-K",
+      "note2": [
+        {
+          "product": "Services",
+          "values": {
+            "2020.0": {
+              "value": 29505.0
+            },
+            "Years ended September 26, 2020": {
+              "value": 16786.0
+            },
+            "2020": {
+              "value": 53768.0
+            },
+            "2019": {
+              "value": 39748.0
+            }
+          }
+        },
+        {
+          "product": "iPhone",
+          "values": {
+            "2020": {
+              "value": 137781.0
+            },
+            "2019": {
+              "value": 164888.0
+            }
+          }
+        },
+        {
+          "product": "Mac",
+          "values": {
+            "2020": {
+              "value": 69797.0
+            },
+            "2019": {
+              "value": 25198.0
+            }
+          }
+        },
+        {
+          "product": "Ipad",
+          "values": {
+            "2020": {
+              "value": 23724.0
+            },
+            "2019": {
+              "value": 18380.0
+            }
+          }
+        },
+        {
+          "product": "Wearables, Home and Accessories",
+          "values": {
+            "2020": {
+              "value": 30620.0
+            },
+            "2019": {
+              "value": 17381.0
+            }
+          }
+        }
+      ],
+      "note10": [
+        {
+          "region": "Americas",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 124556.0
+            },
+            "Period 2": {
+              "value": 116914.0
+            },
+            "Period 3": {
+              "value": 112093.0
+            }
+          }
+        },
+        {
+          "region": "Americas",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 37722.0
+            },
+            "Period 2": {
+              "value": 35099.0
+            },
+            "Period 3": {
+              "value": 34864.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 68640.0
+            },
+            "Period 2": {
+              "value": 60288.0
+            },
+            "Period 3": {
+              "value": 62420.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 22170.0
+            },
+            "Period 2": {
+              "value": 19195.0
+            },
+            "Period 3": {
+              "value": 19955.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 40308.0
+            },
+            "Period 2": {
+              "value": 43678.0
+            },
+            "Period 3": {
+              "value": 51942.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 15261.0
+            },
+            "Period 2": {
+              "value": 16232.0
+            },
+            "Period 3": {
+              "value": 19742.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 21418.0
+            },
+            "Period 2": {
+              "value": 21506.0
+            },
+            "Period 3": {
+              "value": 21733.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 9279.0
+            },
+            "Period 2": {
+              "value": 9369.0
+            },
+            "Period 3": {
+              "value": 9500.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 19593.0
+            },
+            "Period 2": {
+              "value": 17788.0
+            },
+            "Period 3": {
+              "value": 17407.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 6808.0
+            },
+            "Period 2": {
+              "value": 6055.0
+            },
+            "Period 3": {
+              "value": 6181.0
+            }
+          }
+        }
+      ],
       "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000096/aapl-20200926.htm"
-    }
-  ],
-  "quarterly": [
+    },
     {
       "date": "2025-05-02",
       "accession": "0000320193-25-000057",
-      "note2_periods": [],
-      "note10_periods": [],
+      "form_type": "10-Q",
+      "note2": [
+        {
+          "product": "iPhone",
+          "values": {
+            "Three Months Ended": {
+              "value": 45963.0
+            },
+            "Six Months Ended": {
+              "value": 115979.0
+            },
+            "None": {
+              "value": 115665.0
+            }
+          }
+        },
+        {
+          "product": "Mac",
+          "values": {
+            "Three Months Ended": {
+              "value": 7451.0
+            },
+            "Six Months Ended": {
+              "value": 16936.0
+            },
+            "None": {
+              "value": 11.0
+            }
+          }
+        },
+        {
+          "product": "Ipad",
+          "values": {
+            "Three Months Ended": {
+              "value": 5559.0
+            },
+            "Six Months Ended": {
+              "value": 14490.0
+            },
+            "None": {
+              "value": 15.0
+            }
+          }
+        },
+        {
+          "product": "Wearables, Home and Accessories",
+          "values": {
+            "Three Months Ended": {
+              "value": 7913.0
+            },
+            "Six Months Ended": {
+              "value": 19269.0
+            },
+            "None": {
+              "value": 3.0
+            }
+          }
+        },
+        {
+          "product": "Services",
+          "values": {
+            "Three Months Ended": {
+              "value": 17809.0
+            },
+            "Six Months Ended": {
+              "value": 34646.0
+            },
+            "None": {
+              "value": 13.0
+            }
+          }
+        }
+      ],
+      "note10": [
+        {
+          "region": "Americas",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 40315.0
+            },
+            "Period 2": {
+              "value": 37273.0
+            },
+            "Period 3": {
+              "value": 92963.0
+            },
+            "Period 4": {
+              "value": 87703.0
+            }
+          }
+        },
+        {
+          "region": "Americas",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 16774.0
+            },
+            "Period 2": {
+              "value": 15074.0
+            },
+            "Period 3": {
+              "value": 38283.0
+            },
+            "Period 4": {
+              "value": 35431.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 24454.0
+            },
+            "Period 2": {
+              "value": 24123.0
+            },
+            "Period 3": {
+              "value": 58315.0
+            },
+            "Period 4": {
+              "value": 54520.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 10316.0
+            },
+            "Period 2": {
+              "value": 9991.0
+            },
+            "Period 3": {
+              "value": 24923.0
+            },
+            "Period 4": {
+              "value": 22702.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 16002.0
+            },
+            "Period 2": {
+              "value": 16372.0
+            },
+            "Period 3": {
+              "value": 34515.0
+            },
+            "Period 4": {
+              "value": 37191.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 6626.0
+            },
+            "Period 2": {
+              "value": 6700.0
+            },
+            "Period 3": {
+              "value": 14786.0
+            },
+            "Period 4": {
+              "value": 15322.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 7298.0
+            },
+            "Period 2": {
+              "value": 6262.0
+            },
+            "Period 3": {
+              "value": 16285.0
+            },
+            "Period 4": {
+              "value": 14029.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 3434.0
+            },
+            "Period 2": {
+              "value": 3135.0
+            },
+            "Period 3": {
+              "value": 7748.0
+            },
+            "Period 4": {
+              "value": 6954.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 7290.0
+            },
+            "Period 2": {
+              "value": 6723.0
+            },
+            "Period 3": {
+              "value": 17581.0
+            },
+            "Period 4": {
+              "value": 16885.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 2986.0
+            },
+            "Period 2": {
+              "value": 2806.0
+            },
+            "Period 3": {
+              "value": 7570.0
+            },
+            "Period 4": {
+              "value": 7385.0
+            }
+          }
+        }
+      ],
       "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000057/aapl-20250329.htm"
     },
     {
       "date": "2025-01-31",
       "accession": "0000320193-25-000008",
-      "note2_periods": [],
-      "note10_periods": [],
+      "form_type": "10-Q",
+      "note2": [
+        {
+          "product": "iPhone",
+          "values": {
+            "Three Months Ended": {
+              "value": 69702.0
+            }
+          }
+        },
+        {
+          "product": "Mac",
+          "values": {
+            "Three Months Ended": {
+              "value": 7780.0
+            }
+          }
+        },
+        {
+          "product": "Ipad",
+          "values": {
+            "Three Months Ended": {
+              "value": 7023.0
+            }
+          }
+        },
+        {
+          "product": "Wearables, Home and Accessories",
+          "values": {
+            "Three Months Ended": {
+              "value": 11953.0
+            }
+          }
+        },
+        {
+          "product": "Services",
+          "values": {
+            "Three Months Ended": {
+              "value": 16837.0
+            }
+          }
+        }
+      ],
+      "note10": [
+        {
+          "region": "Americas",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 52648.0
+            },
+            "Period 2": {
+              "value": 50430.0
+            }
+          }
+        },
+        {
+          "region": "Americas",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 21509.0
+            },
+            "Period 2": {
+              "value": 20357.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 33861.0
+            },
+            "Period 2": {
+              "value": 30397.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 14607.0
+            },
+            "Period 2": {
+              "value": 12711.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 18513.0
+            },
+            "Period 2": {
+              "value": 20819.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 8160.0
+            },
+            "Period 2": {
+              "value": 8622.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 8987.0
+            },
+            "Period 2": {
+              "value": 7767.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 4314.0
+            },
+            "Period 2": {
+              "value": 3819.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 10291.0
+            },
+            "Period 2": {
+              "value": 10162.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 4584.0
+            },
+            "Period 2": {
+              "value": 4579.0
+            }
+          }
+        }
+      ],
       "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000008/aapl-20241228.htm"
     },
     {
       "date": "2024-08-02",
       "accession": "0000320193-24-000081",
-      "note2_periods": [],
-      "note10_periods": [],
+      "form_type": "10-Q",
+      "note2": [
+        {
+          "product": "iPhone",
+          "values": {
+            "Three Months Ended": {
+              "value": 39669.0
+            },
+            "Nine Months Ended": {
+              "value": 154961.0
+            },
+            "None": {
+              "value": 1.0
+            }
+          }
+        },
+        {
+          "product": "Mac",
+          "values": {
+            "Three Months Ended": {
+              "value": 6840.0
+            },
+            "Nine Months Ended": {
+              "value": 22240.0
+            },
+            "None": {
+              "value": 2.0
+            }
+          }
+        },
+        {
+          "product": "Ipad",
+          "values": {
+            "Three Months Ended": {
+              "value": 5791.0
+            },
+            "Nine Months Ended": {
+              "value": 19744.0
+            },
+            "None": {
+              "value": 10.0
+            }
+          }
+        },
+        {
+          "product": "Wearables, Home and Accessories",
+          "values": {
+            "Three Months Ended": {
+              "value": 8284.0
+            },
+            "Nine Months Ended": {
+              "value": 27963.0
+            },
+            "None": {
+              "value": 8.0
+            }
+          }
+        },
+        {
+          "product": "Services",
+          "values": {
+            "Three Months Ended": {
+              "value": 14965.0
+            },
+            "Nine Months Ended": {
+              "value": 44516.0
+            },
+            "None": {
+              "value": 13.0
+            }
+          }
+        }
+      ],
+      "note10": [
+        {
+          "region": "Americas",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 37678.0
+            },
+            "Period 2": {
+              "value": 35383.0
+            },
+            "Period 3": {
+              "value": 125381.0
+            },
+            "Period 4": {
+              "value": 122445.0
+            }
+          }
+        },
+        {
+          "region": "Americas",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 15209.0
+            },
+            "Period 2": {
+              "value": 13117.0
+            },
+            "Period 3": {
+              "value": 50640.0
+            },
+            "Period 4": {
+              "value": 44908.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 21884.0
+            },
+            "Period 2": {
+              "value": 20205.0
+            },
+            "Period 3": {
+              "value": 76404.0
+            },
+            "Period 4": {
+              "value": 71831.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 9170.0
+            },
+            "Period 2": {
+              "value": 7995.0
+            },
+            "Period 3": {
+              "value": 31872.0
+            },
+            "Period 4": {
+              "value": 27380.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 14728.0
+            },
+            "Period 2": {
+              "value": 15758.0
+            },
+            "Period 3": {
+              "value": 51919.0
+            },
+            "Period 4": {
+              "value": 57475.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 5562.0
+            },
+            "Period 2": {
+              "value": 6207.0
+            },
+            "Period 3": {
+              "value": 20884.0
+            },
+            "Period 4": {
+              "value": 24175.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 5097.0
+            },
+            "Period 2": {
+              "value": 4821.0
+            },
+            "Period 3": {
+              "value": 19126.0
+            },
+            "Period 4": {
+              "value": 18752.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 2544.0
+            },
+            "Period 2": {
+              "value": 2443.0
+            },
+            "Period 3": {
+              "value": 9498.0
+            },
+            "Period 4": {
+              "value": 9073.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 6390.0
+            },
+            "Period 2": {
+              "value": 5630.0
+            },
+            "Period 3": {
+              "value": 23275.0
+            },
+            "Period 4": {
+              "value": 23284.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 2610.0
+            },
+            "Period 2": {
+              "value": 2328.0
+            },
+            "Period 3": {
+              "value": 9995.0
+            },
+            "Period 4": {
+              "value": 9447.0
+            }
+          }
+        }
+      ],
       "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000081/aapl-20240629.htm"
     },
     {
       "date": "2024-05-03",
       "accession": "0000320193-24-000069",
-      "note2_periods": [],
-      "note10_periods": [],
+      "form_type": "10-Q",
+      "note2": [
+        {
+          "product": "iPhone",
+          "values": {
+            "Three Months Ended": {
+              "value": 51334.0
+            },
+            "Six Months Ended": {
+              "value": 115665.0
+            },
+            "None": {
+              "value": 1.0
+            }
+          }
+        },
+        {
+          "product": "Mac",
+          "values": {
+            "Three Months Ended": {
+              "value": 7168.0
+            },
+            "Six Months Ended": {
+              "value": 15231.0
+            },
+            "None": {
+              "value": 2.0
+            }
+          }
+        },
+        {
+          "product": "Ipad",
+          "values": {
+            "Three Months Ended": {
+              "value": 6670.0
+            },
+            "Six Months Ended": {
+              "value": 12582.0
+            },
+            "None": {
+              "value": 22.0
+            }
+          }
+        },
+        {
+          "product": "Wearables, Home and Accessories",
+          "values": {
+            "Three Months Ended": {
+              "value": 8757.0
+            },
+            "Six Months Ended": {
+              "value": 19866.0
+            },
+            "None": {
+              "value": 11.0
+            }
+          }
+        },
+        {
+          "product": "Services",
+          "values": {
+            "Three Months Ended": {
+              "value": 14842.0
+            },
+            "Six Months Ended": {
+              "value": 29551.0
+            },
+            "None": {
+              "value": 13.0
+            }
+          }
+        }
+      ],
+      "note10": [
+        {
+          "region": "Americas",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 37273.0
+            },
+            "Period 2": {
+              "value": 37784.0
+            },
+            "Period 3": {
+              "value": 87703.0
+            },
+            "Period 4": {
+              "value": 87062.0
+            }
+          }
+        },
+        {
+          "region": "Americas",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 15074.0
+            },
+            "Period 2": {
+              "value": 13927.0
+            },
+            "Period 3": {
+              "value": 35431.0
+            },
+            "Period 4": {
+              "value": 31791.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 24123.0
+            },
+            "Period 2": {
+              "value": 23945.0
+            },
+            "Period 3": {
+              "value": 54520.0
+            },
+            "Period 4": {
+              "value": 51626.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 9991.0
+            },
+            "Period 2": {
+              "value": 9368.0
+            },
+            "Period 3": {
+              "value": 22702.0
+            },
+            "Period 4": {
+              "value": 19385.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 16372.0
+            },
+            "Period 2": {
+              "value": 17812.0
+            },
+            "Period 3": {
+              "value": 37191.0
+            },
+            "Period 4": {
+              "value": 41717.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 6700.0
+            },
+            "Period 2": {
+              "value": 7531.0
+            },
+            "Period 3": {
+              "value": 15322.0
+            },
+            "Period 4": {
+              "value": 17968.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 6262.0
+            },
+            "Period 2": {
+              "value": 7176.0
+            },
+            "Period 3": {
+              "value": 14029.0
+            },
+            "Period 4": {
+              "value": 13931.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 3135.0
+            },
+            "Period 2": {
+              "value": 3394.0
+            },
+            "Period 3": {
+              "value": 6954.0
+            },
+            "Period 4": {
+              "value": 6630.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 6723.0
+            },
+            "Period 2": {
+              "value": 8119.0
+            },
+            "Period 3": {
+              "value": 16885.0
+            },
+            "Period 4": {
+              "value": 17654.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 2806.0
+            },
+            "Period 2": {
+              "value": 3268.0
+            },
+            "Period 3": {
+              "value": 7385.0
+            },
+            "Period 4": {
+              "value": 7119.0
+            }
+          }
+        }
+      ],
       "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000069/aapl-20240330.htm"
     },
     {
       "date": "2024-02-02",
       "accession": "0000320193-24-000006",
-      "note2_periods": [],
-      "note10_periods": [],
+      "form_type": "10-Q",
+      "note2": [
+        {
+          "product": "iPhone",
+          "values": {
+            "Three Months Ended": {
+              "value": 65775.0
+            }
+          }
+        },
+        {
+          "product": "Mac",
+          "values": {
+            "Three Months Ended": {
+              "value": 7735.0
+            }
+          }
+        },
+        {
+          "product": "Ipad",
+          "values": {
+            "Three Months Ended": {
+              "value": 9396.0
+            }
+          }
+        },
+        {
+          "product": "Wearables, Home and Accessories",
+          "values": {
+            "Three Months Ended": {
+              "value": 13482.0
+            }
+          }
+        },
+        {
+          "product": "Services",
+          "values": {
+            "Three Months Ended": {
+              "value": 14709.0
+            }
+          }
+        }
+      ],
+      "note10": [
+        {
+          "region": "Americas",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 50430.0
+            },
+            "Period 2": {
+              "value": 49278.0
+            }
+          }
+        },
+        {
+          "region": "Americas",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 20357.0
+            },
+            "Period 2": {
+              "value": 17864.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 30397.0
+            },
+            "Period 2": {
+              "value": 27681.0
+            }
+          }
+        },
+        {
+          "region": "Europe",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 12711.0
+            },
+            "Period 2": {
+              "value": 10017.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 20819.0
+            },
+            "Period 2": {
+              "value": 23905.0
+            }
+          }
+        },
+        {
+          "region": "Greater China",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 8622.0
+            },
+            "Period 2": {
+              "value": 10437.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 7767.0
+            },
+            "Period 2": {
+              "value": 6755.0
+            }
+          }
+        },
+        {
+          "region": "Japan",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 3819.0
+            },
+            "Period 2": {
+              "value": 3236.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Net sales",
+          "values": {
+            "Period 1": {
+              "value": 10162.0
+            },
+            "Period 2": {
+              "value": 9535.0
+            }
+          }
+        },
+        {
+          "region": "Rest of Asia Pacific",
+          "metric": "Operating income",
+          "values": {
+            "Period 1": {
+              "value": 4579.0
+            },
+            "Period 2": {
+              "value": 3851.0
+            }
+          }
+        }
+      ],
       "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000006/aapl-20231230.htm"
     }
   ]

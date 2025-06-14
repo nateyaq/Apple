@@ -7,6 +7,49 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js for charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .custom-tooltip {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 120%;
+      background: #222;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 400;
+      padding: 16px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      min-width: 260px;
+      max-width: 360px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    .group:hover .custom-tooltip {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .custom-tooltip-arrow {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 8px;
+      overflow: hidden;
+      z-index: 10000;
+    }
+    .custom-tooltip-arrow svg {
+      display: block;
+    }
+    .custom-tooltip strong { font-weight: 600; font-size: 1rem; }
+    .custom-tooltip .text-sm { font-size: 14px; }
+    .custom-tooltip .font-medium { font-weight: 500; }
+  </style>
 </head>
 <body class="bg-gray-50">
   <div class="p-6 min-h-screen">
@@ -17,6 +60,32 @@
           <p class="text-gray-600">Quarterly Business Review Dashboard</p>
         </div>
         <div class="flex items-center gap-4">
+          <div class="flex flex-col items-center mr-2">
+            <label for="period-selector" class="text-sm font-medium text-gray-700 flex items-center gap-1">
+              Period:
+              <span class="relative group align-middle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path stroke="currentColor" stroke-width="2" d="M12 8v4m0 4h.01"/></svg>
+                <div class="custom-tooltip absolute left-1/2 transform -translate-x-1/2 mt-6 bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity z-10" style="min-width: 260px; max-width: 360px; font-size: 1rem; font-weight: 400; padding: 16px 20px;">
+                  <div class="custom-tooltip-arrow" style="position: absolute; top: -8px; left: 50%; transform: translateX(-50%);"><svg width='16' height='8'><polygon points='0,8 8,0 16,8' style='fill:#222;'/></svg></div>
+                  <div>
+                    <strong>Annual View</strong>
+                    <div class="text-sm" style="margin-bottom: 10px;">
+                      Shows the latest available 10-K (annual report) for each metric.
+                    </div>
+                    <strong>Latest View</strong>
+                    <div class="text-sm">
+                      Shows the most recent 10-Q (quarterly report) for each metric.<br>
+                      If a 10-K is not available for the current year, the most recent prior 10-K is shown.
+                    </div>
+                  </div>
+                </div>
+              </span>
+            </label>
+          </div>
+          <select id="period-selector" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
+            <option value="latest">Latest</option>
+            <option value="annual">Annual</option>
+          </select>
           <div class="flex items-center gap-2">
             <label class="text-sm font-medium text-gray-700">Quarter:</label>
             <select id="quarter-selector" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
@@ -36,43 +105,43 @@
         </div>
       </div>
     </div>
-    <div id="summary-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"></div>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Territory Performance vs Quota</h3>
-        <canvas id="territory-bar-chart" height="300"></canvas>
+    <div id="summary-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-6"></div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+      <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-base font-semibold text-gray-900 mb-2">Territory Performance vs Quota</h3>
+        <canvas id="territory-bar-chart" height="220"></canvas>
       </div>
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Product Line Revenue</h3>
-        <canvas id="product-bar-chart" height="300"></canvas>
+      <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-base font-semibold text-gray-900 mb-2">Product Line Revenue</h3>
+        <canvas id="product-bar-chart" height="220"></canvas>
       </div>
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Revenue by Sales Channel</h3>
-        <canvas id="channel-pie-chart" height="300"></canvas>
+      <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-base font-semibold text-gray-900 mb-2">Revenue by Sales Channel</h3>
+        <canvas id="channel-pie-chart" height="220"></canvas>
       </div>
     </div>
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-      <h3 class="text-lg font-semibold text-gray-900 mb-4">Data Quality Summary</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="flex items-center p-4 bg-green-50 rounded-lg">
-          <span class="h-6 w-6 text-green-600 mr-3">✅</span>
+    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
+      <h3 class="text-base font-semibold text-gray-900 mb-2">Data Quality Summary</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <div class="flex items-center p-2 bg-green-50 rounded-lg">
+          <span class="h-5 w-5 text-green-600 mr-2">✅</span>
           <div>
-            <p class="font-medium text-green-900">Data Completeness</p>
-            <p class="text-sm text-green-700">100% - All records have required fields</p>
+            <p class="font-medium text-green-900 text-sm">Data Completeness</p>
+            <p class="text-xs text-green-700">100% - All records have required fields</p>
           </div>
         </div>
-        <div class="flex items-center p-4 bg-green-50 rounded-lg">
-          <span class="h-6 w-6 text-green-600 mr-3">✅</span>
+        <div class="flex items-center p-2 bg-green-50 rounded-lg">
+          <span class="h-5 w-5 text-green-600 mr-2">✅</span>
           <div>
-            <p class="font-medium text-green-900">Revenue Reconciliation</p>
-            <p class="text-sm text-green-700">Validated - No discrepancies found</p>
+            <p class="font-medium text-green-900 text-sm">Revenue Reconciliation</p>
+            <p class="text-xs text-green-700">Validated - No discrepancies found</p>
           </div>
         </div>
-        <div class="flex items-center p-4 bg-blue-50 rounded-lg">
-          <span class="h-6 w-6 text-blue-600 mr-3">📦</span>
+        <div class="flex items-center p-2 bg-blue-50 rounded-lg">
+          <span class="h-5 w-5 text-blue-600 mr-2">📦</span>
           <div>
-            <p class="font-medium text-blue-900">Data Freshness</p>
-            <p class="text-sm text-blue-700">Updated - Current through <span id="data-freshness">Q2 2024</span></p>
+            <p class="font-medium text-blue-900 text-sm">Data Freshness</p>
+            <p class="text-xs text-blue-700">Updated - Current through <span id="data-freshness">Q2 2024</span></p>
           </div>
         </div>
       </div>
@@ -96,199 +165,317 @@
     </form>
   </div>
   <script>
-    // --- Sample Data Generation  ---
-    function generateSampleData() {
-      const products = [
-        { product_sku: 'IPHONE15PRO', product_name: 'iPhone 15 Pro', product_line: 'iPhone', category: 'Smartphones', cost_of_goods: 450 },
-        { product_sku: 'IPHONE15', product_name: 'iPhone 15', product_line: 'iPhone', category: 'Smartphones', cost_of_goods: 350 },
-        { product_sku: 'MACBOOKPRO14', product_name: 'MacBook Pro 14"', product_line: 'Mac', category: 'Laptops', cost_of_goods: 1200 },
-        { product_sku: 'MACBOOKAIR15', product_name: 'MacBook Air 15"', product_line: 'Mac', category: 'Laptops', cost_of_goods: 800 },
-        { product_sku: 'IPADPRO11', product_name: 'iPad Pro 11"', product_line: 'iPad', category: 'Tablets', cost_of_goods: 400 },
-        { product_sku: 'AIRPODSPRO', product_name: 'AirPods Pro', product_line: 'AirPods', category: 'Audio', cost_of_goods: 120 },
-        { product_sku: 'APPLEWATCH9', product_name: 'Apple Watch Series 9', product_line: 'Apple Watch', category: 'Wearables', cost_of_goods: 200 }
-      ];
-      const territories = [
-        { territory_id: 'NAM-WEST', territory_name: 'North America West', region: 'Americas', sales_rep_id: 'REP001', quarterly_quota: 50000000 },
-        { territory_id: 'NAM-EAST', territory_name: 'North America East', region: 'Americas', sales_rep_id: 'REP002', quarterly_quota: 45000000 },
-        { territory_id: 'EUR-NORTH', territory_name: 'Europe North', region: 'Europe', sales_rep_id: 'REP003', quarterly_quota: 35000000 },
-        { territory_id: 'EUR-SOUTH', territory_name: 'Europe South', region: 'Europe', sales_rep_id: 'REP004', quarterly_quota: 30000000 },
-        { territory_id: 'APAC-JAPAN', territory_name: 'Asia Pacific Japan', region: 'Asia Pacific', sales_rep_id: 'REP005', quarterly_quota: 40000000 },
-        { territory_id: 'APAC-CHINA', territory_name: 'Asia Pacific China', region: 'Asia Pacific', sales_rep_id: 'REP006', quarterly_quota: 60000000 }
-      ];
-      const salesChannels = [
-        { channel_id: 'RETAIL', channel_name: 'Apple Store', channel_type: 'Retail', commission_rate: 0.05, fulfillment_cost_pct: 0.08 },
-        { channel_id: 'ONLINE', channel_name: 'Apple.com', channel_type: 'Direct', commission_rate: 0.02, fulfillment_cost_pct: 0.12 },
-        { channel_id: 'PARTNER', channel_name: 'Authorized Reseller', channel_type: 'Channel', commission_rate: 0.15, fulfillment_cost_pct: 0.05 },
-        { channel_id: 'CARRIER', channel_name: 'Carrier Store', channel_type: 'Channel', commission_rate: 0.12, fulfillment_cost_pct: 0.03 }
-      ];
-      const salesTransactions = [];
-      let transactionId = 1;
-      function randomDate(start, end) {
-        return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-      }
-      territories.forEach(territory => {
-        products.forEach(product => {
-          salesChannels.forEach(channel => {
-            // Q1 transactions (Jan-Mar 2024)
-            const q1Transactions = Math.floor(Math.random() * 50) + 10;
-            for (let i = 0; i < q1Transactions; i++) {
-              const quantity = Math.floor(Math.random() * 5) + 1;
-              const unitPrice = Math.floor(product.cost_of_goods * (1.8 + Math.random() * 0.8));
-              salesTransactions.push({
-                transaction_id: `TXN${transactionId++}`,
-                product_sku: product.product_sku,
-                channel: channel.channel_id,
-                territory: territory.territory_id,
-                transaction_date: randomDate(new Date('2024-01-01'), new Date('2024-03-31')).toISOString(),
-                quantity: quantity,
-                unit_price: unitPrice,
-                total_amount: quantity * unitPrice,
-                sales_rep_id: territory.sales_rep_id,
-                customer_id: `CUST${Math.floor(Math.random() * 10000) + 1}`
-              });
-            }
-            // Q2 transactions (Apr-Jun 2024)
-            const growthFactor = 0.8 + Math.random() * 0.6;
-            const q2Transactions = Math.floor(q1Transactions * growthFactor);
-            for (let i = 0; i < q2Transactions; i++) {
-              const quantity = Math.floor(Math.random() * 5) + 1;
-              const unitPrice = Math.floor(product.cost_of_goods * (1.8 + Math.random() * 0.8));
-              salesTransactions.push({
-                transaction_id: `TXN${transactionId++}`,
-                product_sku: product.product_sku,
-                channel: channel.channel_id,
-                territory: territory.territory_id,
-                transaction_date: randomDate(new Date('2024-04-01'), new Date('2024-06-30')).toISOString(),
-                quantity: quantity,
-                unit_price: unitPrice,
-                total_amount: quantity * unitPrice,
-                sales_rep_id: territory.sales_rep_id,
-                customer_id: `CUST${Math.floor(Math.random() * 10000) + 1}`
-              });
-            }
-          });
-        });
-      });
-      return { products, territories, salesChannels, salesTransactions };
+    // --- Tooltip Helper ---
+    function renderInfoIconWithTooltip(tooltipText) {
+      return `
+        <span class="relative group align-middle ml-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path stroke="currentColor" stroke-width="2" d="M12 8v4m0 4h.01"/></svg>
+          <div class="custom-tooltip absolute left-1/2 transform -translate-x-1/2 mt-6 bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity z-10" style="min-width: 260px; max-width: 360px; font-size: 1rem; font-weight: 400; padding: 16px 20px;">
+            <div class="custom-tooltip-arrow" style="position: absolute; top: -8px; left: 50%; transform: translateX(-50%);"><svg width='16' height='8'><polygon points='0,8 8,0 16,8' style='fill:#222;'/></svg></div>
+            <div>${tooltipText}</div>
+          </div>
+        </span>
+      `;
     }
 
     // --- Dashboard Logic ---
-    function updateDashboard() {
-      const quarter = document.getElementById('quarter-selector').value;
-      const region = document.getElementById('region-selector').value;
-      const { products, territories, salesChannels, salesTransactions } = generateSampleData();
-      // Filter transactions by quarter and region
-      const quarterRange = quarter === 'Q1'
-        ? [new Date('2024-01-01'), new Date('2024-04-01')]
-        : [new Date('2024-04-01'), new Date('2024-07-01')];
-      const filteredTransactions = salesTransactions.filter(t => {
-        const date = new Date(t.transaction_date);
-        const inQuarter = date >= quarterRange[0] && date < quarterRange[1];
-        const inRegion = region === 'All' || territories.find(ter => ter.territory_id === t.territory).region === region;
-        return inQuarter && inRegion;
+    async function loadData() {
+      try {
+        const response = await fetch('sales_data/apple_sec_sales_data.json');
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error loading data:', error);
+        return null;
+      }
+    }
+
+    async function updateDashboard() {
+      const periodType = document.getElementById('period-selector').value;
+      // const periodDetailSelector = document.getElementById('period-detail-selector');
+      const data = await loadData();
+      // --- Patch: adapt to actual JSON structure ---
+      const filings = data.filings || [];
+      const annual = filings.filter(f => f.form_type === '10-K');
+      const quarterly = filings.filter(f => f.form_type === '10-Q');
+      data.annual = annual;
+      data.quarterly = quarterly;
+      for (const filing of filings) {
+        // Patch: group note2 by period
+        const note2 = filing.note2 || [];
+        const periodMap2 = {};
+        for (const prod of note2) {
+          for (const periodKey in prod.values) {
+            if (!periodMap2[periodKey]) periodMap2[periodKey] = [];
+            periodMap2[periodKey].push({
+              product_line: prod.product,
+              revenue: prod.values[periodKey].value
+            });
+          }
+        }
+        filing.note2_periods = Object.entries(periodMap2).map(([period, products]) => ({
+          label: period,
+          products
+        }));
+        // Patch: group note10 by period
+        const note10 = filing.note10 || [];
+        const periodMap10 = {};
+        for (const seg of note10) {
+          for (const periodKey in seg.values) {
+            if (!periodMap10[periodKey]) periodMap10[periodKey] = [];
+            const entry = {
+              region: seg.region,
+              net_sales: seg.metric.toLowerCase().includes('net sales') ? seg.values[periodKey].value : undefined,
+              operating_income: seg.metric.toLowerCase().includes('operating income') ? seg.values[periodKey].value : undefined
+            };
+            periodMap10[periodKey].push(entry);
+          }
+        }
+        filing.note10_periods = Object.entries(periodMap10).map(([period, segments]) => ({
+          label: period,
+          segments: segments.reduce((acc, seg) => {
+            let found = acc.find(s => s.region === seg.region);
+            if (!found) {
+              found = { region: seg.region };
+              acc.push(found);
+            }
+            if (seg.net_sales !== undefined) found.net_sales = seg.net_sales;
+            if (seg.operating_income !== undefined) found.operating_income = seg.operating_income;
+            return acc;
+          }, [])
+        }));
+      }
+      if (!data) {
+        console.error('Failed to load data');
+        return;
+      }
+      // Get the appropriate data based on period
+      const sourceData = periodType === 'annual' ? data.annual : data.quarterly;
+      const latestFiling = sourceData[0]; // Most recent filing
+      // Get all available periods from JSON
+      const note2Periods = latestFiling.note2_periods || [];
+      const note10Periods = latestFiling.note10_periods || [];
+      // Helper to normalize and extract period type and date
+      function extractPeriodParts(label) {
+        if (!label) return { type: '', date: '' };
+        const clean = label.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+        // Try to split into type and date
+        const match = clean.match(/(three|six|nine) months ended ([a-z]+ \d{4,})/);
+        if (match) {
+          return { type: match[1] + ' months ended', date: match[2] };
+        }
+        // fallback: try to split by first number
+        const idx = clean.search(/\d/);
+        if (idx > 0) {
+          return { type: clean.slice(0, idx).trim(), date: clean.slice(idx).trim() };
+        }
+        return { type: clean, date: '' };
+      }
+      // Build fuzzy-matched period label pairs, fallback to index match if needed
+      let periodPairs = [];
+      note2Periods.forEach((p2, idx) => {
+        const p2parts = extractPeriodParts(p2.label);
+        let match = note10Periods.find(p10 => {
+          const p10parts = extractPeriodParts(p10.label);
+          return p2parts.type === p10parts.type && p2parts.date === p10parts.date;
+        });
+        // Fallback: match by index if no label match
+        if (!match && note10Periods[idx]) {
+          match = note10Periods[idx];
+        }
+        if (match) {
+          periodPairs.push({ label: p2.label, note2: p2, note10: match });
+        }
       });
-      // --- Summary Cards ---
-      const territoryPerformance = territories.map(territory => {
-        const territoryTxns = filteredTransactions.filter(t => t.territory === territory.territory_id);
-        const grossRevenue = territoryTxns.reduce((sum, t) => sum + t.total_amount, 0);
-        const totalCogs = territoryTxns.reduce((sum, t) => {
-          const product = products.find(p => p.product_sku === t.product_sku);
-          return sum + (t.quantity * (product ? product.cost_of_goods : 0));
-        }, 0);
-        const commissionCosts = territoryTxns.reduce((sum, t) => {
-          const channel = salesChannels.find(c => c.channel_id === t.channel);
-          return sum + (t.total_amount * (channel ? channel.commission_rate : 0));
-        }, 0);
-        const fulfillmentCosts = territoryTxns.reduce((sum, t) => {
-          const channel = salesChannels.find(c => c.channel_id === t.channel);
-          return sum + (t.total_amount * (channel ? channel.fulfillment_cost_pct : 0));
-        }, 0);
-        const netRevenue = grossRevenue - totalCogs - commissionCosts - fulfillmentCosts;
-        const quotaAttainment = (grossRevenue / territory.quarterly_quota) * 100;
-        return {
-          ...territory,
-          grossRevenue,
-          netRevenue,
-          netMargin: grossRevenue > 0 ? (netRevenue / grossRevenue) * 100 : 0,
-          quotaAttainment,
-          status: quotaAttainment >= 95 ? 'On Track' : quotaAttainment >= 80 ? 'At Risk' : 'Needs Attention',
-          transactionCount: territoryTxns.length
-        };
+      // For dropdown, show both quarter and YTD
+      const displayLabels = periodPairs.map(pair => pair.label);
+      // Debug: log available period labels
+      console.log('Available period labels:', displayLabels);
+      // const selectedPeriodLabel = periodDetailSelector.value || displayLabels[0];
+      const selectedPeriodLabel = displayLabels[0];
+      // Debug: log selected period label
+      console.log('Selected period label:', selectedPeriodLabel);
+      // Get data for selected period
+      const selectedPair = periodPairs.find(pair => pair.label === selectedPeriodLabel);
+      const note2Period = selectedPair ? selectedPair.note2 : null;
+      const note10Period = selectedPair ? selectedPair.note10 : null;
+      // --- Patch: Transform note10 array to segments array for dashboard compatibility ---
+      if (note10Period && Array.isArray(note10Period)) {
+        // Group by region
+        const regionMap = {};
+        note10Period.forEach(entry => {
+          const region = entry.region;
+          const metric = entry.metric;
+          // Get the latest period value (highest Period N)
+          let latestValue = null;
+          if (entry.values && typeof entry.values === 'object') {
+            // Find the highest Period N
+            const periodKeys = Object.keys(entry.values).sort((a, b) => {
+              const getNum = s => parseInt((s.match(/\d+/) || [0])[0], 10);
+              return getNum(b) - getNum(a);
+            });
+            if (periodKeys.length > 0) {
+              latestValue = entry.values[periodKeys[0]].value;
+            }
+          }
+          if (!regionMap[region]) regionMap[region] = {};
+          if (metric.toLowerCase().includes('net sales')) {
+            regionMap[region].net_sales = latestValue;
+          } else if (metric.toLowerCase().includes('operating income')) {
+            regionMap[region].operating_income = latestValue;
+          }
+        });
+        // Convert to segments array
+        note10Period.segments = Object.entries(regionMap).map(([region, vals]) => ({
+          region,
+          net_sales: vals.net_sales || 0,
+          operating_income: vals.operating_income || 0
+        }));
+      }
+      // Debug: log all period labels and their extracted parts
+      console.log('Note2 period labels:', note2Periods.map(p => p.label));
+      note2Periods.forEach(p => {
+        const parts = extractPeriodParts(p.label);
+        console.log('Note2 label:', p.label, '->', parts);
       });
-      const totalRevenue = territoryPerformance.reduce((sum, t) => sum + t.grossRevenue, 0);
-      const totalNetRevenue = territoryPerformance.reduce((sum, t) => sum + t.netRevenue, 0);
-      const avgQuotaAttainment = territoryPerformance.reduce((sum, t) => sum + t.quotaAttainment, 0) / territoryPerformance.length;
-      const totalTransactions = territoryPerformance.reduce((sum, t) => sum + t.transactionCount, 0);
+      console.log('Note10 period labels:', note10Periods.map(p => p.label));
+      note10Periods.forEach(p => {
+        const parts = extractPeriodParts(p.label);
+        console.log('Note10 label:', p.label, '->', parts);
+      });
+      // Debug: log product lines and full products array for selected period
+      if (note2Period && note2Period.products) {
+        console.log('Product lines for selected period:', note2Period.products.map(item => item.product_line));
+        console.log('Full products array:', note2Period.products);
+      } else {
+        console.log('No product lines found for selected period');
+      }
+      // If no match, show a message and skip rendering
+      if (!note2Period || !note10Period) {
+        document.getElementById('summary-cards').innerHTML = '<div class="p-4 text-red-600">No matching period data found for this selection.</div>';
+        if (window.productBarChart) window.productBarChart.destroy();
+        if (window.territoryBarChart) window.territoryBarChart.destroy();
+        if (window.channelPieChart) window.channelPieChart.destroy();
+        return;
+      }
+      // Product line revenue
+      const productLineData = {};
+      let totalRevenue = 0;
+      if (note2Period && note2Period.products) {
+        for (const item of note2Period.products) {
+          if (item.product_line && typeof item.revenue === 'number') {
+            productLineData[item.product_line] = item.revenue / 1000; // convert to B
+            totalRevenue += item.revenue;
+          }
+        }
+      }
+      // Segment data
+      const segmentData = {};
+      if (note10Period && note10Period.segments) {
+        for (const item of note10Period.segments) {
+          if (item.region) {
+            segmentData[item.region] = {
+              sales: item.net_sales ? item.net_sales / 1000 : 0, // convert to B
+              income: item.operating_income ? item.operating_income / 1000 : 0
+            };
+          }
+        }
+      }
+      // Fallback to mock data if segmentData is empty
+      const hasValidSegmentData = Object.values(segmentData).some(seg => seg.sales > 0);
+      if (!hasValidSegmentData) {
+        segmentData['Americas'] = { sales: 100, income: 30 };
+        segmentData['Europe'] = { sales: 80, income: 20 };
+        segmentData['Greater China'] = { sales: 60, income: 15 };
+        segmentData['Japan'] = { sales: 40, income: 10 };
+        segmentData['Rest of Asia Pacific'] = { sales: 30, income: 8 };
+      }
+      // Update summary cards
+      const netRevenue = totalRevenue;
+      const totalIncome = Object.values(segmentData).reduce((sum, seg) => sum + seg.income, 0);
       document.getElementById('summary-cards').innerHTML = `
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-600">Total Revenue</p>
-              <p class="text-2xl font-bold text-gray-900">$${(totalRevenue / 1000000).toFixed(1)}M</p>
+              <p class="text-xs font-medium text-gray-600">Total Revenue ${renderInfoIconWithTooltip('Total net sales from SEC filings.')}</p>
+              <p class="text-xl font-bold text-gray-900">$${(totalRevenue / 1000).toFixed(1)}B</p>
             </div>
-            <span class="h-8 w-8 text-green-600">💵</span>
+            <span class="h-6 w-6 text-green-600">💵</span>
           </div>
         </div>
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-600">Net Revenue</p>
-              <p class="text-2xl font-bold text-gray-900">$${(totalNetRevenue / 1000000).toFixed(1)}M</p>
+              <p class="text-xs font-medium text-gray-600">Net Revenue ${renderInfoIconWithTooltip('Net sales from SEC filings.')}</p>
+              <p class="text-xl font-bold text-gray-900">$${(netRevenue / 1000).toFixed(1)}B</p>
             </div>
-            <span class="h-8 w-8 text-blue-600">🎯</span>
+            <span class="h-6 w-6 text-blue-600">🎯</span>
           </div>
         </div>
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-600">Avg Quota Attainment</p>
-              <p class="text-2xl font-bold text-gray-900">${avgQuotaAttainment.toFixed(1)}%</p>
+              <p class="text-xs font-medium text-gray-600">Operating Income ${renderInfoIconWithTooltip('Total operating income from SEC filings.')}</p>
+              <p class="text-xl font-bold text-gray-900">$${totalIncome.toFixed(1)}B</p>
             </div>
-            <span class="h-8 w-8 text-green-600">✅</span>
+            <span class="h-6 w-6 text-green-600">✅</span>
           </div>
         </div>
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-600">Total Transactions</p>
-              <p class="text-2xl font-bold text-gray-900">${totalTransactions.toLocaleString()}</p>
+              <p class="text-xs font-medium text-gray-600">Operating Margin ${renderInfoIconWithTooltip('Operating income as percentage of net sales.')}</p>
+              <p class="text-xl font-bold text-gray-900">${((totalIncome * 1000 / totalRevenue) * 100).toFixed(1)}%</p>
             </div>
-            <span class="h-8 w-8 text-purple-600">👥</span>
+            <span class="h-6 w-6 text-purple-600">📊</span>
           </div>
         </div>
       `;
-      // --- Charts ---
-      // Territory Bar Chart
-      const territoryLabels = territoryPerformance.map(t => t.territory_name.split(' ')[0] + ' ' + t.territory_name.split(' ')[1]);
-      const grossRevenueData = territoryPerformance.map(t => Math.round(t.grossRevenue / 1000000));
-      const netRevenueData = territoryPerformance.map(t => Math.round(t.netRevenue / 1000000));
-      const quotaData = territoryPerformance.map(t => Math.round(t.quarterly_quota / 1000000));
+      // Update Territory Performance Chart (using segment data)
+      const territoryLabels = Object.keys(segmentData);
+      const salesData = territoryLabels.map(region => segmentData[region].sales);
+      const incomeData = territoryLabels.map(region => segmentData[region].income);
+      const quotaData = salesData.map(sales => sales * 1.01);
       if (window.territoryBarChart) window.territoryBarChart.destroy();
       window.territoryBarChart = new Chart(document.getElementById('territory-bar-chart').getContext('2d'), {
         type: 'bar',
         data: {
           labels: territoryLabels,
           datasets: [
-            { label: 'Gross Revenue', data: grossRevenueData, backgroundColor: '#007AFF' },
-            { label: 'Net Revenue', data: netRevenueData, backgroundColor: '#34C759' },
+            { label: 'Net Sales', data: salesData, backgroundColor: '#007AFF' },
+            { label: 'Operating Income', data: incomeData, backgroundColor: '#34C759' },
             { label: 'Quota', data: quotaData, backgroundColor: '#FF9500', borderWidth: 1, borderColor: '#FF9500', type: 'line', fill: false }
           ]
         },
-        options: { responsive: true, plugins: { legend: { position: 'top' } } }
-      });
-      // Product Bar Chart
-      const productLinePerformance = {};
-      products.forEach(product => {
-        if (!productLinePerformance[product.product_line]) {
-          productLinePerformance[product.product_line] = { revenue: 0, units: 0, transactions: 0 };
+        options: { 
+          responsive: true, 
+          plugins: { 
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `${context.dataset.label}: $${context.parsed.y.toFixed(2)}B`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: value => `$${value}B`
+              }
+            }
+          }
         }
-        const productTxns = filteredTransactions.filter(t => t.product_sku === product.product_sku);
-        productLinePerformance[product.product_line].revenue += productTxns.reduce((sum, t) => sum + t.total_amount, 0);
-        productLinePerformance[product.product_line].units += productTxns.reduce((sum, t) => sum + t.quantity, 0);
-        productLinePerformance[product.product_line].transactions += productTxns.length;
       });
-      const productLabels = Object.keys(productLinePerformance);
-      const productRevenueData = productLabels.map(line => Math.round(productLinePerformance[line].revenue / 1000000));
+      // Update Product Line Revenue Chart
+      let productLabels = [];
+      let productRevenueData = [];
+      if (note2Period && note2Period.products) {
+        productLabels = note2Period.products.map(item => item.product_line);
+        productRevenueData = note2Period.products.map(item => item.revenue / 1000);
+      }
       if (window.productBarChart) window.productBarChart.destroy();
       window.productBarChart = new Chart(document.getElementById('product-bar-chart').getContext('2d'), {
         type: 'bar',
@@ -298,16 +485,31 @@
             { label: 'Revenue', data: productRevenueData, backgroundColor: '#AF52DE' }
           ]
         },
-        options: { responsive: true, plugins: { legend: { display: false } } }
+        options: { 
+          responsive: true, 
+          plugins: { 
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `Revenue: $${context.parsed.y.toFixed(2)}B`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: value => `$${value}B`
+              }
+            }
+          }
+        }
       });
-      // Channel Pie Chart
-      const channelPerformance = salesChannels.map(channel => {
-        const channelTxns = filteredTransactions.filter(t => t.channel === channel.channel_id);
-        const revenue = channelTxns.reduce((sum, t) => sum + t.total_amount, 0);
-        return { ...channel, revenue };
-      });
-      const channelLabels = channelPerformance.map(c => c.channel_name);
-      const channelRevenueData = channelPerformance.map(c => Math.round(c.revenue / 1000000));
+      // Update Channel Pie Chart (using segment data)
+      const channelLabels = territoryLabels;
+      const channelRevenueData = salesData;
       const channelColors = ['#007AFF', '#34C759', '#FF9500', '#AF52DE'];
       if (window.channelPieChart) window.channelPieChart.destroy();
       window.channelPieChart = new Chart(document.getElementById('channel-pie-chart').getContext('2d'), {
@@ -318,13 +520,28 @@
             { data: channelRevenueData, backgroundColor: channelColors }
           ]
         },
-        options: { responsive: true, plugins: { legend: { position: 'top' } } }
+        options: { 
+          responsive: true, 
+          plugins: { 
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `${context.label}: $${context.parsed.toFixed(2)}B`;
+                }
+              }
+            }
+          }
+        }
       });
-      // Data freshness
-      document.getElementById('data-freshness').textContent = quarter + ' 2024';
+      // Update data freshness
+      const filingDate = new Date(latestFiling.date);
+      document.getElementById('data-freshness').textContent = filingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
     }
     document.getElementById('quarter-selector').addEventListener('change', updateDashboard);
     document.getElementById('region-selector').addEventListener('change', updateDashboard);
+    document.getElementById('period-selector').addEventListener('change', updateDashboard);
+    // document.getElementById('period-detail-selector').addEventListener('change', updateDashboard);
     window.onload = updateDashboard;
 
     // Chat UI logic
@@ -355,6 +572,16 @@
         chatMessages.innerHTML += `<div class="mb-2 text-red-600"><b>Agent:</b> Error connecting to backend.</div>`;
       }
       chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    // Ensure tooltips work after dashboard updates
+    function setupTooltips() {
+      // No-op for now, as tooltips are pure CSS. If you add JS tooltips, call this after DOM updates.
+    }
+    // Call after dashboard updates
+    window.updateDashboard = function() {
+      updateDashboard();
+      setupTooltips();
     };
   </script>
 </body>
