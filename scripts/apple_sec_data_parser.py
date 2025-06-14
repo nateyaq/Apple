@@ -7,6 +7,10 @@ import warnings
 from dateutil.relativedelta import relativedelta
 warnings.filterwarnings('ignore')
 
+# Update data file references to use the new data/ subfolder
+DASHBOARD_DATA_PATH = 'data/apple_sec_dashboard_data.json'
+SQL_GUIDE_PATH = 'data/sql_study_guide.md'
+
 class AppleSECDataParser:
     def __init__(self):
         self.headers = {'User-Agent': "apple-dashboard@example.com"}
@@ -605,7 +609,7 @@ class AppleSECDataParser:
         
         return dashboard_data
     
-    def save_dashboard_data(self, filename='apple_sec_dashboard_data.json'):
+    def save_dashboard_data(self, filename=DASHBOARD_DATA_PATH):
         """Save processed data to JSON file for dashboard consumption"""
         dashboard_data = self.generate_dashboard_data()
         if dashboard_data:
