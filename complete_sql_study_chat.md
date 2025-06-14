@@ -472,7 +472,6 @@ product_analytics (
 
 **Position**: Business Systems Analyst - Sales & Finance Analytics
 **Location**: Cupertino, California + Various US Locations
-**Salary Range**: $148,699 - $161,300/year
 
 ### Core Responsibilities
 - Work cross-functionally with sales, finance and technical teams
