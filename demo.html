@@ -156,7 +156,7 @@
         async function loadDashboard() {
             try {
                 // Load SEC data
-                const response = await fetch('./apple_sec_dashboard_data.json');
+                const response = await fetch('apple_sec_dashboard_data.json');
                 const secData = await response.json();
                 
                 // Hide loading, show dashboard
