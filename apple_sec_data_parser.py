@@ -240,6 +240,29 @@ class AppleSECDataParser:
                 annual_data = df[df['form'] == '10-K'].copy()
                 quarterly_data = df[df['form'] == '10-Q'].copy() if include_quarterly else pd.DataFrame()
 
+                # --- Fallback: sum quarterly values for annual if missing (for operating_income and research_development) ---
+                if metric_name in ['Operating Income', 'Research & Development']:
+                    # Find all years present in quarterly data
+                    if not quarterly_data.empty and 'fy' in quarterly_data.columns:
+                        for year in sorted(quarterly_data['fy'].unique()):
+                            # If annual_data for this year is missing
+                            if annual_data.empty or year not in annual_data['fy'].values:
+                                year_quarters = quarterly_data[quarterly_data['fy'] == year]
+                                if len(year_quarters) == 4:
+                                    # Sum the four quarters
+                                    summed_val = year_quarters['val'].sum()
+                                    # Use the end date of the last quarter
+                                    end_date = year_quarters.sort_values('end').iloc[-1]['end']
+                                    # Create a synthetic annual record
+                                    annual_row = {col: None for col in annual_data.columns}
+                                    annual_row['fy'] = year
+                                    annual_row['form'] = '10-K'
+                                    annual_row['val'] = summed_val
+                                    annual_row['end'] = end_date
+                                    # Optionally, add a flag or note that this is synthetic
+                                    annual_data = pd.concat([annual_data, pd.DataFrame([annual_row])], ignore_index=True)
+                                    annual_data = annual_data.sort_values('end')
+
                 # Remove future-dated annual and quarterly data (apply while still DataFrame)
                 from datetime import datetime
                 current_year = datetime.now().year
@@ -256,18 +279,39 @@ class AppleSECDataParser:
                         quarterly_data = quarterly_data[quarterly_data['end_dt'] <= pd.Timestamp.now()]
                         quarterly_data = quarterly_data.drop(columns=['end_dt'])
 
-                # --- PATCH: Only use true annual 10-Ks for flow metrics ---
-                if not is_balance_sheet and not annual_data.empty:
-                    # Apple's fiscal year ends on the last Saturday of September (typically 9/24-9/30)
-                    # Only keep 10-Ks with end date in September (9/24-9/30)
-                    annual_data['end_dt'] = pd.to_datetime(annual_data['end'], errors='coerce')
-                    annual_data = annual_data[annual_data['end_dt'].dt.month == 9]
-                    annual_data = annual_data[annual_data['end_dt'].dt.day.between(24, 30)]
-                    # For each fiscal year, keep the record with the latest end date
-                    annual_data = annual_data.sort_values(['fy', 'end_dt']).groupby('fy').last().reset_index()
-                    # Drop helper column
-                    annual_data = annual_data.drop(columns=['end_dt'])
-
+                # Combine all data for comprehensive view
+                all_recent_data = pd.concat([annual_data, quarterly_data]).sort_values('end')
+                # Determine the most recent value (could be quarterly or annual)
+                latest_entry = all_recent_data.iloc[-1] if len(all_recent_data) > 0 else None
+                # Get latest quarterly and annual separately for comparison
+                latest_quarterly = quarterly_data.iloc[-1] if len(quarterly_data) > 0 else None
+                latest_annual = annual_data.iloc[-1] if len(annual_data) > 0 else None
+                # For balance sheet metrics, drop 'start' column entirely before output
+                if is_balance_sheet and 'start' in df.columns:
+                    df = df.drop(columns=['start'])
+                    output_cols = [col for col in output_cols if col != 'start']
+                # Final filter: only keep valid SEC records for flow metrics
+                def valid_flow_row(row):
+                    try:
+                        if 'start' in row and 'end' in row and row['start'] and row['end']:
+                            s = pd.to_datetime(row['start'], errors='coerce')
+                            e = pd.to_datetime(row['end'], errors='coerce')
+                            if pd.isnull(s) or pd.isnull(e) or s > e:
+                                return False
+                        if 'val' in row and row['val'] is not None and row['val'] < 0:
+                            return False
+                        return True
+                    except Exception:
+                        return False
+                if not is_balance_sheet:
+                    recent_annual = annual_data.tail(10) if len(annual_data) > 0 else pd.DataFrame()
+                    recent_quarterly = quarterly_data.tail(8) if len(quarterly_data) > 0 else pd.DataFrame()
+                    recent_annual = recent_annual[recent_annual.apply(valid_flow_row, axis=1)]
+                    recent_quarterly = recent_quarterly[recent_quarterly.apply(valid_flow_row, axis=1)]
+                    # Combine all data for comprehensive view
+                    all_recent_data = pd.concat([recent_annual, recent_quarterly]).sort_values('end')
+                    if not is_balance_sheet:
+                        all_recent_data = all_recent_data[all_recent_data.apply(valid_flow_row, axis=1)]
                 # For balance sheet, annual value is the value at fiscal year end (not a difference)
                 if is_balance_sheet:
                     recent_annual = annual_data.groupby('fy').last().reset_index().tail(10) if len(annual_data) > 0 else pd.DataFrame()
@@ -275,8 +319,26 @@ class AppleSECDataParser:
                     recent_annual = annual_data.tail(10) if len(annual_data) > 0 else pd.DataFrame()
                 # Get recent quarterly data (last 8 quarters)
                 recent_quarterly = quarterly_data.tail(8) if len(quarterly_data) > 0 else pd.DataFrame()
+                # Final filter: only keep valid SEC records for flow metrics
+                def valid_flow_row(row):
+                    try:
+                        if 'start' in row and 'end' in row and row['start'] and row['end']:
+                            s = pd.to_datetime(row['start'], errors='coerce')
+                            e = pd.to_datetime(row['end'], errors='coerce')
+                            if pd.isnull(s) or pd.isnull(e) or s > e:
+                                return False
+                        if 'val' in row and row['val'] is not None and row['val'] < 0:
+                            return False
+                        return True
+                    except Exception:
+                        return False
+                if not is_balance_sheet:
+                    recent_annual = recent_annual[recent_annual.apply(valid_flow_row, axis=1)]
+                    recent_quarterly = recent_quarterly[recent_quarterly.apply(valid_flow_row, axis=1)]
                 # Combine all data for comprehensive view
                 all_recent_data = pd.concat([recent_annual, recent_quarterly]).sort_values('end')
+                if not is_balance_sheet:
+                    all_recent_data = all_recent_data[all_recent_data.apply(valid_flow_row, axis=1)]
                 # Determine the most recent value (could be quarterly or annual)
                 latest_entry = all_recent_data.iloc[-1] if len(all_recent_data) > 0 else None
                 # Get latest quarterly and annual separately for comparison
@@ -286,65 +348,10 @@ class AppleSECDataParser:
                 if is_balance_sheet and 'start' in df.columns:
                     df = df.drop(columns=['start'])
                     output_cols = [col for col in output_cols if col != 'start']
-                # Convert DataFrame to records and clean 'start' field appropriately
-                def clean_record(rec, prev_end=None, freq='A'):
-                    rec = dict(rec)
-                    # For balance sheet metrics, nothing to do (no 'start' field)
-                    if is_balance_sheet:
-                        return rec
-                    # For flow metrics, infer 'start' if missing/invalid
-                    start = rec.get('start')
-                    end = rec.get('end')
-                    if (start is None or pd.isna(start) or not isinstance(start, str) or start.lower() == 'nan'):
-                        # Try to infer from previous period's end
-                        if prev_end is not None:
-                            try:
-                                prev_end_dt = pd.to_datetime(prev_end)
-                                inferred_start = (prev_end_dt + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
-                                rec['start'] = inferred_start
-                            except Exception:
-                                pass
-                        elif end is not None:
-                            try:
-                                end_dt = pd.to_datetime(end)
-                                if freq == 'A':
-                                    inferred_start = (end_dt - relativedelta(years=1) + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
-                                elif freq == 'Q':
-                                    inferred_start = (end_dt - relativedelta(months=3) + pd.Timedelta(days=1)).strftime('%Y-%m-%d')
-                                else:
-                                    inferred_start = None
-                                if inferred_start:
-                                    rec['start'] = inferred_start
-                            except Exception:
-                                pass
-                    # If still missing, skip record
-                    if 'start' not in rec or rec['start'] is None or pd.isna(rec['start']) or not isinstance(rec['start'], str) or rec['start'].lower() == 'nan':
-                        return None
-                    return rec
-                # Prepare output data with inferred 'start' for flow metrics
-                prev_end = None
-                freq = 'A' if (not is_balance_sheet and all_recent_data['form'].isin(['10-K']).all()) else 'Q'
-                data_records = []
-                for r in all_recent_data[output_cols].to_dict('records'):
-                    cleaned = clean_record(r, prev_end, freq)
-                    if cleaned is not None:
-                        data_records.append(cleaned)
-                        prev_end = cleaned.get('end', prev_end)
-                prev_end = None
-                annual_records = []
-                for r in recent_annual[output_cols].to_dict('records'):
-                    cleaned = clean_record(r, prev_end, 'A')
-                    if cleaned is not None:
-                        annual_records.append(cleaned)
-                        prev_end = cleaned.get('end', prev_end)
-                prev_end = None
-                quarterly_records = []
-                for r in recent_quarterly[output_cols].to_dict('records'):
-                    cleaned = clean_record(r, prev_end, 'Q')
-                    if cleaned is not None:
-                        quarterly_records.append(cleaned)
-                        prev_end = cleaned.get('end', prev_end)
-                # Remove synthetic annual data generation
+                # Convert DataFrame to records (no inferring or cleaning for flow metrics)
+                data_records = all_recent_data[output_cols].to_dict('records')
+                annual_records = recent_annual[output_cols].to_dict('records')
+                quarterly_records = recent_quarterly[output_cols].to_dict('records')
                 def safe_int(val):
                     try:
                         return int(val)

@@ -10,6 +10,13 @@ with open('apple_sec_dashboard_data.json', 'r') as f:
 issues = []
 current_year = datetime.now().year
 
+# Define balance sheet metrics
+BALANCE_SHEET_METRICS = {
+    'total_assets': 'Total Assets',
+    'cash_and_equivalents': 'Cash and Cash Equivalents',
+    'shareholders_equity': 'Shareholders Equity'
+}
+
 def check_type_consistency(section, key, expected_type):
     values = []
     for metric, v in section.items():
@@ -36,6 +43,18 @@ def check_date_format(date_str):
         return False
     return True
 
+def check_date_range(start_date, end_date, is_balance_sheet=False):
+    # For balance sheet metrics, we only need to check end date
+    if is_balance_sheet:
+        return check_date_format(str(end_date))
+    
+    try:
+        start = datetime.strptime(str(start_date).split()[0], '%Y-%m-%d')
+        end = datetime.strptime(str(end_date).split()[0], '%Y-%m-%d')
+        return start <= end
+    except Exception:
+        return False
+
 def check_dates(section, key):
     for metric, v in section.items():
         val = v.get(key)
@@ -57,14 +76,22 @@ def check_time_series_years(time_series):
 
 def check_raw_metrics(raw_metrics):
     for metric, meta in raw_metrics.items():
+        is_balance_sheet = metric in BALANCE_SHEET_METRICS
         seen_periods = set()
         for entry in meta['data']:
             start = entry.get('start')
             end = entry.get('end')
-            if not check_date_format(str(start)):
-                issues.append(f"Inconsistent date format in {metric} start: {start}")
+            
+            # For balance sheet metrics, we only validate end date
+            if not is_balance_sheet:
+                if not check_date_format(str(start)):
+                    issues.append(f"Inconsistent date format in {metric} start: {start}")
             if not check_date_format(str(end)):
                 issues.append(f"Inconsistent date format in {metric} end: {end}")
+            
+            if not is_balance_sheet and not check_date_range(start, end):
+                issues.append(f"Invalid date range in {metric}: start {start} is after end {end}")
+            
             period = (start, end)
             if period in seen_periods:
                 issues.append(f"Duplicate period in {metric}: {period}")
@@ -76,6 +103,28 @@ def check_raw_metrics(raw_metrics):
                         issues.append(f"Negative value in {metric} period {period}: {val}")
                 except Exception:
                     pass
+
+def check_growth_rates(metric_data):
+    for metric, meta in metric_data.items():
+        if 'growth_rates' not in meta:
+            continue
+        
+        # Sort data by date for comparison
+        data_points = sorted(meta['data'], key=lambda x: x['end'])
+        growth_rates = meta['growth_rates']
+        
+        # Verify growth rates match the data
+        for i in range(1, len(data_points)):
+            prev_val = float(data_points[i-1]['val'])
+            curr_val = float(data_points[i]['val'])
+            if prev_val == 0:
+                continue
+            expected_growth = ((curr_val - prev_val) / prev_val) * 100
+            actual_growth = growth_rates[i-1]['growth_rate']
+            
+            # Allow for small floating point differences
+            if abs(expected_growth - actual_growth) > 0.01:
+                issues.append(f"Inconsistent growth rate in {metric}: expected {expected_growth:.2f}%, got {actual_growth:.2f}%")
 
 def check_future_years():
     # Check summary_metrics
@@ -156,6 +205,38 @@ def check_year_type():
             if fy is not None and not isinstance(fy, int):
                 issues.append(f"Non-integer year in raw_metrics.{metric}.quarterly_data: {fy} ({type(fy)})")
 
+def check_annual_quarterly_consistency(raw_metrics):
+    for metric, meta in raw_metrics.items():
+        is_balance_sheet = metric in BALANCE_SHEET_METRICS
+        if is_balance_sheet:
+            continue  # Skip consistency check for balance sheet metrics
+            
+        annual_data = {entry['end']: entry['val'] for entry in meta.get('annual_data', [])}
+        quarterly_data = meta.get('quarterly_data', [])
+        
+        # Group quarterly data by fiscal year
+        quarterly_by_year = defaultdict(list)
+        for entry in quarterly_data:
+            fy = entry.get('fy')
+            if fy is not None:
+                quarterly_by_year[fy].append(entry)
+        
+        # Check if sum of quarters matches annual data
+        for year, quarters in quarterly_by_year.items():
+            if len(quarters) == 4:  # Only check complete years
+                annual_end = None
+                for entry in meta.get('annual_data', []):
+                    if entry.get('fy') == year:
+                        annual_end = entry['end']
+                        annual_val = float(entry['val'])
+                        break
+                
+                if annual_end:
+                    quarter_sum = sum(float(q['val']) for q in quarters)
+                    if abs(quarter_sum - annual_val) > 0.01:  # Allow for small floating point differences
+                        issues.append(f"Inconsistent annual/quarterly data in {metric} for year {year}: "
+                                    f"sum of quarters ({quarter_sum}) != annual value ({annual_val})")
+
 def main():
     print("--- Validating summary_metrics ---")
     check_type_consistency(data['summary_metrics'], 'latest_year', (int, float, str))
@@ -174,6 +255,8 @@ def main():
 
     print("--- Validating raw_metrics ---")
     check_raw_metrics(data['raw_metrics'])
+    check_growth_rates(data['raw_metrics'])
+    check_annual_quarterly_consistency(data['raw_metrics'])
 
     print("--- Checking for future years ---")
     check_future_years()
