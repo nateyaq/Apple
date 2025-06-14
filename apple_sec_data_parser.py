@@ -241,9 +241,9 @@ class AppleSECDataParser:
                 quarterly_data = df[df['form'] == '10-Q'].copy() if include_quarterly else pd.DataFrame()
                 # For balance sheet, annual value is the value at fiscal year end (not a difference)
                 if is_balance_sheet:
-                    recent_annual = annual_data.groupby('fy').last().reset_index().tail(5) if len(annual_data) > 0 else pd.DataFrame()
+                    recent_annual = annual_data.groupby('fy').last().reset_index().tail(10) if len(annual_data) > 0 else pd.DataFrame()
                 else:
-                    recent_annual = annual_data.tail(5) if len(annual_data) > 0 else pd.DataFrame()
+                    recent_annual = annual_data.tail(10) if len(annual_data) > 0 else pd.DataFrame()
                 # Get recent quarterly data (last 8 quarters)
                 recent_quarterly = quarterly_data.tail(8) if len(quarterly_data) > 0 else pd.DataFrame()
                 # Combine all data for comprehensive view
@@ -315,30 +315,7 @@ class AppleSECDataParser:
                     if cleaned is not None:
                         quarterly_records.append(cleaned)
                         prev_end = cleaned.get('end', prev_end)
-                # Reconstruct annual data for missing years by summing quarterly values (for flow metrics)
-                if not is_balance_sheet:
-                    # Find years missing from annual_data but present in quarterly_data
-                    annual_years = set([r['fy'] for r in annual_records])
-                    quarterly_years = set([r['fy'] for r in quarterly_records])
-                    missing_years = sorted(list(quarterly_years - annual_years))
-                    for year in missing_years:
-                        quarters = [r for r in quarterly_records if r['fy'] == year]
-                        # Only reconstruct if all 4 quarters are present
-                        if len(quarters) == 4:
-                            total_val = sum(q['val'] for q in quarters)
-                            # Use the end date of the last quarter as the annual end
-                            annual_end = max(q['end'] for q in quarters)
-                            annual_start = min(q['start'] for q in quarters)
-                            annual_rec = {
-                                'start': annual_start,
-                                'end': annual_end,
-                                'val': total_val,
-                                'fy': year,
-                                'form': 'synthetic-annual'
-                            }
-                            annual_records.append(annual_rec)
-                    # Sort annual_records by year
-                    annual_records = sorted(annual_records, key=lambda r: r['fy'])
+                # Remove synthetic annual data generation
                 return {
                     'metric_name': metric_name,
                     'data': data_records,
