@@ -84,6 +84,17 @@
       </p>
     </div>
   </div>
+  <!-- Chat Button and Modal -->
+  <button id="chat-btn" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full p-4 shadow-lg z-50">
+    💬
+  </button>
+  <div id="chat-modal" class="fixed bottom-20 right-6 w-80 bg-white rounded-xl shadow-lg border border-gray-200 p-4 z-50 hidden">
+    <div id="chat-messages" class="h-48 overflow-y-auto mb-2 text-sm"></div>
+    <form id="chat-form" class="flex gap-2">
+      <input id="chat-input" type="text" class="flex-1 border rounded-lg px-2 py-1" placeholder="Ask about the dashboard..." autocomplete="off" />
+      <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded-lg">Send</button>
+    </form>
+  </div>
   <script>
     // --- Sample Data Generation  ---
     function generateSampleData() {
@@ -315,6 +326,36 @@
     document.getElementById('quarter-selector').addEventListener('change', updateDashboard);
     document.getElementById('region-selector').addEventListener('change', updateDashboard);
     window.onload = updateDashboard;
+
+    // Chat UI logic
+    const chatBtn = document.getElementById('chat-btn');
+    const chatModal = document.getElementById('chat-modal');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    chatBtn.onclick = () => chatModal.classList.toggle('hidden');
+    chatForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const userMsg = chatInput.value.trim();
+      if (!userMsg) return;
+      chatMessages.innerHTML += `<div class="mb-1"><b>You:</b> ${userMsg}</div>`;
+      chatInput.value = '';
+      chatMessages.innerHTML += `<div class="mb-1 text-gray-400">Agent is typing...</div>`;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      try {
+        const res = await fetch('http://localhost:8001/ask', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({question: userMsg})
+        });
+        const data = await res.json();
+        chatMessages.innerHTML += `<div class="mb-2"><b>Agent:</b> ${data.answer}</div>`;
+      } catch (err) {
+        chatMessages.innerHTML += `<div class="mb-2 text-red-600"><b>Agent:</b> Error connecting to backend.</div>`;
+      }
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
   </script>
 </body>
 </html> 
