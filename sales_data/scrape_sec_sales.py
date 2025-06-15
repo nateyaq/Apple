@@ -37,15 +37,93 @@ def extract_form_type(text):
         return match.group(1).upper()
     return "UNKNOWN"
 
+def find_relevant_notes(soup):
+    """Find the notes containing revenue and segment information by their content rather than note numbers."""
+    revenue_note = None
+    segment_note = None
+    
+    # Look for revenue/product line information
+    revenue_patterns = [
+        'Net Sales by Product Line',
+        'Revenue by Product Line',
+        'Net Sales by Product',
+        'Revenue by Product',
+        'Product Line Information',
+        'Product Information',
+        'Net Sales by Category',
+        'Revenue by Category',
+        'Product Category Information'
+    ]
+    
+    # Look for segment/geographic information
+    segment_patterns = [
+        'Segment Information',
+        'Geographic Data',
+        'Segment and Geographic Information',
+        'Segment and Geographic Data',
+        'Segment Reporting',
+        'Geographic Information'
+    ]
+    
+    print("[DEBUG] Searching for revenue/product line information...")
+    # First try ix:nonnumeric tags
+    for pattern in revenue_patterns:
+        note_tags = soup.find_all('ix:nonnumeric', attrs={'name': lambda x: x and pattern.lower() in x.lower()})
+        if note_tags:
+            print(f"[DEBUG] Found revenue note using pattern: {pattern}")
+            revenue_note = note_tags
+            break
+            
+    for pattern in segment_patterns:
+        note_tags = soup.find_all('ix:nonnumeric', attrs={'name': lambda x: x and pattern.lower() in x.lower()})
+        if note_tags:
+            print(f"[DEBUG] Found segment note using pattern: {pattern}")
+            segment_note = note_tags
+            break
+    
+    # Then try text content
+    if not revenue_note:
+        print("[DEBUG] No revenue note found in iXBRL tags, trying text content...")
+        for pattern in revenue_patterns:
+            note_tags = soup.find_all(['p', 'div', 'span', 'b', 'strong'], 
+                                    string=lambda x: x and pattern.lower() in x.lower())
+            if note_tags:
+                print(f"[DEBUG] Found revenue note in text content using pattern: {pattern}")
+                revenue_note = note_tags
+                break
+                
+    if not segment_note:
+        print("[DEBUG] No segment note found in iXBRL tags, trying text content...")
+        for pattern in segment_patterns:
+            note_tags = soup.find_all(['p', 'div', 'span', 'b', 'strong'], 
+                                    string=lambda x: x and pattern.lower() in x.lower())
+            if note_tags:
+                print(f"[DEBUG] Found segment note in text content using pattern: {pattern}")
+                segment_note = note_tags
+                break
+    
+    if not revenue_note:
+        print("[DEBUG] No revenue note found with any pattern")
+    if not segment_note:
+        print("[DEBUG] No segment note found with any pattern")
+    
+    return revenue_note, segment_note
+
 def extract_note2_table_text(html):
     soup = BeautifulSoup(html, 'lxml')
-    tables = extract_tables_after_note(soup, 'Note 2 – Net Sales by Product Line')
-    return tables
+    revenue_note, _ = find_relevant_notes(soup)
+    if revenue_note:
+        tables = extract_tables_after_note(soup, revenue_note[0].get_text(), debug_url=None)
+        return tables
+    return []
 
 def extract_note10_table_text(html):
     soup = BeautifulSoup(html, 'lxml')
-    tables = extract_tables_after_note(soup, 'Note 10 – Segment Information')
-    return tables
+    _, segment_note = find_relevant_notes(soup)
+    if segment_note:
+        tables = extract_tables_after_note(soup, segment_note[0].get_text(), debug_url=None)
+        return tables
+    return []
 
 # Get the latest N filings of a given type (10-K or 10-Q)
 def get_latest_filing_urls(cik=CIK, form_type='10-Q', count=5):
@@ -378,294 +456,140 @@ def df_to_json(df):
     return records
 
 # --- New helper functions for structured extraction ---
-def parse_note2_periods(table):
-    """Parse periods from Note 2 table, mapping each product to all period/date columns, including Three, Six, Nine, Twelve Months Ended, etc."""
-    allowed_products = [
-        'iphone', 'mac', 'ipad', 'wearables, home and accessories', 'services',
-        'wearables', 'home and accessories', 'accessories', 'other products', 'other services'
-    ]
-    # Add iPhone-specific patterns to catch variations
-    iphone_patterns = [
-        r'iphone',
-        r'iphones',
-        r'iphone\s+revenue',
-        r'iphone\s+sales',
-        r'iphone\s+net\s+sales',
-        r'iphone\s+product',
-        r'iphone\s+segment'
-    ]
-    product_map = {}
+def parse_note2_periods(rows):
+    """Parse period labels and product values from Note 2 table."""
+    # Find the header row with period types and dates
+    period_labels = []
+    date_pattern = r'([A-Za-z]+\s+\d{1,2},\s+\d{4})'
     header_row_idx = None
-    # Find the first header row with period/date columns
-    for i, row in enumerate(table):
-        if any(re.search(r'(Three|Six|Nine|Twelve) Months Ended', str(cell)) or re.search(r'Year Ended', str(cell)) or re.search(r'Fiscal', str(cell)) for cell in row):
+    for i, row in enumerate(rows):
+        if any(isinstance(cell, str) and ("Three Months Ended" in cell or "Nine Months Ended" in cell or "Six Months Ended" in cell or "Year Ended" in cell) for cell in row):
             header_row_idx = i
             break
-    if header_row_idx is None:
-        for i, row in enumerate(table):
-            if any(re.search(r'\d{4}', str(cell)) for cell in row):
-                header_row_idx = i
-                break
-    if header_row_idx is None:
+    if header_row_idx is None or header_row_idx + 2 >= len(rows):
         return []
-    # Try to find a super-header row (with period type) above the header row
-    header_rows = []
-    for j in range(max(0, header_row_idx-2), header_row_idx+1):
-        header_rows.append(table[j])
-    header_rows = [row for row in header_rows if any(str(cell).strip() for cell in row)]
-    if len(header_rows) >= 2:
-        period_type_row = header_rows[-2]
-        date_row = header_rows[-1]
-    else:
-        period_type_row = None
-        date_row = header_rows[-1]
-    # Build period labels by combining period type and date row
-    period_labels = []
-    for i, cell in enumerate(date_row):
-        date_label = str(cell).strip()
-        if period_type_row and i < len(period_type_row):
-            type_label = str(period_type_row[i]).strip()
-            if type_label and date_label:
-                period_labels.append(f"{type_label} {date_label}".strip())
-            elif date_label:
-                period_labels.append(date_label)
-            elif type_label:
-                period_labels.append(type_label)
-            else:
-                period_labels.append("")
-        elif date_label:
-            period_labels.append(date_label)
-        else:
-            period_labels.append("")
-    logging.debug(f"[Note2] period_labels: {period_labels}")
-    # Identify which columns are period columns
-    period_col_indices = []
-    for i, label in enumerate(period_labels):
-        if re.search(r'(Three|Six|Nine|Twelve) Months Ended', label) or re.search(r'Year Ended', label) or re.search(r'Fiscal', label) or re.search(r'\d{4}', label):
-            period_col_indices.append(i)
+    # The next two rows are usually the date row and the $ row
+    period_type_row = rows[header_row_idx]
+    date_row = rows[header_row_idx + 1]
+    # Build period labels
+    for i, cell in enumerate(period_type_row):
+        if isinstance(cell, str):
+            match = re.search(date_pattern, str(date_row[i])) if i < len(date_row) and isinstance(date_row[i], str) else None
+            if "Three Months Ended" in cell:
+                if match:
+                    period_labels.append(f"Three Months Ended {match.group(1)}")
+                else:
+                    period_labels.append("Three Months Ended")
+            elif "Six Months Ended" in cell:
+                if match:
+                    period_labels.append(f"Six Months Ended {match.group(1)}")
+                else:
+                    period_labels.append("Six Months Ended")
+            elif "Nine Months Ended" in cell:
+                if match:
+                    period_labels.append(f"Nine Months Ended {match.group(1)}")
+                else:
+                    period_labels.append("Nine Months Ended")
+            elif "Year Ended" in cell:
+                if match:
+                    period_labels.append(f"Year Ended {match.group(1)}")
+                else:
+                    period_labels.append("Year Ended")
     # Now parse each product row
-    for row in table[header_row_idx+1:]:
-        if not row or not any(row):
+    products = []
+    for row in rows[header_row_idx + 3:]:
+        if not row or not isinstance(row[0], str):
             continue
-        product = str(row[0]).strip()
-        # Robust normalization: remove all non-alphanumeric characters
-        product_lc = re.sub(r'[^a-z0-9]', '', product.lower())
-        logging.debug(f"[Note2] Product row: raw='{product}' normalized='{product_lc}'")
-        matched = None
-        
-        # First check for iPhone using patterns
-        for pattern in iphone_patterns:
-            if re.search(pattern, product_lc, re.IGNORECASE):
-                matched = 'iPhone'
-                logging.debug(f"[Note2] Matched iPhone using pattern: {pattern}")
-                break
-        
-        # If no iPhone match, try other products
-        if not matched:
-            for allowed in allowed_products:
-                allowed_norm = re.sub(r'[^a-z0-9]', '', allowed.lower())
-                if allowed_norm in product_lc:
-                    matched = allowed.title() if allowed != 'wearables, home and accessories' else 'Wearables, Home and Accessories'
-                    break
-        
-        # Final fallback: if 'iphone' is in the normalized product string, treat as 'iPhone'
-        if not matched and 'iphone' in product_lc:
-            matched = 'iPhone'
-            logging.debug(f"[Note2] Matched iPhone using fallback")
-            
-        if not matched:
-            logging.debug(f"[Note2] Skipping product row: {product}")
+        product = row[0].strip()
+        if not product or product.lower().startswith('total'):
             continue
-            
-        if matched not in product_map:
-            product_map[matched] = {}
-        # After matching a product row
-        # Extract all numeric values from the row (skip non-numeric, $, %, etc.)
-        numeric_values = []
-        for cell in row:
-            try:
-                clean_cell = re.sub(r'[^0-9.\-]', '', str(cell))
-                if clean_cell and re.match(r'^-?\d+(\.\d+)?$', clean_cell):
-                    numeric_values.append(float(clean_cell))
-            except Exception:
-                continue
-        # Map numeric values to period labels in order
+        values = {}
         for i, label in enumerate(period_labels):
-            if i < len(numeric_values) and label:
-                product_map[matched][label] = {"value": numeric_values[i]}
-                logging.debug(f"[Note2] {matched} - {label}: {numeric_values[i]}")
-    periods = []
-    for product, values in product_map.items():
+            if i + 1 < len(row):
+                try:
+                    val = row[i + 1]
+                    if isinstance(val, (int, float)):
+                        values[label] = val
+                    elif isinstance(val, str):
+                        val_clean = val.replace('$', '').replace(',', '').strip()
+                        if val_clean:
+                            values[label] = float(val_clean)
+                except Exception:
+                    continue
         if values:
-            periods.append({
-                "product": product,
-                "values": values
-            })
-    return periods
+            products.append({"product": product, "values": values})
+    return products
 
-def parse_note10_periods(table):
-    """Parse periods from Note 10 table, robustly extracting all region/territory rows and their associated period columns."""
-    periods = []
-    # Find header row
-    header_row = None
-    header_idx = None
-    for i, row in enumerate(table):
-        if any(re.search(r'(Three|Six|Nine|Twelve) Months Ended', str(cell)) or re.search(r'Year Ended', str(cell)) or re.search(r'Fiscal', str(cell)) for cell in row):
-            header_row = row
-            header_idx = i
-            break
-    if not header_row:
-        for i, row in enumerate(table):
-            if any(re.search(r'\d{4}', str(cell)) for cell in row):
-                header_row = row
-                header_idx = i
-                break
-    if not header_row:
-        return periods
-
-    # Try to find a super-header row (with period type) above the header row
-    header_rows = []
-    for j in range(max(0, header_idx-2), header_idx+1):
-        header_rows.append(table[j])
-    header_rows = [row for row in header_rows if any(str(cell).strip() for cell in row)]
-    if len(header_rows) >= 2:
-        period_type_row = header_rows[-2]
-        date_row = header_rows[-1]
-    else:
-        period_type_row = None
-        date_row = header_rows[-1]
-
-    # Build period labels by combining period type and date row
+def parse_note10_periods(rows):
+    """Parse period labels and region/metric values from Note 10/11 table."""
+    # Find the header row with period types and dates
     period_labels = []
-    for i, cell in enumerate(date_row):
-        date_label = str(cell).strip()
-        if period_type_row and i < len(period_type_row):
-            type_label = str(period_type_row[i]).strip()
-            if type_label and date_label:
-                period_labels.append(f"{type_label} {date_label}".strip())
-            elif date_label:
-                period_labels.append(date_label)
-            elif type_label:
-                period_labels.append(type_label)
-            else:
-                period_labels.append("")
-        elif date_label:
-            period_labels.append(date_label)
-        else:
-            period_labels.append("")
-    logging.debug(f"[Note10] period_labels: {period_labels}")
-
-    # Define region patterns
-    region_patterns = [
-        r'Americas',
-        r'Europe',
-        r'Greater China',
-        r'Japan',
-        r'Rest of Asia Pacific',
-        r'Asia Pacific',
-        r'China',
-        r'Other'
-    ]
-
-    # Define metric patterns
-    metric_patterns = [
-        r'Net sales',
-        r'Net revenue',
-        r'Revenue',
-        r'Operating income',
-        r'Operating profit',
-        r'Income before provision for income taxes',
-        r'Income before taxes'
-    ]
-
-    # Process each row after the header
+    date_pattern = r'([A-Za-z]+\s+\d{1,2},\s+\d{4})'
+    header_row_idx = None
+    for i, row in enumerate(rows):
+        if any(isinstance(cell, str) and ("Three Months Ended" in cell or "Nine Months Ended" in cell or "Six Months Ended" in cell or "Year Ended" in cell) for cell in row):
+            header_row_idx = i
+            break
+    if header_row_idx is None or header_row_idx + 2 >= len(rows):
+        return []
+    period_type_row = rows[header_row_idx]
+    date_row = rows[header_row_idx + 1]
+    # Build period labels
+    for i, cell in enumerate(period_type_row):
+        if isinstance(cell, str):
+            match = re.search(date_pattern, str(date_row[i])) if i < len(date_row) and isinstance(date_row[i], str) else None
+            if "Three Months Ended" in cell:
+                if match:
+                    period_labels.append(f"Three Months Ended {match.group(1)}")
+                else:
+                    period_labels.append("Three Months Ended")
+            elif "Six Months Ended" in cell:
+                if match:
+                    period_labels.append(f"Six Months Ended {match.group(1)}")
+                else:
+                    period_labels.append("Six Months Ended")
+            elif "Nine Months Ended" in cell:
+                if match:
+                    period_labels.append(f"Nine Months Ended {match.group(1)}")
+                else:
+                    period_labels.append("Nine Months Ended")
+            elif "Year Ended" in cell:
+                if match:
+                    period_labels.append(f"Year Ended {match.group(1)}")
+                else:
+                    period_labels.append("Year Ended")
+    # Now parse each region/metric row
+    regions = []
     current_region = None
-    current_metric = None
-    for row in table[header_idx+1:]:
-        if not row or not any(row):
+    for row in rows[header_row_idx + 3:]:
+        if not row or not isinstance(row[0], str):
             continue
-
-        # Get the first cell's text
-        first_cell = str(row[0]).strip()
-        cell_text = first_cell.lower()
-        
-        # Check for region headers
-        for pattern in region_patterns:
-            if re.search(pattern, cell_text, re.IGNORECASE):
-                current_region = pattern
-                current_metric = None  # Reset metric when new region is found
-                break
-
-        # Check for metrics
-        if current_region:
-            for pattern in metric_patterns:
-                if re.search(pattern, cell_text, re.IGNORECASE):
-                    current_metric = pattern
-                    values = {}
-                    for i, label in enumerate(period_labels):
-                        if i < len(row):
-                            try:
-                                value = float(str(row[i]).replace('$', '').replace(',', '').strip())
-                                values[label] = {"value": value}
-                                logging.debug(f"[Note10] {current_region} - {current_metric} - {label}: {value}")
-                            except (ValueError, TypeError):
-                                continue
-                    if values:
-                        periods.append({
-                            "region": current_region,
-                            "metric": current_metric,
-                            "values": values
-                        })
-                    break
-            # If no metric found but we have a current region and metric, try to extract values
-            if current_metric and any(re.search(r'\$[\d,]+', str(cell)) for cell in row):
-                values = {}
-                for i, label in enumerate(period_labels):
-                    if i < len(row):
-                        try:
-                            value = float(str(row[i]).replace('$', '').replace(',', '').strip())
-                            values[label] = {"value": value}
-                            logging.debug(f"[Note10] {current_region} - {current_metric} - {label}: {value}")
-                        except (ValueError, TypeError):
-                            continue
-                if values:
-                    periods.append({
-                        "region": current_region,
-                        "metric": current_metric,
-                        "values": values
-                    })
-
-    if not periods:
-        # Fallback: try to parse the first row/cell as raw text using regex
-        if len(table) > 0 and len(table[0]) > 0:
-            raw_text = str(table[0][0])
-            # Example pattern: Americas:Net sales$124,556 $116,914 $112,093 Operating income$37,722 $35,099 $34,864
-            region_regex = r'(Americas|Europe|Greater China|Japan|Rest of Asia Pacific|Asia Pacific|China|Other):'
-            metric_regex = r'(Net sales|Net revenue|Revenue|Operating income|Operating profit|Income before provision for income taxes|Income before taxes)\$([\d,]+(?:\s*\$[\d,]+)*)'
-            for region_match in re.finditer(region_regex, raw_text):
-                region = region_match.group(1)
-                region_start = region_match.end()
-                # Find the next region or end of string
-                next_region_match = re.search(region_regex, raw_text[region_start:])
-                region_end = region_start + next_region_match.start() if next_region_match else len(raw_text)
-                region_text = raw_text[region_start:region_end]
-                for metric_match in re.finditer(metric_regex, region_text):
-                    metric = metric_match.group(1)
-                    values_str = metric_match.group(2)
-                    # Extract all values
-                    values = [float(v.replace(',', '')) for v in re.findall(r'\$([\d,]+)', '$'+values_str)]
-                    # Assign period labels if possible, otherwise use index
-                    value_dict = {}
-                    for idx, value in enumerate(values):
-                        label = f"Period {idx+1}"
-                        value_dict[label] = {"value": value}
-                    if value_dict:
-                        periods.append({
-                            "region": region,
-                            "metric": metric,
-                            "values": value_dict
-                        })
-    return periods
+        cell = row[0].strip()
+        if not cell:
+            continue
+        # Region header
+        if cell.endswith(":"):
+            current_region = cell[:-1]
+            continue
+        # Metric row (Net sales, Operating income, etc.)
+        if current_region and ("Net sales" in cell or "Operating income" in cell):
+            metric = cell
+            values = {}
+            for i, label in enumerate(period_labels):
+                if i + 1 < len(row):
+                    try:
+                        val = row[i + 1]
+                        if isinstance(val, (int, float)):
+                            values[label] = val
+                        elif isinstance(val, str):
+                            val_clean = val.replace('$', '').replace(',', '').strip()
+                            if val_clean:
+                                values[label] = float(val_clean)
+                    except Exception:
+                        continue
+            if values:
+                regions.append({"region": current_region, "metric": metric, "values": values})
+    return regions
 
 # --- Helper to fetch and parse exhibits if main doc is empty ---
 def fetch_and_parse_exhibits(main_html, base_url, note_title):
@@ -747,100 +671,84 @@ def extract_segment_data(note10_text):
     return data
 
 def extract_notes_from_html(html_content):
-    """Extract Note 2 and Note 10 data from HTML content."""
     soup = BeautifulSoup(html_content, 'html.parser')
+    notes = {}
     
-    # Extract Note 2 data
-    note2_data = extract_note2_data(html_content)
+    # Find Revenue data
+    revenue_tables = extract_tables_after_note(soup, "Revenue")
+    if revenue_tables:
+        notes["Revenue"] = revenue_tables
     
-    # Extract Note 10 data
-    note10_data = extract_note10_data(html_content)
+    # Find Segment Information and Geographic Data
+    segment_tables = extract_tables_after_note(soup, "Segment Information and Geographic Data")
+    if segment_tables:
+        notes["Segment Information and Geographic Data"] = segment_tables
     
-    return {
-        'note2': note2_data,
-        'note10': note10_data
-    }
+    return notes
 
 def aggregate_note2_periods(note2_tables):
-    """Aggregate all period values for each product across all tables into a single entry per product."""
-    allowed_products = [
-        'iphone',
-        'mac',
-        'ipad',
-        'wearables, home and accessories',
-        'services',
-    ]
-    product_map = {}
-    for t in note2_tables:
-        table_periods = parse_note2_periods(t)
-        for entry in table_periods:
-            product = entry['product']
-            values = entry['values']
-            if product not in product_map:
-                product_map[product] = {}
-            for k, v in values.items():
-                product_map[product][k] = v
-    periods = []
-    for product, values in product_map.items():
-        # Only include products in allowed_products (case-insensitive)
-        if values and product.lower() in allowed_products:
-            periods.append({
-                "product": product,
-                "values": values
-            })
-    return periods
+    if not note2_tables:
+        return []
+    aggregated_data = []
+    for table in note2_tables:
+        periods = parse_note2_periods(table)
+        for entry in periods:
+            # Wrap each value in a dict with 'value' key
+            values = {k: {"value": v} for k, v in entry["values"].items()}
+            aggregated_data.append({"product": entry["product"], "values": values})
+    return aggregated_data
+
+def aggregate_note10_periods(note10_tables):
+    if not note10_tables:
+        return []
+    aggregated_data = []
+    for table in note10_tables:
+        periods = parse_note10_periods(table)
+        for entry in periods:
+            # Wrap each value in a dict with 'value' key
+            values = {k: {"value": v} for k, v in entry["values"].items()}
+            aggregated_data.append({"region": entry["region"], "metric": entry["metric"], "values": values})
+    return aggregated_data
 
 def scrape_sales_data():
     filings = []
-
-    # Annual (10-K)
-    for filing in get_latest_filing_urls(CIK, '10-K', 5):
-        print(f"\nProcessing annual filing: {filing['date']}")
-        html = get_sec_html(filing['url'])
-        soup = BeautifulSoup(html, 'lxml')
-        filing_text = soup.get_text(" ", strip=True)
-        form_type = extract_form_type(filing_text)
-        note2_tables = extract_note2_table_text(html)
-        note10_tables = extract_note10_table_text(html)
-        note2 = aggregate_note2_periods(note2_tables) if note2_tables else []
-        note10 = []
-        if note10_tables:
-            for table in note10_tables:
-                note10.extend(parse_note10_periods(table))
-        filings.append({
-            'date': filing['date'],
-            'accession': filing['accession'],
-            'form_type': form_type,
-            'note2': note2,
-            'note10': note10,
-            'url': filing['url']
-        })
-    # Quarterly (10-Q)
-    for filing in get_latest_filing_urls(CIK, '10-Q', 5):
-        print(f"\nProcessing quarterly filing: {filing['date']}")
-        html = get_sec_html(filing['url'])
-        soup = BeautifulSoup(html, 'lxml')
-        filing_text = soup.get_text(" ", strip=True)
-        form_type = extract_form_type(filing_text)
-        note2_tables = extract_note2_table_text(html)
-        note10_tables = extract_note10_table_text(html)
-        note2 = aggregate_note2_periods(note2_tables) if note2_tables else []
-        note10 = []
-        if note10_tables:
-            for table in note10_tables:
-                note10.extend(parse_note10_periods(table))
-        filings.append({
-            'date': filing['date'],
-            'accession': filing['accession'],
-            'form_type': form_type,
-            'note2': note2,
-            'note10': note10,
-            'url': filing['url']
-        })
-    output = {'filings': filings}
-    with open(OUTPUT_JSON, 'w') as f:
-        json.dump(output, f, indent=2)
-    print(f"\nExtracted sales data for last 5 years (annual) and last 5 quarters (quarterly) saved to {OUTPUT_JSON}")
+    # Get latest 10-K and 10-Q filings
+    annual_urls = get_latest_filing_urls(form_type='10-K', count=5)
+    quarterly_urls = get_latest_filing_urls(form_type='10-Q', count=5)
+    for url in annual_urls + quarterly_urls:
+        try:
+            html_content = get_sec_html(url['url'])
+            if not html_content:
+                continue
+            # Extract notes
+            notes = extract_notes_from_html(html_content)
+            # Process Revenue data
+            note2_data = []
+            if "Revenue" in notes:
+                note2_data = aggregate_note2_periods(notes["Revenue"])
+            # Process Segment Information and Geographic Data
+            note10_data = []
+            if "Segment Information and Geographic Data" in notes:
+                note10_data = aggregate_note10_periods(notes["Segment Information and Geographic Data"])
+            # Create filing entry
+            filing = {
+                "date": url['date'],
+                "accession": url['accession'],
+                "form_type": extract_form_type(html_content),
+                "note2": note2_data,
+                "note10": note10_data,
+                "url": url['url']
+            }
+            filings.append(filing)
+        except Exception as e:
+            print(f"Error processing {url}: {str(e)}")
+            continue
+    # Sort filings by date
+    filings.sort(key=lambda x: x["date"], reverse=True)
+    # Save to JSON
+    with open('apple_sec_sales_data.json', 'w') as f:
+        json.dump({"filings": filings}, f, indent=2)
+    return filings
 
 def main():
     scrape_sales_data()
