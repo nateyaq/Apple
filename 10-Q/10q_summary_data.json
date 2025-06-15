@@ -4,27 +4,171 @@
     "products_and_services": [
       {
         "type": "product",
-        "product": "Products",
+        "product": "iPhone \u00ae",
         "period": "",
-        "net_sales": 68714.0
+        "net_sales": 46841.0
       },
       {
         "type": "product",
-        "product": "Products",
+        "product": "iPhone \u00ae",
+        "period": "",
+        "net_sales": 45963.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone \u00ae",
+        "period": "",
+        "net_sales": 115979.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 115665.0
+      },
+      {
+        "type": "product",
+        "product": "Mac \u00ae",
+        "period": "",
+        "net_sales": 7949.0
+      },
+      {
+        "type": "product",
+        "product": "Mac \u00ae",
+        "period": "",
+        "net_sales": 7949.0
+      },
+      {
+        "type": "product",
+        "product": "Mac \u00ae",
+        "period": "",
+        "net_sales": 7451.0
+      },
+      {
+        "type": "product",
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 7451.0
+      },
+      {
+        "type": "product",
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 16936.0
+      },
+      {
+        "type": "product",
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 16936.0
+      },
+      {
+        "type": "product",
+        "product": "Mac \u00ae",
         "period": "Three Months Ended",
-        "net_sales": 66886.0
+        "net_sales": 15231.0
       },
       {
         "type": "product",
-        "product": "Products",
-        "period": "Three Months Ended March 30, 2024",
-        "net_sales": 166674.0
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended",
+        "net_sales": 15231.0
       },
       {
         "type": "product",
-        "product": "Products",
-        "period": "Six Months Ended March 29, 2025",
-        "net_sales": 163344.0
+        "product": "iPad \u00ae",
+        "period": "",
+        "net_sales": 6402.0
+      },
+      {
+        "type": "product",
+        "product": "iPad \u00ae",
+        "period": "",
+        "net_sales": 6402.0
+      },
+      {
+        "type": "product",
+        "product": "iPad \u00ae",
+        "period": "",
+        "net_sales": 5559.0
+      },
+      {
+        "type": "product",
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 5559.0
+      },
+      {
+        "type": "product",
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 14490.0
+      },
+      {
+        "type": "product",
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 14490.0
+      },
+      {
+        "type": "product",
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended",
+        "net_sales": 12582.0
+      },
+      {
+        "type": "product",
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended",
+        "net_sales": 12582.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories",
+        "period": "",
+        "net_sales": 7522.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories",
+        "period": "",
+        "net_sales": 7522.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories",
+        "period": "",
+        "net_sales": 7913.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 7913.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 19269.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 19269.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended",
+        "net_sales": 19866.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended",
+        "net_sales": 19866.0
       },
       {
         "type": "product",
@@ -41,37 +185,37 @@
       {
         "type": "product",
         "product": "Services",
-        "period": "Three Months Ended",
+        "period": "",
         "net_sales": 23867.0
       },
       {
         "type": "product",
         "product": "Services",
-        "period": "Three Months Ended",
+        "period": "Three Months Ended March 29, 2025",
         "net_sales": 23867.0
       },
       {
         "type": "product",
         "product": "Services",
-        "period": "",
+        "period": "Three Months Ended March 29, 2025",
         "net_sales": 52985.0
       },
       {
         "type": "product",
         "product": "Services",
-        "period": "",
+        "period": "Three Months Ended March 29, 2025",
         "net_sales": 52985.0
       },
       {
         "type": "product",
         "product": "Services",
-        "period": "Six Months Ended",
+        "period": "Three Months Ended",
         "net_sales": 46984.0
       },
       {
         "type": "product",
         "product": "Services",
-        "period": "Six Months Ended",
+        "period": "Three Months Ended",
         "net_sales": 46984.0
       },
       {
@@ -84,18 +228,6 @@
         "type": "total",
         "product": "Total net sales",
         "period": "",
-        "net_sales": 95359.0
-      },
-      {
-        "type": "total",
-        "product": "Total net sales",
-        "period": "Three Months Ended",
-        "net_sales": 90753.0
-      },
-      {
-        "type": "total",
-        "product": "Total net sales",
-        "period": "Three Months Ended",
         "net_sales": 90753.0
       },
       {
@@ -107,142 +239,82 @@
       {
         "type": "total",
         "product": "Total net sales",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 210328.0
+      },
+      {
+        "type": "total",
+        "product": "Portion of total net sales that was included in deferred revenue as of the beginning of the period",
         "period": "",
-        "net_sales": 219659.0
+        "net_sales": 3672.0
       },
       {
         "type": "total",
-        "product": "Total net sales",
-        "period": "Six Months Ended",
-        "net_sales": 210328.0
+        "product": "Portion of total net sales that was included in deferred revenue as of the beginning of the period",
+        "period": "",
+        "net_sales": 3282.0
       },
       {
         "type": "total",
-        "product": "Total net sales",
-        "period": "Six Months Ended",
-        "net_sales": 210328.0
+        "product": "Portion of total net sales that was included in deferred revenue as of the beginning of the period",
+        "period": "",
+        "net_sales": 5440.0
+      },
+      {
+        "type": "total",
+        "product": "Portion of total net sales that was included in deferred revenue as of the beginning of the period",
+        "period": "Three Months Ended March 29, 2025",
+        "net_sales": 5135.0
       }
     ],
     "segment_operating": [
       {
-        "type": "region",
-        "region": "Americas",
+        "type": "total",
+        "region": "total net sales",
         "period": "Three Months Ended March 29, 2025",
-        "net_sales": 40315.0
+        "net_sales": 95359.0
       },
       {
-        "type": "region",
-        "region": "Americas",
+        "type": "total",
+        "region": "total net sales",
         "period": "Three Months Ended March 30, 2024",
-        "net_sales": 37273.0
+        "net_sales": 90753.0
       },
       {
-        "type": "region",
-        "region": "Americas",
+        "type": "total",
+        "region": "total net sales",
         "period": "Six Months Ended March 29, 2025",
-        "net_sales": 92963.0
+        "net_sales": 219659.0
       },
       {
-        "type": "region",
-        "region": "Americas",
+        "type": "total",
+        "region": "total net sales",
         "period": "Six Months Ended March 30, 2024",
-        "net_sales": 87703.0
+        "net_sales": 210328.0
       },
       {
-        "type": "region",
-        "region": "Europe",
+        "type": "total",
+        "region": "portion of total net sales that was included in deferred revenue as of the beginning of the period",
         "period": "Three Months Ended March 29, 2025",
-        "net_sales": 24454.0
+        "net_sales": 3672.0
       },
       {
-        "type": "region",
-        "region": "Europe",
+        "type": "total",
+        "region": "portion of total net sales that was included in deferred revenue as of the beginning of the period",
         "period": "Three Months Ended March 30, 2024",
-        "net_sales": 24123.0
+        "net_sales": 3282.0
       },
       {
-        "type": "region",
-        "region": "Europe",
+        "type": "total",
+        "region": "portion of total net sales that was included in deferred revenue as of the beginning of the period",
         "period": "Six Months Ended March 29, 2025",
-        "net_sales": 58315.0
+        "net_sales": 5440.0
       },
       {
-        "type": "region",
-        "region": "Europe",
+        "type": "total",
+        "region": "portion of total net sales that was included in deferred revenue as of the beginning of the period",
         "period": "Six Months Ended March 30, 2024",
-        "net_sales": 54520.0
-      },
-      {
-        "type": "region",
-        "region": "Greater China",
-        "period": "Three Months Ended March 29, 2025",
-        "net_sales": 16002.0
-      },
-      {
-        "type": "region",
-        "region": "Greater China",
-        "period": "Three Months Ended March 30, 2024",
-        "net_sales": 16372.0
-      },
-      {
-        "type": "region",
-        "region": "Greater China",
-        "period": "Six Months Ended March 29, 2025",
-        "net_sales": 34515.0
-      },
-      {
-        "type": "region",
-        "region": "Greater China",
-        "period": "Six Months Ended March 30, 2024",
-        "net_sales": 37191.0
-      },
-      {
-        "type": "region",
-        "region": "Japan",
-        "period": "Three Months Ended March 29, 2025",
-        "net_sales": 7298.0
-      },
-      {
-        "type": "region",
-        "region": "Japan",
-        "period": "Three Months Ended March 30, 2024",
-        "net_sales": 6262.0
-      },
-      {
-        "type": "region",
-        "region": "Japan",
-        "period": "Six Months Ended March 29, 2025",
-        "net_sales": 16285.0
-      },
-      {
-        "type": "region",
-        "region": "Japan",
-        "period": "Six Months Ended March 30, 2024",
-        "net_sales": 14029.0
-      },
-      {
-        "type": "region",
-        "region": "Rest of Asia Pacific",
-        "period": "Three Months Ended March 29, 2025",
-        "net_sales": 7290.0
-      },
-      {
-        "type": "region",
-        "region": "Rest of Asia Pacific",
-        "period": "Three Months Ended March 30, 2024",
-        "net_sales": 6723.0
-      },
-      {
-        "type": "region",
-        "region": "Rest of Asia Pacific",
-        "period": "Six Months Ended March 29, 2025",
-        "net_sales": 17581.0
-      },
-      {
-        "type": "region",
-        "region": "Rest of Asia Pacific",
-        "period": "Six Months Ended March 30, 2024",
-        "net_sales": 16885.0
+        "net_sales": 5135.0
       }
     ],
     "date": null,
