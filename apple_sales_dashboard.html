@@ -15,17 +15,16 @@
       top: 120%;
       background: #222;
       color: #fff;
-      font-size: 1rem;
+      font-size: 0.875rem;
       font-weight: 400;
-      padding: 16px 20px;
-      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
       box-shadow: 0 4px 16px rgba(0,0,0,0.18);
       z-index: 9999;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s;
-      min-width: 260px;
-      max-width: 360px;
+      width: min(calc(100vw - 2rem), 360px);
       text-align: left;
       line-height: 1.5;
     }
@@ -46,27 +45,71 @@
     .custom-tooltip-arrow svg {
       display: block;
     }
-    .custom-tooltip strong { font-weight: 600; font-size: 1rem; }
-    .custom-tooltip .text-sm { font-size: 14px; }
-    .custom-tooltip .font-medium { font-weight: 500; }
+    .custom-tooltip strong { 
+      font-weight: 600; 
+      font-size: 0.875rem; 
+    }
+    .custom-tooltip .text-sm { 
+      font-size: 0.75rem; 
+    }
+    .custom-tooltip .font-medium { 
+      font-weight: 500; 
+    }
+
+    /* Responsive chart container */
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 200px;
+    }
+
+    /* Responsive table styles */
+    .responsive-table {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Responsive grid adjustments */
+    @media (max-width: 640px) {
+      .grid-cols-1 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 641px) and (max-width: 1024px) {
+      .grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .grid-cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
   </style>
 </head>
 <body class="bg-gray-50">
-  <div class="p-6 min-h-screen">
-    <div class="mb-8">
-      <div class="flex items-center justify-between">
+  <div class="p-3 sm:p-4 lg:p-6 min-h-screen">
+    <div class="mb-4 sm:mb-6 lg:mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">Apple Sales & Finance Analytics - Mock data</h1>
-          <p class="text-gray-600">Quarterly Business Review Dashboard</p>
+          <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Apple Sales & Finance Analytics - Mock data</h1>
+          <p class="text-sm sm:text-base text-gray-600">Quarterly Business Review Dashboard</p>
         </div>
-        <div class="flex items-center gap-4">
-          <div class="flex flex-col items-center mr-2">
-            <label for="period-selector" class="text-sm font-medium text-gray-700 flex items-center gap-1">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
+          <!-- Period Selector (now horizontal) -->
+          <div class="flex flex-row items-center gap-1 w-full sm:w-auto mb-2 sm:mb-0">
+            <label for="period-selector" class="text-sm font-medium text-gray-700 flex items-center gap-1 mb-0">
               Period:
               <span class="relative group align-middle">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path stroke="currentColor" stroke-width="2" d="M12 8v4m0 4h.01"/></svg>
-                <div class="custom-tooltip absolute left-1/2 transform -translate-x-1/2 mt-6 bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity z-10" style="min-width: 260px; max-width: 360px; font-size: 1rem; font-weight: 400; padding: 16px 20px;">
-                  <div class="custom-tooltip-arrow" style="position: absolute; top: -8px; left: 50%; transform: translateX(-50%);"><svg width='16' height='8'><polygon points='0,8 8,0 16,8' style='fill:#222;'/></svg></div>
+                <div class="custom-tooltip">
+                  <div class="custom-tooltip-arrow">
+                    <svg width='16' height='8'><polygon points='0,8 8,0 16,8' style='fill:#222;'/></svg>
+                  </div>
                   <div>
                     <strong>Annual View</strong>
                     <div class="text-sm" style="margin-bottom: 10px;">
@@ -81,21 +124,23 @@
                 </div>
               </span>
             </label>
+            <select id="period-selector" class="w-full sm:w-auto ml-2 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
+              <option value="latest">Latest</option>
+              <option value="annual">Annual</option>
+            </select>
           </div>
-          <select id="period-selector" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
-            <option value="latest">Latest</option>
-            <option value="annual">Annual</option>
-          </select>
-          <div class="flex items-center gap-2">
+          <!-- Quarter Selector -->
+          <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
             <label class="text-sm font-medium text-gray-700">Quarter:</label>
-            <select id="quarter-selector" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
+            <select id="quarter-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
               <option value="Q2">Q2 2024</option>
               <option value="Q1">Q1 2024</option>
             </select>
           </div>
-          <div class="flex items-center gap-2">
+          <!-- Region Selector -->
+          <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
             <label class="text-sm font-medium text-gray-700">Region:</label>
-            <select id="region-selector" class="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
+            <select id="region-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
               <option value="All">All Regions</option>
               <option value="Americas">Americas</option>
               <option value="Europe">Europe</option>
@@ -105,65 +150,77 @@
         </div>
       </div>
     </div>
-    <div id="summary-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-6"></div>
+
+    <div id="summary-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6"></div>
+
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-      <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-base font-semibold text-gray-900 mb-2">Territory Performance vs Quota</h3>
-        <canvas id="territory-bar-chart" height="220"></canvas>
-      </div>
-      <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-base font-semibold text-gray-900 mb-2">Product Line Revenue</h3>
-        <canvas id="product-bar-chart" height="220"></canvas>
-      </div>
-      <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-base font-semibold text-gray-900 mb-2">Revenue by Sales Channel</h3>
-        <canvas id="channel-pie-chart" height="220"></canvas>
-      </div>
-    </div>
-    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
-      <h3 class="text-base font-semibold text-gray-900 mb-2">Data Quality Summary</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <div class="flex items-center p-2 bg-green-50 rounded-lg">
-          <span class="h-5 w-5 text-green-600 mr-2">✅</span>
-          <div>
-            <p class="font-medium text-green-900 text-sm">Data Completeness</p>
-            <p class="text-xs text-green-700">100% - All records have required fields</p>
-          </div>
+      <div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4">Territory Performance vs Quota</h3>
+        <div class="chart-container">
+          <canvas id="territory-bar-chart" height="220"></canvas>
         </div>
-        <div class="flex items-center p-2 bg-green-50 rounded-lg">
-          <span class="h-5 w-5 text-green-600 mr-2">✅</span>
-          <div>
-            <p class="font-medium text-green-900 text-sm">Revenue Reconciliation</p>
-            <p class="text-xs text-green-700">Validated - No discrepancies found</p>
-          </div>
+      </div>
+      <div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4">Product Line Revenue</h3>
+        <div class="chart-container">
+          <canvas id="product-bar-chart" height="220"></canvas>
         </div>
-        <div class="flex items-center p-2 bg-blue-50 rounded-lg">
-          <span class="h-5 w-5 text-blue-600 mr-2">📦</span>
-          <div>
-            <p class="font-medium text-blue-900 text-sm">Data Freshness</p>
-            <p class="text-xs text-blue-700">Updated - Current through <span id="data-freshness">Q2 2024</span></p>
-          </div>
+      </div>
+      <div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4">Revenue by Sales Channel</h3>
+        <div class="chart-container">
+          <canvas id="channel-pie-chart" height="220"></canvas>
         </div>
       </div>
     </div>
-    <div class="mt-8 pt-6 border-t border-gray-200">
-      <p class="text-sm text-gray-500">
+
+    <div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-200">
+      <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4">Data Quality Summary</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div class="flex items-center p-3 lg:p-4 bg-green-50 rounded-lg">
+          <span class="h-5 w-5 lg:h-6 lg:w-6 text-green-600 mr-3">✅</span>
+          <div>
+            <p class="font-medium text-green-900 text-sm lg:text-base">Data Completeness</p>
+            <p class="text-xs lg:text-sm text-green-700">100% - All records have required fields</p>
+          </div>
+        </div>
+        <div class="flex items-center p-3 lg:p-4 bg-green-50 rounded-lg">
+          <span class="h-5 w-5 lg:h-6 lg:w-6 text-green-600 mr-3">✅</span>
+          <div>
+            <p class="font-medium text-green-900 text-sm lg:text-base">Revenue Reconciliation</p>
+            <p class="text-xs lg:text-sm text-green-700">Validated - No discrepancies found</p>
+          </div>
+        </div>
+        <div class="flex items-center p-3 lg:p-4 bg-blue-50 rounded-lg">
+          <span class="h-5 w-5 lg:h-6 lg:w-6 text-blue-600 mr-3">📦</span>
+          <div>
+            <p class="font-medium text-blue-900 text-sm lg:text-base">Data Freshness</p>
+            <p class="text-xs lg:text-sm text-blue-700">Updated - Current through <span id="data-freshness">Q2 2024</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 lg:mt-8 pt-4 lg:pt-6 border-t border-gray-200">
+      <p class="text-xs lg:text-sm text-gray-500">
         Generated for Apple Business Systems Analyst - Sales & Finance Analytics Team |
         Data Source: Snowflake Data Warehouse | Last Updated: June 2024
       </p>
     </div>
   </div>
+
   <!-- Chat Button and Modal -->
-  <button id="chat-btn" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full p-4 shadow-lg z-50">
+  <button id="chat-btn" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-blue-600 text-white rounded-full p-3 sm:p-4 shadow-lg z-50">
     💬
   </button>
-  <div id="chat-modal" class="fixed bottom-20 right-6 w-80 bg-white rounded-xl shadow-lg border border-gray-200 p-4 z-50 hidden">
-    <div id="chat-messages" class="h-48 overflow-y-auto mb-2 text-sm"></div>
+  <div id="chat-modal" class="fixed bottom-16 right-4 sm:bottom-24 sm:right-6 w-[calc(100%-2rem)] sm:w-80 bg-white rounded-xl shadow-lg border border-gray-200 p-3 sm:p-4 z-50 hidden">
+    <div id="chat-messages" class="h-40 sm:h-48 overflow-y-auto mb-2 text-xs sm:text-sm"></div>
     <form id="chat-form" class="flex gap-2">
-      <input id="chat-input" type="text" class="flex-1 border rounded-lg px-2 py-1" placeholder="Ask about the dashboard..." autocomplete="off" />
-      <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded-lg">Send</button>
+      <input id="chat-input" type="text" class="flex-1 border rounded-lg px-2 py-1 text-sm" placeholder="Ask about the dashboard..." autocomplete="off" />
+      <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm">Send</button>
     </form>
   </div>
+
   <script>
     // --- Tooltip Helper ---
     function renderInfoIconWithTooltip(tooltipText) {
