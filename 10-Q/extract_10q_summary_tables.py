@@ -200,7 +200,6 @@ def tidy_products_services_table(table_data):
     print('[DEBUG] Full revenue table_data:')
     for row in table_data:
         print(row)
-    # Robustly extract iPhone, Mac, iPad, Wearables, Services, and Total net sales from the revenue table.
     if not table_data or len(table_data) < 3:
         return []
     # Find the header rows: period type and date
@@ -215,75 +214,43 @@ def tidy_products_services_table(table_data):
         return []
     period_row = table_data[period_row_idx]
     date_row = table_data[date_row_idx]
-    # Build period labels for each column, filling to the right as needed
+    # Build a column-to-period mapping
     period_labels = []
+    last_period = ''
     for p, d in zip(period_row, date_row):
         label = p.strip()
-        if d.strip():
-            label += f" {d.strip()}"
-        period_labels.append(label)
+        if label:
+            last_period = label
+        date = d.strip()
+        if date:
+            period_labels.append(f"{last_period} {date}")
+        else:
+            period_labels.append(last_period)
+    # Extend period_labels to match the max row length
     max_row_len = max(len(row) for row in table_data)
     if len(period_labels) < max_row_len:
         period_labels += [period_labels[-1]] * (max_row_len - len(period_labels))
-    # Valid products
-    valid_products = [
-        ("product", "iphone"),
-        ("product", "mac"),
-        ("product", "ipad"),
-        ("product", "wearables home and accessories"),
-        ("product", "services"),
-        ("total", "total net sales")
-    ]
-    seen = set()
-    tidy_rows = []
-    for row in table_data[date_row_idx+1:]:
-        # Find the first non-empty, non-numeric cell as the product label
-        label = None
-        match_type = None
-        match_prod = None
-        for cell in row:
-            if isinstance(cell, str) and cell.strip() and not is_numeric(cell):
-                candidate = clean_label(cell)
-                for row_type, prod in valid_products:
-                    if prod in candidate:
-                        label = cell.strip()
-                        match_type = row_type
-                        match_prod = prod
-                        break
-                if label:
-                    break
-        if not label or (match_type, label, match_prod) in seen:
+    # Extract product rows
+    products = []
+    for row in table_data[date_row_idx + 1:]:
+        if not row or not row[0]:
             continue
-        seen.add((match_type, label, match_prod))
-        # Extract all numeric values in the row after the label
-        # Find the index of the label cell
-        label_idx = None
-        for idx, cell in enumerate(row):
-            if isinstance(cell, str) and cell.strip() == label:
-                label_idx = idx
-                break
-        if label_idx is None:
+        product = row[0].strip()
+        if not product or product.lower() == "total net sales":
             continue
-        # Start after the label cell
-        col_idx = label_idx + 1
-        period_idx = 0
-        # Skip $ signs and empty cells
-        while col_idx < len(row) and period_idx < len(period_labels):
-            cell = row[col_idx]
-            if isinstance(cell, str) and cell.strip() == '$':
-                col_idx += 1
-                continue
-            num = clean_number(cell)
-            if num is not None:
-                tidy_rows.append({
-                    "type": match_type,
-                    "product": label,
-                    "period": period_labels[period_idx],
-                    "net_sales": num
-                })
-                period_idx += 1
-            col_idx += 1
-    return tidy_rows
+        # Extract numeric values and their column indices
+        for i, cell in enumerate(row):
+            if cell and cell.replace(",", "").replace("$", "").strip().replace(".", "").isdigit():
+                value = float(cell.replace(",", "").replace("$", ""))
+                period = period_labels[i] if i < len(period_labels) else ''
+                if period:
+                    products.append({
+                        "product": product,
+                        "period": period,
+                        "net_sales": value,
+                        "type": "product" if product.lower() != "total net sales" else "total"
+                    })
+    return products
 
 def tidy_segment_operating_table(table_data):
     if not table_data or len(table_data) < 3:
@@ -302,67 +269,56 @@ def tidy_segment_operating_table(table_data):
     date_row = table_data[date_row_idx]
     # Build period labels for each column
     period_labels = []
+    last_period = ''
     for p, d in zip(period_row, date_row):
         label = p.strip()
-        if d.strip():
-            label += f" {d.strip()}"
-        period_labels.append(label)
+        if label:
+            last_period = label
+        date = d.strip()
+        if date:
+            period_labels.append(f"{last_period} {date}")
+        else:
+            period_labels.append(last_period)
+    max_row_len = max(len(row) for row in table_data)
+    if len(period_labels) < max_row_len:
+        period_labels += [period_labels[-1]] * (max_row_len - len(period_labels))
     # Acceptable region names (substring match)
     valid_regions = [
-        ("region", "americas"),
-        ("region", "europe"),
-        ("region", "greater china"),
-        ("region", "japan"),
-        ("region", "rest of asia pacific"),
-        ("total", "total net sales")
+        "americas",
+        "europe",
+        "greater china",
+        "japan",
+        "rest of asia pacific"
     ]
-    seen = set()
     tidy_rows = []
     current_region = None
-    current_type = None
     for row in table_data[date_row_idx+1:]:
+        print('[DEBUG] Row:', row)
         if not row or not isinstance(row[0], str):
             continue
         label = clean_label(row[0].strip())
+        print('[DEBUG] Cleaned label:', label)
         if not label:
             continue
         # Check for region header
-        matched_region = False
-        for row_type, reg in valid_regions:
-            if reg in label.lower() and row_type != "total":
-                current_region = label
-                current_type = row_type
-                matched_region = True
-                break
-        if matched_region:
+        if any(region in label for region in valid_regions):
+            current_region = row[0].strip()
+            print('[DEBUG] Set current_region:', current_region)
             continue
-        # Check for total row
-        for row_type, reg in valid_regions:
-            if reg in label.lower() and row_type == "total" and (row_type, label, reg) not in seen:
-                seen.add((row_type, label, reg))
-                for i, val in enumerate(row[1:len(period_labels)+1]):
-                    period = period_labels[i+1] if i+1 < len(period_labels) else period_labels[-1]
+        # Only extract 'Net sales' sub-rows for regions
+        if current_region and label == "net sales":
+            print('[DEBUG] Extracting net sales for region:', current_region)
+            for i, val in enumerate(row):
+                if is_numeric(val):
+                    period = period_labels[i] if i < len(period_labels) else ''
                     num = clean_number(val)
                     if num is not None:
                         tidy_rows.append({
-                            "type": row_type,
-                            "region": label,
+                            "type": "region",
+                            "region": current_region,
                             "period": period,
                             "net_sales": num
                         })
-                break
-        # Only extract 'Net sales' sub-rows for regions
-        if current_region and label.lower() == "net sales":
-            for i, val in enumerate(row[1:len(period_labels)+1]):
-                period = period_labels[i+1] if i+1 < len(period_labels) else period_labels[-1]
-                num = clean_number(val)
-                if num is not None:
-                    tidy_rows.append({
-                        "type": current_type,
-                        "region": current_region,
-                        "period": period,
-                        "net_sales": num
-                    })
     return tidy_rows
 
 def find_relevant_tables(soup, keywords):

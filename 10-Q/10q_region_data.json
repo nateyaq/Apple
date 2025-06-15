@@ -1,6 +1,79 @@
 [
   {
     "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000057/aapl-20250329.htm",
-    "region_operating": []
+    "region_operating": [
+      {
+        "type": "region",
+        "region": "Americas",
+        "period": "March 29, 2025",
+        "net_sales": 40315.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "period": "March 30, 2024",
+        "net_sales": 37273.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "period": "March 29, 2025",
+        "net_sales": 24454.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "period": "March 30, 2024",
+        "net_sales": 24123.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "period": "March 29, 2025",
+        "net_sales": 16002.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "period": "March 30, 2024",
+        "net_sales": 16372.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "period": "March 29, 2025",
+        "net_sales": 7298.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "period": "March 30, 2024",
+        "net_sales": 6262.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "period": "March 29, 2025",
+        "net_sales": 7290.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "period": "March 30, 2024",
+        "net_sales": 6723.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "period": "March 29, 2025",
+        "net_sales": 95359.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "period": "March 30, 2024",
+        "net_sales": 90753.0
+      }
+    ]
   }
 ]
