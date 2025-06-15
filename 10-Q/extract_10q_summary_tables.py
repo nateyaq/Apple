@@ -55,7 +55,7 @@ def extract_table_data(table):
     for tr in table.find_all('tr'):
         row = []
         for td in tr.find_all(['td', 'th'], recursive=False):
-            # Prefer iXBRL value if present
+            # Always extract value from <ix:nonfraction> if present
             ix = td.find(['ix:nonfraction', 'ix:nonnumeric'])
             if ix:
                 text = ix.get_text(strip=True)
@@ -95,8 +95,9 @@ def clean_label(label):
     # Remove trailing footnote markers like (1), (2), etc. and trailing colons
     label = re.sub(r'[:\s]*$', '', re.sub(r'\s*\([0-9]+\)$', '', label)).strip()
     # Remove all non-alphanumeric characters except spaces
-    label = re.sub(r'[^\w\s]', '', label)
-    return label
+    label = re.sub(r'[^a-zA-Z0-9 ]', '', label)
+    label = re.sub(r'\s+', ' ', label)  # Collapse multiple spaces
+    return label.strip().lower()
 
 def find_year_value(row, year_cols, idx):
     col_idx, year = year_cols[idx]
@@ -195,8 +196,11 @@ def find_valid_percent(row, change_idx):
     return None
 
 def tidy_products_services_table(table_data):
-    # NOTE: In this 10-Q, the revenue table only contains 'Products', 'Services', and 'Total net sales'.
-    # There is no breakdown for iPhone, Mac, iPad, or Wearables in the summary table.
+    # Debug: print the full table_data for investigation
+    print('[DEBUG] Full revenue table_data:')
+    for row in table_data:
+        print(row)
+    # Robustly extract iPhone, Mac, iPad, Wearables, Services, and Total net sales from the revenue table.
     if not table_data or len(table_data) < 3:
         return []
     # Find the header rows: period type and date
@@ -218,28 +222,31 @@ def tidy_products_services_table(table_data):
         if d.strip():
             label += f" {d.strip()}"
         period_labels.append(label)
-    # Extend period_labels to match the max row length
     max_row_len = max(len(row) for row in table_data)
     if len(period_labels) < max_row_len:
         period_labels += [period_labels[-1]] * (max_row_len - len(period_labels))
-    # Only match 'Products', 'Services', and 'Total net sales'
+    # Valid products
     valid_products = [
-        ("product", "products"),
+        ("product", "iphone"),
+        ("product", "mac"),
+        ("product", "ipad"),
+        ("product", "wearables home and accessories"),
         ("product", "services"),
         ("total", "total net sales")
     ]
     seen = set()
     tidy_rows = []
     for row in table_data[date_row_idx+1:]:
-        if not row or not any(isinstance(cell, str) for cell in row[:2]):
-            continue
-        candidate_labels = [clean_label(row[idx].strip()) if isinstance(row[idx], str) else "" for idx in range(min(2, len(row)))]
+        # Find the first non-empty, non-numeric cell as the product label
         label = None
-        for idx, candidate in enumerate(candidate_labels):
-            if candidate:
+        match_type = None
+        match_prod = None
+        for cell in row:
+            if isinstance(cell, str) and cell.strip() and not is_numeric(cell):
+                candidate = clean_label(cell)
                 for row_type, prod in valid_products:
-                    if prod == candidate.lower():
-                        label = candidate
+                    if prod in candidate:
+                        label = cell.strip()
                         match_type = row_type
                         match_prod = prod
                         break
@@ -248,24 +255,34 @@ def tidy_products_services_table(table_data):
         if not label or (match_type, label, match_prod) in seen:
             continue
         seen.add((match_type, label, match_prod))
-        col_idx = 0
-        while col_idx < len(row) and (isinstance(row[col_idx], str) and not is_numeric(row[col_idx])):
-            col_idx += 1
-        period_idx = 1
+        # Extract all numeric values in the row after the label
+        # Find the index of the label cell
+        label_idx = None
+        for idx, cell in enumerate(row):
+            if isinstance(cell, str) and cell.strip() == label:
+                label_idx = idx
+                break
+        if label_idx is None:
+            continue
+        # Start after the label cell
+        col_idx = label_idx + 1
+        period_idx = 0
+        # Skip $ signs and empty cells
         while col_idx < len(row) and period_idx < len(period_labels):
-            while col_idx < len(row) and (isinstance(row[col_idx], str) and row[col_idx].strip() == '$'):
+            cell = row[col_idx]
+            if isinstance(cell, str) and cell.strip() == '$':
                 col_idx += 1
-            if col_idx < len(row):
-                num = clean_number(row[col_idx])
-                if num is not None:
-                    tidy_rows.append({
-                        "type": match_type,
-                        "product": label,
-                        "period": period_labels[period_idx],
-                        "net_sales": num
-                    })
+                continue
+            num = clean_number(cell)
+            if num is not None:
+                tidy_rows.append({
+                    "type": match_type,
+                    "product": label,
+                    "period": period_labels[period_idx],
+                    "net_sales": num
+                })
+                period_idx += 1
             col_idx += 1
-            period_idx += 1
     return tidy_rows
 
 def tidy_segment_operating_table(table_data):
@@ -350,13 +367,15 @@ def tidy_segment_operating_table(table_data):
 
 def find_relevant_tables(soup, keywords):
     relevant_tables = []
-    # Search for all divs and ix:nonnumeric tags that contain a table
-    for container in soup.find_all(['div', 'ix:nonnumeric']):
+    # Search for all ix:continuation, ix:nonnumeric, divs that contain a table
+    for container in soup.find_all(['ix:continuation', 'ix:nonnumeric', 'div']):
         text = container.get_text(separator=' ', strip=True).lower()
         if any(kw.lower() in text for kw in keywords):
-            table = container.find('table')
-            if table:
-                relevant_tables.append(table)
+            for table in container.find_all('table'):
+                # Only add tables that contain a product keyword (e.g., 'iphone')
+                table_text = table.get_text(separator=' ', strip=True).lower()
+                if any(prod in table_text for prod in ['iphone', 'mac', 'ipad', 'wearables', 'disaggregated net sales']):
+                    relevant_tables.append(table)
     return relevant_tables
 
 # --- Main Extraction Logic ---
@@ -411,6 +430,69 @@ def main():
     with open(out_path, 'w') as f:
         json.dump(results, f, indent=2)
     print(f"Saved {len(results)} filings to {out_path}")
+
+def extract_revenue_table(table):
+    """Extract revenue data from the table."""
+    revenue_data = {
+        'Products': {},
+        'Services': {},
+        'Total net sales': {}
+    }
+    
+    # Track if we're in a Products section
+    in_products_section = False
+    current_product = None
+    
+    # First pass: identify all valid labels
+    valid_labels = set()
+    for row in table.find_all('tr'):
+        cells = row.find_all(['td', 'th'])
+        if len(cells) >= 2:
+            label = cells[0].get_text(strip=True)
+            if label:
+                valid_labels.add(label)
+    
+    print("\nCandidate labels from revenue table:")
+    for label in sorted(valid_labels):
+        print(f"  - {label}")
+    
+    # Second pass: extract data
+    for row in table.find_all('tr'):
+        cells = row.find_all(['td', 'th'])
+        if len(cells) >= 2:
+            label = cells[0].get_text(strip=True)
+            if not label:
+                continue
+                
+            # Check if this is a Products section header
+            if label == 'Products':
+                in_products_section = True
+                continue
+                
+            # If we're in Products section, handle sub-rows
+            if in_products_section:
+                if label in ['iPhone', 'Mac', 'iPad', 'Wearables, Home and Accessories']:
+                    current_product = label
+                    revenue_data['Products'][current_product] = {}
+                    for i, cell in enumerate(cells[1:], 1):
+                        value = cell.get_text(strip=True)
+                        if value:
+                            revenue_data['Products'][current_product][f'Q{i}'] = value
+                elif label == 'Services':
+                    in_products_section = False
+                    current_product = None
+                elif current_product and label == 'Total net sales':
+                    in_products_section = False
+                    current_product = None
+                    
+            # Handle main categories
+            if label in ['Services', 'Total net sales']:
+                for i, cell in enumerate(cells[1:], 1):
+                    value = cell.get_text(strip=True)
+                    if value:
+                        revenue_data[label][f'Q{i}'] = value
+    
+    return revenue_data
 
 if __name__ == '__main__':
     main() 
