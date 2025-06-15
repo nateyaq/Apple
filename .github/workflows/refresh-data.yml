@@ -24,7 +24,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run SEC data parser
-        run: python apple_sec_data_parser.py
+        run: python scripts/apple_sec_data_parser.py
 
       - name: Commit and push updated data
         run: |
