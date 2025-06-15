@@ -7,99 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .animate-spin {
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .custom-tooltip {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            top: 120%;
-            background: #222;
-            color: #fff;
-            font-size: 0.875rem;
-            font-weight: 400;
-            padding: 0.75rem 1rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s;
-            width: min(calc(100vw - 2rem), 360px);
-            text-align: left;
-            line-height: 1.5;
-        }
-        .group:hover .custom-tooltip {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .custom-tooltip-arrow {
-            position: absolute;
-            top: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 16px;
-            height: 8px;
-            overflow: hidden;
-            z-index: 10000;
-        }
-        .custom-tooltip-arrow svg {
-            display: block;
-        }
-        .custom-tooltip strong { 
-            font-weight: 600; 
-            font-size: 0.875rem; 
-        }
-        .custom-tooltip .text-sm { 
-            font-size: 0.75rem; 
-        }
-        .custom-tooltip .font-medium { 
-            font-weight: 500; 
-        }
-
-        /* Responsive chart container */
-        .chart-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            min-height: 200px;
-        }
-
-        /* Responsive table styles */
-        .responsive-table {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* Responsive grid adjustments */
-        @media (max-width: 640px) {
-            .grid-cols-1 {
-                grid-template-columns: repeat(1, minmax(0, 1fr));
-            }
-        }
-
-        @media (min-width: 641px) and (max-width: 1024px) {
-            .grid-cols-2 {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
-        @media (min-width: 1025px) {
-            .grid-cols-4 {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-            }
-        }
-    </style>
 </head>
 <body class="bg-gray-50">
     <div id="dashboard-container" class="p-3 sm:p-4 lg:p-6 min-h-screen">
@@ -115,12 +22,12 @@
         <div id="dashboard" class="hidden">
             <!-- Header -->
             <div class="mb-4 sm:mb-6 lg:mb-8">
-                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                    <div>
-                        <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem;">
+                    <div style="flex: 1 1 300px; min-width: 220px;">
+                        <h1 style="font-size:2rem;font-weight:700;color:#111827;display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
                             Apple Inc. Financial Dashboard - Real Data
-                            <div class="relative inline-block group">
-                                <i data-lucide="info" class="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 cursor-pointer"></i>
+                            <span class="relative group align-middle">
+                                <i data-lucide="info" style="font-size:1.1rem;color:#2563eb;cursor:pointer;"></i>
                                 <div class="custom-tooltip">
                                     <div class="custom-tooltip-arrow">
                                         <svg width='16' height='8'><polygon points='0,8 8,0 16,8' style='fill:#222;'/></svg>
@@ -137,17 +44,15 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </span>
                         </h1>
-                        <p class="text-sm sm:text-base text-gray-600">SEC Filing Data Analysis - Real-time EDGAR API Data</p>
+                        <p style="color:#6b7280;font-size:1rem;">SEC Filing Data Analysis - Real-time EDGAR API Data</p>
                     </div>
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                        <!-- Period Selector -->
-                        <div class="flex flex-col items-start sm:items-center w-full sm:w-auto">
-                            <label for="period-selector" class="text-sm sm:text-base font-medium text-gray-700 flex items-center gap-1 mb-1">
-                                Period:
+                    <div style="display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;">
+                        <div style="display:flex;align-items:center;gap:0.5rem;">
+                            <label for="period-selector" style="font-size:1rem;font-weight:500;color:#374151;display:flex;align-items:center;gap:0.25rem;">Period:
                                 <span class="relative group align-middle">
-                                    <i data-lucide="info" class="h-4 w-4 text-blue-400 cursor-pointer"></i>
+                                    <i data-lucide="info" style="font-size:1.1rem;color:#2563eb;cursor:pointer;"></i>
                                     <div class="custom-tooltip">
                                         <div class="custom-tooltip-arrow">
                                             <svg width='16' height='8'><polygon points='0,8 8,0 16,8' style='fill:#222;'/></svg>
@@ -166,20 +71,14 @@
                                     </div>
                                 </span>
                             </label>
-                            <select id="period-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm sm:text-base">
+                            <select id="period-selector" style="margin-left:0.5rem;min-width:110px;" class="">
                                 <option value="latest">Latest</option>
                                 <option value="annual">Annual</option>
                             </select>
                         </div>
-                        
-                        <!-- View Selector -->
-                        <div class="flex gap-2 w-full sm:w-auto">
-                            <button id="overview-btn" class="flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg font-medium bg-blue-600 text-white text-sm sm:text-base">
-                                Overview
-                            </button>
-                            <button id="detailed-btn" class="flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg font-medium bg-white text-gray-600 border border-gray-300 text-sm sm:text-base">
-                                Detailed
-                            </button>
+                        <div style="display:flex;align-items:center;gap:0.5rem;">
+                            <button id="overview-btn" class="primary-btn" style="padding:0.5rem 1.25rem;font-size:1rem;border-radius:0.75rem;margin-right:0.25rem;">Overview</button>
+                            <button id="detailed-btn" class="secondary-btn" style="padding:0.5rem 1.25rem;font-size:1rem;border-radius:0.75rem;">Detailed</button>
                         </div>
                     </div>
                 </div>
@@ -187,65 +86,60 @@
 
             <!-- Summary Cards -->
             <div id="summary-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 mb-6 lg:mb-8">
-                <!-- Cards will be populated by JavaScript -->
+                <!-- Cards will be populated by JavaScript using <div class='card'> ... </div> -->
             </div>
 
             <!-- Charts Section -->
             <div id="charts-section" class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 mb-6 lg:mb-8">
                 <!-- Financial Trends Chart -->
-                <div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-200">
-                    <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4">Financial Performance Trends</h3>
-                    <div id="trends-chart" class="chart-container h-60 lg:h-80">
-                        <!-- Chart will be rendered here -->
-                    </div>
+                <div class="chart-container">
+                    <h3>Financial Performance Trends</h3>
+                    <div id="trends-chart" style="height: 15rem; min-height: 200px;"></div>
                 </div>
 
                 <!-- Growth Analysis Chart -->
-                <div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-200">
-                    <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4">Growth Rate Analysis</h3>
-                    <div id="growth-chart" class="chart-container h-60 lg:h-80">
-                        <!-- Chart will be rendered here -->
-                    </div>
+                <div class="chart-container">
+                    <h3>Growth Rate Analysis</h3>
+                    <div id="growth-chart" style="height: 15rem; min-height: 200px;"></div>
                 </div>
             </div>
 
             <!-- Key Financial Ratios -->
-            <div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-200 mb-6 lg:mb-8">
-                <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4">Key Financial Insights</h3>
+            <div class="card mb-6 lg:mb-8">
+                <h3>Key Financial Insights</h3>
                 <div id="financial-ratios" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-                    <!-- Ratios will be populated by JavaScript -->
+                    <!-- Ratios will be populated by JavaScript using <div class='card'> ... </div> -->
                 </div>
             </div>
 
             <!-- Data Source Information -->
-            <div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-200">
-                <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4">Data Source & Quality</h3>
+            <div class="card">
+                <h3>Data Source & Quality</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="flex items-center p-3 lg:p-4 bg-green-50 rounded-lg">
-                        <i data-lucide="check-circle" class="h-5 w-5 lg:h-6 lg:w-6 text-green-600 mr-3"></i>
+                    <div class="flex items-center">
+                        <i data-lucide="check-circle" style="font-size:1.5rem;color:#16a34a;margin-right:1rem;"></i>
                         <div>
-                            <p class="font-medium text-green-900 text-sm lg:text-base">SEC EDGAR Database</p>
-                            <p class="text-xs lg:text-sm text-green-700" id="data-source-note">Official 10-K & 10-Q Filings</p>
+                            <p style="color:#16a34a;font-weight:500;">SEC EDGAR Database</p>
+                            <p id="data-source-note" style="color:#22c55e;">Official 10-K & 10-Q Filings</p>
                         </div>
                     </div>
-                    <div class="flex items-center p-3 lg:p-4 bg-blue-50 rounded-lg">
-                        <i data-lucide="calendar" class="h-5 w-5 lg:h-6 lg:w-6 text-blue-600 mr-3"></i>
+                    <div class="flex items-center">
+                        <i data-lucide="calendar" style="font-size:1.5rem;color:#2563eb;margin-right:1rem;"></i>
                         <div>
-                            <p class="font-medium text-blue-900 text-sm lg:text-base">Data Freshness</p>
-                            <p class="text-xs lg:text-sm text-blue-700" id="last-updated">Updated: Loading...</p>
+                            <p style="color:#2563eb;font-weight:500;">Data Freshness</p>
+                            <p id="last-updated" style="color:#60a5fa;">Updated: Loading...</p>
                         </div>
                     </div>
-                    <div class="flex items-center p-3 lg:p-4 bg-purple-50 rounded-lg">
-                        <i data-lucide="lightbulb" class="h-5 w-5 lg:h-6 lg:w-6 text-purple-600 mr-3"></i>
+                    <div class="flex items-center">
+                        <i data-lucide="lightbulb" style="font-size:1.5rem;color:#a21caf;margin-right:1rem;"></i>
                         <div>
-                            <p class="font-medium text-purple-900 text-sm lg:text-base">GAAP Compliant</p>
-                            <p class="text-xs lg:text-sm text-purple-700">US-GAAP Standard Metrics</p>
+                            <p style="color:#a21caf;font-weight:500;">GAAP Compliant</p>
+                            <p style="color:#c084fc;">US-GAAP Standard Metrics</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="mt-4 p-3 lg:p-4 bg-gray-50 rounded-lg">
-                    <p class="text-xs lg:text-sm text-gray-600">
+                <div style="margin-top:1rem;padding:1rem;background:#f3f4f6;border-radius:0.75rem;">
+                    <p style="color:#6b7280;font-size:0.95rem;">
                         <strong>Note:</strong> All financial data is sourced directly from Apple Inc.'s SEC filings using the EDGAR API. 
                         Values are presented in billions of USD. Growth rates are calculated year-over-year based on the most recent 
                         comparable periods available in the filings.
@@ -264,14 +158,14 @@
     </div>
 
     <!-- Chat Button and Modal -->
-    <button id="chat-btn" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-blue-600 text-white rounded-full p-3 sm:p-4 shadow-lg z-50">
+    <button id="chat-btn" class="primary-btn fixed bottom-4 right-4 sm:bottom-6 sm:right-6 rounded-full p-3 sm:p-4 shadow-lg z-50" style="font-size:1.5rem;line-height:1;">
         💬
     </button>
     <div id="chat-modal" class="fixed bottom-16 right-4 sm:bottom-24 sm:right-6 w-[calc(100%-2rem)] sm:w-80 bg-white rounded-xl shadow-lg border border-gray-200 p-3 sm:p-4 z-50 hidden">
         <div id="chat-messages" class="h-40 sm:h-48 overflow-y-auto mb-2 text-xs sm:text-sm"></div>
         <form id="chat-form" class="flex gap-2">
             <input id="chat-input" type="text" class="flex-1 border rounded-lg px-2 py-1 text-sm" placeholder="Ask about the dashboard..." autocomplete="off" />
-            <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm">Send</button>
+            <button type="submit" class="primary-btn" style="padding:0.5rem 1.25rem;font-size:1rem;border-radius:0.75rem;">Send</button>
         </form>
     </div>
 
@@ -426,35 +320,24 @@
 
             const cardsContainer = document.getElementById('summary-cards');
             cardsContainer.innerHTML = summaryCards.map(card => `
-                <div class="bg-white p-3 lg:p-4 rounded-lg shadow-sm border border-gray-200">
-                    <div class="flex items-center justify-between">
+                <div class="card">
+                    <div style="display:flex;align-items:center;justify-content:space-between;">
                         <div>
-                            <p class="text-sm lg:text-base font-medium text-gray-600">${card.title}</p>
-                            <p class="text-xl lg:text-2xl font-bold text-gray-900">$${card.value}B</p>
-                            ${card.period ? `<p class="text-xs lg:text-sm text-gray-500 mt-1">${card.form} • ${new Date(card.period).toLocaleDateString()}</p>` : ''}
+                            <p class="summary-title">${card.title}</p>
+                            <p class="summary-value">$${card.value}B</p>
+                            ${card.period ? `<p style="color:#6b7280;font-size:0.95rem;margin-top:0.25rem;">${card.form} • ${new Date(card.period).toLocaleDateString()}</p>` : ''}
                         </div>
-                        <div class="p-2 lg:p-3 rounded-lg ${card.bgColor}">
-                            <i data-lucide="${card.icon}" class="h-5 w-5 lg:h-6 lg:w-6 ${card.color}"></i>
+                        <div style="padding:0.75rem;border-radius:0.75rem;background:#f3f4f6;">
+                            <i data-lucide="${card.icon}" class="summary-icon" style="color:#2563eb;"></i>
                         </div>
                     </div>
-                    <div class="flex items-center mt-2 lg:mt-3">
+                    <div style="display:flex;align-items:center;margin-top:0.75rem;">
                         <i data-lucide="${card.growth >= 0 ? 'trending-up' : 'trending-down'}" 
-                           class="h-4 w-4 ${card.growth >= 0 ? 'text-green-600' : 'text-red-600'}"></i>
-                        <span class="ml-1 text-sm lg:text-base font-medium ${card.growth >= 0 ? 'text-green-600' : 'text-red-600'}">
+                           style="font-size:1.1rem;color:${card.growth >= 0 ? '#16a34a' : '#dc2626'};"></i>
+                        <span style="margin-left:0.5rem;font-size:1rem;font-weight:500;color:${card.growth >= 0 ? '#16a34a' : '#dc2626'};">
                             ${card.growth >= 0 ? '+' : ''}${card.growth.toFixed(1)}%
                         </span>
-                        <span class="ml-2 text-xs lg:text-sm text-gray-500">${currentPeriod === 'quarterly' ? 'vs Annual' : 'YoY'}</span>
-                    </div>
-                    <div class="relative inline-block group ml-1" v-if="${card.showInfo}">
-                        <i data-lucide="info" class="h-4 w-4 text-blue-400 cursor-pointer"></i>
-                        <div class="custom-tooltip" style="min-width: 220px;">
-                            <div class="custom-tooltip-arrow">
-                                <svg width="16" height="8"><polygon points="0,8 8,0 16,8" style="fill:#222;"/></svg>
-                            </div>
-                            The latest annual (10-K) data for this metric may not be available until after the company files its annual report, typically in September.<br>
-                            <span class="block mt-1 text-xs text-gray-300">As of today, the current fiscal year is FY ${fiscalYear}, Q${fiscalQuarter}.</span>
-                            <span class="block mt-1 text-xs text-gray-300">The fiscal year started in ${fiscalYearStartStr} and ends in ${fiscalYearEndStr}.</span>
-                        </div>
+                        <span style="margin-left:0.75rem;font-size:0.95rem;color:#6b7280;">${currentPeriod === 'quarterly' ? 'vs Annual' : 'YoY'}</span>
                     </div>
                 </div>
             `).join('');
@@ -538,10 +421,14 @@
         function setupEventHandlers() {
             document.getElementById('overview-btn').addEventListener('click', function() {
                 switchView('overview');
+                document.getElementById('overview-btn').className = 'primary-btn';
+                document.getElementById('detailed-btn').className = 'secondary-btn';
             });
             
             document.getElementById('detailed-btn').addEventListener('click', function() {
                 switchView('detailed');
+                document.getElementById('overview-btn').className = 'secondary-btn';
+                document.getElementById('detailed-btn').className = 'primary-btn';
             });
             
             document.getElementById('period-selector').addEventListener('change', function(e) {
@@ -557,12 +444,12 @@
             const detailedBtn = document.getElementById('detailed-btn');
             
             if (view === 'overview') {
-                overviewBtn.className = 'px-4 py-2 rounded-lg font-medium bg-blue-600 text-white';
-                detailedBtn.className = 'px-4 py-2 rounded-lg font-medium bg-white text-gray-600 border border-gray-300';
+                overviewBtn.className = 'primary-btn';
+                detailedBtn.className = 'secondary-btn';
                 showOverviewContent();
             } else {
-                overviewBtn.className = 'px-4 py-2 rounded-lg font-medium bg-white text-gray-600 border border-gray-300';
-                detailedBtn.className = 'px-4 py-2 rounded-lg font-medium bg-blue-600 text-white';
+                overviewBtn.className = 'secondary-btn';
+                detailedBtn.className = 'primary-btn';
                 showDetailedContent();
             }
         }
@@ -1087,5 +974,164 @@
             `;
         }
     </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !important;
+            background: #f9fafb !important;
+            color: #111827 !important;
+        }
+        .card {
+            background: #fff !important;
+            border-radius: 1rem !important;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+            padding: 1.5rem !important;
+        }
+        .primary-btn {
+            background: #2563eb !important;
+            color: #fff !important;
+            font-weight: 500 !important;
+            border: none !important;
+        }
+        .secondary-btn {
+            background: #f3f4f6 !important;
+            color: #2563eb !important;
+            font-weight: 500 !important;
+            border: 1.5px solid #2563eb !important;
+        }
+        .primary-btn:active {
+            background: #1d4ed8 !important;
+        }
+        .secondary-btn:active {
+            background: #e0e7ef !important;
+        }
+        .custom-tooltip {
+            font-family: inherit !important;
+            background: #222 !important;
+            color: #fff !important;
+            font-size: 0.95rem !important;
+            border-radius: 0.75rem !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18) !important;
+        }
+        .chart-container {
+            background: #fff !important;
+            border-radius: 1rem !important;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+            padding: 1rem !important;
+        }
+        select, button, input {
+            border-radius: 0.75rem !important;
+            border: 1px solid #e5e7eb !important;
+            background: #f9fafb !important;
+            font-family: inherit !important;
+            font-size: 1rem !important;
+            transition: box-shadow 0.2s !important;
+        }
+        select:focus, input:focus {
+            outline: none !important;
+            box-shadow: 0 0 0 2px #2563eb33 !important;
+            border-color: #2563eb !important;
+        }
+        .summary-title {
+            color: #6b7280 !important;
+            font-size: 0.95rem !important;
+            font-weight: 500 !important;
+        }
+        .summary-value {
+            color: #111827 !important;
+            font-size: 2rem !important;
+            font-weight: 700 !important;
+        }
+        .summary-icon {
+            font-size: 1.5rem !important;
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .custom-tooltip {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 120%;
+            background: #222;
+            color: #fff;
+            font-size: 0.875rem;
+            font-weight: 400;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            width: min(calc(100vw - 2rem), 360px);
+            text-align: left;
+            line-height: 1.5;
+        }
+        .group:hover .custom-tooltip {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .custom-tooltip-arrow {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 8px;
+            overflow: hidden;
+            z-index: 10000;
+        }
+        .custom-tooltip-arrow svg {
+            display: block;
+        }
+        .custom-tooltip strong { 
+            font-weight: 600; 
+            font-size: 0.875rem; 
+        }
+        .custom-tooltip .text-sm { 
+            font-size: 0.75rem; 
+        }
+        .custom-tooltip .font-medium { 
+            font-weight: 500; 
+        }
+
+        /* Responsive chart container */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+        }
+
+        /* Responsive table styles */
+        .responsive-table {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Responsive grid adjustments */
+        @media (max-width: 640px) {
+            .grid-cols-1 {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .grid-cols-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+    </style>
 </body>
 </html>
