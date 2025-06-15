@@ -8,6 +8,65 @@
   <!-- Chart.js for charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: #f9fafb;
+      color: #111827;
+    }
+    .card {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 1.5rem;
+    }
+    .custom-tooltip {
+      font-family: inherit;
+      background: #222;
+      color: #fff;
+      font-size: 0.95rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .chart-container {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 1rem;
+    }
+    select, button, input {
+      border-radius: 0.75rem !important;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: box-shadow 0.2s;
+    }
+    select:focus, input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #2563eb33;
+      border-color: #2563eb;
+    }
+    button {
+      background: #2563eb;
+      color: #fff;
+      font-weight: 500;
+    }
+    button:active {
+      background: #1d4ed8;
+    }
+    .summary-title {
+      color: #6b7280;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    .summary-value {
+      color: #111827;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    .summary-icon {
+      font-size: 1.5rem;
+    }
     .custom-tooltip {
       position: absolute;
       left: 50%;
