@@ -1,24 +1,66 @@
 [
   {
-    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/aapl-20230930.htm",
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/aapl-20240928.htm",
     "products_and_services": [
       {
         "type": "product",
-        "product": "iPhone",
+        "product": "Mac",
+        "year": 2024,
+        "net_sales": 29984.0
+      },
+      {
+        "type": "product",
+        "product": "Mac",
         "year": 2023,
-        "net_sales": 200583.0
+        "net_sales": 29357.0
       },
       {
         "type": "product",
-        "product": "iPhone",
+        "product": "Mac",
         "year": 2022,
-        "net_sales": 205489.0
+        "net_sales": 40177.0
       },
       {
         "type": "product",
-        "product": "iPhone",
-        "year": 2021,
-        "net_sales": 191973.0
+        "product": "iPad",
+        "year": 2024,
+        "net_sales": 26694.0
+      },
+      {
+        "type": "product",
+        "product": "iPad",
+        "year": 2023,
+        "net_sales": 28300.0
+      },
+      {
+        "type": "product",
+        "product": "iPad",
+        "year": 2022,
+        "net_sales": 29292.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2024,
+        "net_sales": 391035.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2023,
+        "net_sales": 383285.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2022,
+        "net_sales": 394328.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2024,
+        "net_sales": 96169.0
       },
       {
         "type": "product",
@@ -34,27 +76,9 @@
       },
       {
         "type": "product",
-        "product": "Services",
-        "year": 2021,
-        "net_sales": 68425.0
-      },
-      {
-        "type": "total",
-        "product": "Total net sales",
-        "year": 2023,
-        "net_sales": 383285.0
-      },
-      {
-        "type": "total",
-        "product": "Total net sales",
-        "year": 2022,
-        "net_sales": 394328.0
-      },
-      {
-        "type": "total",
-        "product": "Total net sales",
-        "year": 2021,
-        "net_sales": 365817.0
+        "product": "Wearables, Home and Accessories",
+        "year": 2024,
+        "net_sales": 37005.0
       },
       {
         "type": "product",
@@ -70,10 +94,139 @@
       },
       {
         "type": "product",
-        "product": "Wearables, Home and Accessories",
-        "year": 2021,
-        "net_sales": 38367.0
+        "product": "iPhone",
+        "year": 2024,
+        "net_sales": 201183.0
       },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2023,
+        "net_sales": 200583.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2022,
+        "net_sales": 205489.0
+      }
+    ],
+    "segment_operating": [
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2024,
+        "net_sales": 167045.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2023,
+        "net_sales": 162560.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2022,
+        "net_sales": 169658.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2024,
+        "net_sales": 66952.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2023,
+        "net_sales": 72559.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2022,
+        "net_sales": 74200.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2024,
+        "net_sales": 101328.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2023,
+        "net_sales": 94294.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2022,
+        "net_sales": 95118.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2024,
+        "net_sales": 391035.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2023,
+        "net_sales": 383285.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2022,
+        "net_sales": 394328.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2024,
+        "net_sales": 30658.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2023,
+        "net_sales": 29615.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2022,
+        "net_sales": 29375.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2024,
+        "net_sales": 25052.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2023,
+        "net_sales": 24257.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2022,
+        "net_sales": 25977.0
+      }
+    ],
+    "date": "2024-11-01",
+    "accession": "0000320193-24-000123"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/aapl-20230930.htm",
+    "products_and_services": [
       {
         "type": "product",
         "product": "Mac",
@@ -109,27 +262,81 @@
         "product": "iPad",
         "year": 2021,
         "net_sales": 31862.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2023,
+        "net_sales": 383285.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2022,
+        "net_sales": 394328.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2021,
+        "net_sales": 365817.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2023,
+        "net_sales": 85200.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2022,
+        "net_sales": 78129.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2021,
+        "net_sales": 68425.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories",
+        "year": 2023,
+        "net_sales": 39845.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories",
+        "year": 2022,
+        "net_sales": 41241.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories",
+        "year": 2021,
+        "net_sales": 38367.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2023,
+        "net_sales": 200583.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2022,
+        "net_sales": 205489.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2021,
+        "net_sales": 191973.0
       }
     ],
     "segment_operating": [
-      {
-        "type": "region",
-        "region": "Japan",
-        "year": 2023,
-        "net_sales": 24257.0
-      },
-      {
-        "type": "region",
-        "region": "Japan",
-        "year": 2022,
-        "net_sales": 25977.0
-      },
-      {
-        "type": "region",
-        "region": "Japan",
-        "year": 2021,
-        "net_sales": 28482.0
-      },
       {
         "type": "region",
         "region": "Americas",
@@ -147,42 +354,6 @@
         "region": "Americas",
         "year": 2021,
         "net_sales": 153306.0
-      },
-      {
-        "type": "region",
-        "region": "Rest of Asia Pacific",
-        "year": 2023,
-        "net_sales": 29615.0
-      },
-      {
-        "type": "region",
-        "region": "Rest of Asia Pacific",
-        "year": 2022,
-        "net_sales": 29375.0
-      },
-      {
-        "type": "region",
-        "region": "Rest of Asia Pacific",
-        "year": 2021,
-        "net_sales": 26356.0
-      },
-      {
-        "type": "total",
-        "region": "Total net sales",
-        "year": 2023,
-        "net_sales": 383285.0
-      },
-      {
-        "type": "total",
-        "region": "Total net sales",
-        "year": 2022,
-        "net_sales": 394328.0
-      },
-      {
-        "type": "total",
-        "region": "Total net sales",
-        "year": 2021,
-        "net_sales": 365817.0
       },
       {
         "type": "region",
@@ -219,9 +390,738 @@
         "region": "Europe",
         "year": 2021,
         "net_sales": 89307.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2023,
+        "net_sales": 383285.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2022,
+        "net_sales": 394328.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2021,
+        "net_sales": 365817.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2023,
+        "net_sales": 29615.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2022,
+        "net_sales": 29375.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2021,
+        "net_sales": 26356.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2023,
+        "net_sales": 24257.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2022,
+        "net_sales": 25977.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2021,
+        "net_sales": 28482.0
       }
     ],
-    "date": null,
-    "accession": null
+    "date": "2023-11-03",
+    "accession": "0000320193-23-000106"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/aapl-20220924.htm",
+    "products_and_services": [
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories (1)",
+        "year": 2022,
+        "net_sales": 41241.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories (1)",
+        "year": 2021,
+        "net_sales": 38367.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories (1)",
+        "year": 2020,
+        "net_sales": 30620.0
+      },
+      {
+        "type": "product",
+        "product": "Mac",
+        "year": 2022,
+        "net_sales": 40177.0
+      },
+      {
+        "type": "product",
+        "product": "Mac",
+        "year": 2021,
+        "net_sales": 35190.0
+      },
+      {
+        "type": "product",
+        "product": "Mac",
+        "year": 2020,
+        "net_sales": 28622.0
+      },
+      {
+        "type": "product",
+        "product": "iPad",
+        "year": 2022,
+        "net_sales": 29292.0
+      },
+      {
+        "type": "product",
+        "product": "iPad",
+        "year": 2021,
+        "net_sales": 31862.0
+      },
+      {
+        "type": "product",
+        "product": "iPad",
+        "year": 2020,
+        "net_sales": 23724.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2022,
+        "net_sales": 394328.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2021,
+        "net_sales": 365817.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2020,
+        "net_sales": 274515.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2022,
+        "net_sales": 78129.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2021,
+        "net_sales": 68425.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2020,
+        "net_sales": 53768.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2022,
+        "net_sales": 205489.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2021,
+        "net_sales": 191973.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2020,
+        "net_sales": 137781.0
+      }
+    ],
+    "segment_operating": [
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2022,
+        "net_sales": 169658.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2021,
+        "net_sales": 153306.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2020,
+        "net_sales": 124556.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2022,
+        "net_sales": 74200.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2021,
+        "net_sales": 68366.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2020,
+        "net_sales": 40308.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2022,
+        "net_sales": 95118.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2021,
+        "net_sales": 89307.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2020,
+        "net_sales": 68640.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2022,
+        "net_sales": 394328.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2021,
+        "net_sales": 365817.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2020,
+        "net_sales": 274515.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2022,
+        "net_sales": 29375.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2021,
+        "net_sales": 26356.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2020,
+        "net_sales": 19593.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2022,
+        "net_sales": 25977.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2021,
+        "net_sales": 28482.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2020,
+        "net_sales": 21418.0
+      }
+    ],
+    "date": "2022-10-28",
+    "accession": "0000320193-22-000108"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019321000105/aapl-20210925.htm",
+    "products_and_services": [
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories (1)",
+        "year": 2021,
+        "net_sales": 38367.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories (1)",
+        "year": 2020,
+        "net_sales": 30620.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories (1)",
+        "year": 2019,
+        "net_sales": 24482.0
+      },
+      {
+        "type": "product",
+        "product": "Mac",
+        "year": 2021,
+        "net_sales": 35190.0
+      },
+      {
+        "type": "product",
+        "product": "Mac",
+        "year": 2020,
+        "net_sales": 28622.0
+      },
+      {
+        "type": "product",
+        "product": "Mac",
+        "year": 2019,
+        "net_sales": 25740.0
+      },
+      {
+        "type": "product",
+        "product": "iPad",
+        "year": 2021,
+        "net_sales": 31862.0
+      },
+      {
+        "type": "product",
+        "product": "iPad",
+        "year": 2020,
+        "net_sales": 23724.0
+      },
+      {
+        "type": "product",
+        "product": "iPad",
+        "year": 2019,
+        "net_sales": 21280.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2021,
+        "net_sales": 365817.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2020,
+        "net_sales": 274515.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2019,
+        "net_sales": 260174.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2021,
+        "net_sales": 68425.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2020,
+        "net_sales": 53768.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2019,
+        "net_sales": 46291.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2021,
+        "net_sales": 191973.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2020,
+        "net_sales": 137781.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2019,
+        "net_sales": 142381.0
+      }
+    ],
+    "segment_operating": [
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2021,
+        "net_sales": 153306.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2020,
+        "net_sales": 124556.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2019,
+        "net_sales": 116914.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2021,
+        "net_sales": 68366.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2020,
+        "net_sales": 40308.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2019,
+        "net_sales": 43678.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2021,
+        "net_sales": 89307.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2020,
+        "net_sales": 68640.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2019,
+        "net_sales": 60288.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2021,
+        "net_sales": 365817.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2020,
+        "net_sales": 274515.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2019,
+        "net_sales": 260174.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2021,
+        "net_sales": 26356.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2020,
+        "net_sales": 19593.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2019,
+        "net_sales": 17788.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2021,
+        "net_sales": 28482.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2020,
+        "net_sales": 21418.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2019,
+        "net_sales": 21506.0
+      }
+    ],
+    "date": "2021-10-29",
+    "accession": "0000320193-21-000105"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000096/aapl-20200926.htm",
+    "products_and_services": [
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories (1)",
+        "year": 2020,
+        "net_sales": 30620.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories (1)",
+        "year": 2019,
+        "net_sales": 24482.0
+      },
+      {
+        "type": "product",
+        "product": "Wearables, Home and Accessories (1)",
+        "year": 2018,
+        "net_sales": 17381.0
+      },
+      {
+        "type": "product",
+        "product": "Mac",
+        "year": 2020,
+        "net_sales": 28622.0
+      },
+      {
+        "type": "product",
+        "product": "Mac",
+        "year": 2019,
+        "net_sales": 25740.0
+      },
+      {
+        "type": "product",
+        "product": "Mac",
+        "year": 2018,
+        "net_sales": 25198.0
+      },
+      {
+        "type": "product",
+        "product": "iPad",
+        "year": 2020,
+        "net_sales": 23724.0
+      },
+      {
+        "type": "product",
+        "product": "iPad",
+        "year": 2019,
+        "net_sales": 21280.0
+      },
+      {
+        "type": "product",
+        "product": "iPad",
+        "year": 2018,
+        "net_sales": 18380.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2020,
+        "net_sales": 274515.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2019,
+        "net_sales": 260174.0
+      },
+      {
+        "type": "total",
+        "product": "Total net sales",
+        "year": 2018,
+        "net_sales": 265595.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2020,
+        "net_sales": 53768.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2019,
+        "net_sales": 46291.0
+      },
+      {
+        "type": "product",
+        "product": "Services",
+        "year": 2018,
+        "net_sales": 39748.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2020,
+        "net_sales": 137781.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2019,
+        "net_sales": 142381.0
+      },
+      {
+        "type": "product",
+        "product": "iPhone",
+        "year": 2018,
+        "net_sales": 164888.0
+      }
+    ],
+    "segment_operating": [
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2020,
+        "net_sales": 124556.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2019,
+        "net_sales": 116914.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "year": 2018,
+        "net_sales": 112093.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2020,
+        "net_sales": 40308.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2019,
+        "net_sales": 43678.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "year": 2018,
+        "net_sales": 51942.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2020,
+        "net_sales": 68640.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2019,
+        "net_sales": 60288.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "year": 2018,
+        "net_sales": 62420.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2020,
+        "net_sales": 274515.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2019,
+        "net_sales": 260174.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "year": 2018,
+        "net_sales": 265595.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2020,
+        "net_sales": 19593.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2019,
+        "net_sales": 17788.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "year": 2018,
+        "net_sales": 17407.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2020,
+        "net_sales": 21418.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2019,
+        "net_sales": 21506.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "year": 2018,
+        "net_sales": 21733.0
+      }
+    ],
+    "date": "2020-10-30",
+    "accession": "0000320193-20-000096"
   }
 ]
