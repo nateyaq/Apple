@@ -55,10 +55,13 @@ def extract_table_data(table):
     for tr in table.find_all('tr'):
         row = []
         for td in tr.find_all(['td', 'th'], recursive=False):
-            # Get text and clean it
-            text = td.get_text(separator=' ', strip=True)
+            # Prefer iXBRL value if present
+            ix = td.find(['ix:nonfraction', 'ix:nonnumeric'])
+            if ix:
+                text = ix.get_text(strip=True)
+            else:
+                text = td.get_text(separator=' ', strip=True)
             text = text.replace('\xa0', '')  # Remove non-breaking spaces
-            
             # Handle colspan
             colspan = int(td.get('colspan', 1))
             if colspan > 1:
@@ -89,8 +92,11 @@ def clean_number(val):
         return None
 
 def clean_label(label):
-    # Remove trailing footnote markers like (1), (2), etc.
-    return re.sub(r'\s*\([0-9]+\)$', '', label).strip()
+    # Remove trailing footnote markers like (1), (2), etc. and trailing colons
+    label = re.sub(r'[:\s]*$', '', re.sub(r'\s*\([0-9]+\)$', '', label)).strip()
+    # Remove all non-alphanumeric characters except spaces
+    label = re.sub(r'[^\w\s]', '', label)
+    return label
 
 def find_year_value(row, year_cols, idx):
     col_idx, year = year_cols[idx]
@@ -189,131 +195,157 @@ def find_valid_percent(row, change_idx):
     return None
 
 def tidy_products_services_table(table_data):
-    if not table_data or len(table_data) < 2:
+    # NOTE: In this 10-Q, the revenue table only contains 'Products', 'Services', and 'Total net sales'.
+    # There is no breakdown for iPhone, Mac, iPad, or Wearables in the summary table.
+    if not table_data or len(table_data) < 3:
         return []
-    
-    # Find header row with years
-    header_idx, header = find_header_row(table_data)
-    year_cols = [(i, int(col)) for i, col in enumerate(header) if is_year(col)]
-    
+    # Find the header rows: period type and date
+    period_row_idx = None
+    date_row_idx = None
+    for i, row in enumerate(table_data):
+        if any("three months ended" in str(cell).lower() or "six months ended" in str(cell).lower() for cell in row):
+            period_row_idx = i
+            date_row_idx = i + 1
+            break
+    if period_row_idx is None or date_row_idx is None:
+        return []
+    period_row = table_data[period_row_idx]
+    date_row = table_data[date_row_idx]
+    # Build period labels for each column, filling to the right as needed
+    period_labels = []
+    for p, d in zip(period_row, date_row):
+        label = p.strip()
+        if d.strip():
+            label += f" {d.strip()}"
+        period_labels.append(label)
+    # Extend period_labels to match the max row length
+    max_row_len = max(len(row) for row in table_data)
+    if len(period_labels) < max_row_len:
+        period_labels += [period_labels[-1]] * (max_row_len - len(period_labels))
+    # Only match 'Products', 'Services', and 'Total net sales'
+    valid_products = [
+        ("product", "products"),
+        ("product", "services"),
+        ("total", "total net sales")
+    ]
+    seen = set()
     tidy_rows = []
-    products = set()
-    
-    # First pass: collect all product names
-    for row in table_data[header_idx+1:]:
-        if not row or not isinstance(row[0], str):
+    for row in table_data[date_row_idx+1:]:
+        if not row or not any(isinstance(cell, str) for cell in row[:2]):
             continue
-        label = clean_label(row[0].strip())
-        if not label:
-            continue
-        if label.lower().startswith('total'):
-            products.add(('total', label))
-        else:
-            products.add(('product', label))
-    
-    # Second pass: extract data for each product
-    for row_type, label in products:
-        for idx, (col_idx, year) in enumerate(year_cols):
-            found_row = None
-            for row in table_data[header_idx+1:]:
-                if not row or not isinstance(row[0], str):
-                    continue
-                if clean_label(row[0].strip()) == label:
-                    found_row = row
+        candidate_labels = [clean_label(row[idx].strip()) if isinstance(row[idx], str) else "" for idx in range(min(2, len(row)))]
+        label = None
+        for idx, candidate in enumerate(candidate_labels):
+            if candidate:
+                for row_type, prod in valid_products:
+                    if prod == candidate.lower():
+                        label = candidate
+                        match_type = row_type
+                        match_prod = prod
+                        break
+                if label:
                     break
-            
-            if found_row:
-                net_sales = find_year_value(found_row, year_cols, idx)
-                percent_change = find_percent_change(found_row, year_cols, idx)
-                
-                # Only create record if we have net sales data
-                if net_sales is not None:
-                    record = {
-                        "type": row_type,
+        if not label or (match_type, label, match_prod) in seen:
+            continue
+        seen.add((match_type, label, match_prod))
+        col_idx = 0
+        while col_idx < len(row) and (isinstance(row[col_idx], str) and not is_numeric(row[col_idx])):
+            col_idx += 1
+        period_idx = 1
+        while col_idx < len(row) and period_idx < len(period_labels):
+            while col_idx < len(row) and (isinstance(row[col_idx], str) and row[col_idx].strip() == '$'):
+                col_idx += 1
+            if col_idx < len(row):
+                num = clean_number(row[col_idx])
+                if num is not None:
+                    tidy_rows.append({
+                        "type": match_type,
                         "product": label,
-                        "year": year,
-                        "net_sales": net_sales
-                    }
-                    
-                    if percent_change is not None:
-                        record["percent_change"] = percent_change
-                    
-                    # Add previous year data if available
-                    if idx + 1 < len(year_cols):
-                        prev_year = year_cols[idx + 1][1]
-                        prev_net_sales = find_year_value(found_row, year_cols, idx + 1)
-                        if prev_net_sales is not None:
-                            record.update({
-                                "previous_year": prev_year,
-                                "previous_year_net_sales": prev_net_sales
-                            })
-                    
-                    tidy_rows.append(record)
-    
+                        "period": period_labels[period_idx],
+                        "net_sales": num
+                    })
+            col_idx += 1
+            period_idx += 1
     return tidy_rows
 
 def tidy_segment_operating_table(table_data):
-    if not table_data or len(table_data) < 2:
+    if not table_data or len(table_data) < 3:
         return []
-    
-    # Find header row with years
-    header_idx, header = find_header_row(table_data)
-    year_cols = [(i, int(col)) for i, col in enumerate(header) if is_year(col)]
-    
+    # Find the header rows: period type and date
+    period_row_idx = None
+    date_row_idx = None
+    for i, row in enumerate(table_data):
+        if any("three months ended" in str(cell).lower() or "six months ended" in str(cell).lower() for cell in row):
+            period_row_idx = i
+            date_row_idx = i + 1
+            break
+    if period_row_idx is None or date_row_idx is None:
+        return []
+    period_row = table_data[period_row_idx]
+    date_row = table_data[date_row_idx]
+    # Build period labels for each column
+    period_labels = []
+    for p, d in zip(period_row, date_row):
+        label = p.strip()
+        if d.strip():
+            label += f" {d.strip()}"
+        period_labels.append(label)
+    # Acceptable region names (substring match)
+    valid_regions = [
+        ("region", "americas"),
+        ("region", "europe"),
+        ("region", "greater china"),
+        ("region", "japan"),
+        ("region", "rest of asia pacific"),
+        ("total", "total net sales")
+    ]
+    seen = set()
     tidy_rows = []
-    regions = set()
-    
-    # First pass: collect all region names
-    for row in table_data[header_idx+1:]:
+    current_region = None
+    current_type = None
+    for row in table_data[date_row_idx+1:]:
         if not row or not isinstance(row[0], str):
             continue
         label = clean_label(row[0].strip())
         if not label:
             continue
-        if label.lower().startswith('total'):
-            regions.add(('total', label))
-        else:
-            regions.add(('region', label))
-    
-    # Second pass: extract data for each region
-    for row_type, label in regions:
-        for idx, (col_idx, year) in enumerate(year_cols):
-            found_row = None
-            for row in table_data[header_idx+1:]:
-                if not row or not isinstance(row[0], str):
-                    continue
-                if clean_label(row[0].strip()) == label:
-                    found_row = row
-                    break
-            
-            if found_row:
-                net_sales = find_year_value(found_row, year_cols, idx)
-                percent_change = find_percent_change(found_row, year_cols, idx)
-                
-                # Only create record if we have net sales data
-                if net_sales is not None:
-                    record = {
-                        "type": row_type,
-                        "region": label,
-                        "year": year,
-                        "net_sales": net_sales
-                    }
-                    
-                    if percent_change is not None:
-                        record["percent_change"] = percent_change
-                    
-                    # Add previous year data if available
-                    if idx + 1 < len(year_cols):
-                        prev_year = year_cols[idx + 1][1]
-                        prev_net_sales = find_year_value(found_row, year_cols, idx + 1)
-                        if prev_net_sales is not None:
-                            record.update({
-                                "previous_year": prev_year,
-                                "previous_year_net_sales": prev_net_sales
-                            })
-                    
-                    tidy_rows.append(record)
-    
+        # Check for region header
+        matched_region = False
+        for row_type, reg in valid_regions:
+            if reg in label.lower() and row_type != "total":
+                current_region = label
+                current_type = row_type
+                matched_region = True
+                break
+        if matched_region:
+            continue
+        # Check for total row
+        for row_type, reg in valid_regions:
+            if reg in label.lower() and row_type == "total" and (row_type, label, reg) not in seen:
+                seen.add((row_type, label, reg))
+                for i, val in enumerate(row[1:len(period_labels)+1]):
+                    period = period_labels[i+1] if i+1 < len(period_labels) else period_labels[-1]
+                    num = clean_number(val)
+                    if num is not None:
+                        tidy_rows.append({
+                            "type": row_type,
+                            "region": label,
+                            "period": period,
+                            "net_sales": num
+                        })
+                break
+        # Only extract 'Net sales' sub-rows for regions
+        if current_region and label.lower() == "net sales":
+            for i, val in enumerate(row[1:len(period_labels)+1]):
+                period = period_labels[i+1] if i+1 < len(period_labels) else period_labels[-1]
+                num = clean_number(val)
+                if num is not None:
+                    tidy_rows.append({
+                        "type": current_type,
+                        "region": current_region,
+                        "period": period,
+                        "net_sales": num
+                    })
     return tidy_rows
 
 def find_relevant_tables(soup, keywords):
@@ -333,13 +365,24 @@ def extract_10q_summary(url):
     resp.raise_for_status()
     soup = BeautifulSoup(resp.text, 'lxml')
     revenue_tables = find_relevant_tables(soup, ['disaggregated net sales', 'net sales', 'revenue'])
-    segment_tables = find_relevant_tables(soup, ['Segment Information and Geographic Data'])
+    segment_tables = find_relevant_tables(soup, [
+        'segment information and geographic data',
+        'segment',
+        'geographic',
+        'operating performance'
+    ])
     prod_data = []
     seg_data = []
     if revenue_tables:
-        prod_data = tidy_products_services_table(extract_table_data(revenue_tables[0]))
+        revenue_rows = extract_table_data(revenue_tables[0])
+        print("[DEBUG] Revenue table rows:")
+        for row in revenue_rows:
+            print(row)
+        prod_data = tidy_products_services_table(revenue_rows)
     if segment_tables:
-        seg_data = tidy_segment_operating_table(extract_table_data(segment_tables[0]))
+        segment_rows = extract_table_data(segment_tables[0])
+        print("[DEBUG] Segment table rows:", segment_rows)
+        seg_data = tidy_segment_operating_table(segment_rows)
     return {'url': url, 'products_and_services': prod_data, 'segment_operating': seg_data}
 
 # --- Main Entrypoint ---
