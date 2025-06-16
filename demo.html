@@ -26,33 +26,14 @@
                     <div style="flex: 1 1 300px; min-width: 220px;">
                         <h1 style="font-size:2rem;font-weight:700;color:#111827;display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
                             Apple Inc. Financial Dashboard
-                            <span class="relative group align-middle">
-                                <i data-lucide="info" style="font-size:1.1rem;color:#2563eb;cursor:pointer;"></i>
-                                <div class="custom-tooltip">
-                                    <div class="custom-tooltip-arrow">
-                                        <svg width='16' height='8'><polygon points='0,8 8,0 16,8' style='fill:#222;'/></svg>
-                                    </div>
-                                    <div>
-                                        <strong>Annual View</strong>
-                                        <div class="text-sm" style="margin-bottom: 10px;">
-                                            Shows the latest available 10-K (annual report) for each metric.
-                                        </div>
-                                        <strong>Latest View</strong>
-                                        <div class="text-sm">
-                                            Shows the most recent 10-Q (quarterly report) for each metric.<br>
-                                            If a 10-K is not available for the current year, the most recent prior 10-K is shown.
-                                        </div>
-                                    </div>
-                                </div>
-                            </span>
                         </h1>
                         <p style="color:#6b7280;font-size:1rem;">SEC Filing Data Analysis - EDGAR API Data</p>
                     </div>
                     <div style="display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;">
                         <div style="display:flex;align-items:center;gap:0.5rem;">
-                            <label for="period-selector" style="font-size:1rem;font-weight:500;color:#374151;display:flex;align-items:center;gap:0.25rem;">Period:
+                            <label for="period-selector" style="font-size:1.25rem;font-weight:400;color:#374151;display:flex;align-items:center;gap:0.25rem;">Period:
                                 <span class="relative group align-middle">
-                                    <i data-lucide="info" style="font-size:1.1rem;color:#2563eb;cursor:pointer;"></i>
+                                    <i data-lucide="info" class="h-4 w-4 text-blue-600 cursor-pointer"></i>
                                     <div class="custom-tooltip">
                                         <div class="custom-tooltip-arrow">
                                             <svg width='16' height='8'><polygon points='0,8 8,0 16,8' style='fill:#222;'/></svg>
@@ -71,7 +52,7 @@
                                     </div>
                                 </span>
                             </label>
-                            <select id="period-selector" style="margin-left:0.5rem;min-width:140px;padding:0.5rem 1.25rem;font-size:1rem;border-radius:0.75rem;border:1.5px solid #2563eb;background:#f9fafb;font-weight:500;" class="">
+                            <select id="period-selector" style="margin-left:0.5rem;min-width:140px;padding:0.5rem 1.25rem;font-size:1.25rem;font-weight:400;border-radius:0.75rem;border:1.5px solid #2563eb;background:#f9fafb;" class="">
                                 <option value="latest">Latest Quarter</option>
                                 <option value="annual">Annual</option>
                             </select>
