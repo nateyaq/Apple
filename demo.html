@@ -398,6 +398,10 @@
             const roa = totalAssets > 0 ? ((netIncome / totalAssets) * 100).toFixed(1) : '0.0';
             const cashRatio = totalAssets > 0 ? ((cash / totalAssets) * 100).toFixed(1) : '0.0';
 
+            const profitMarginYear = currentMetrics.net_income?.latest_year || currentMetrics.revenue?.latest_year || 'N/A';
+            const roaYear = currentMetrics.net_income?.latest_year || currentMetrics.total_assets?.latest_year || 'N/A';
+            const cashRatioYear = currentMetrics.cash_and_equivalents?.latest_year || currentMetrics.total_assets?.latest_year || 'N/A';
+
             const ratiosContainer = document.getElementById('financial-ratios');
             ratiosContainer.innerHTML = `
                 <div class="text-center p-4 rounded-lg shadow-sm border border-gray-200">
@@ -406,6 +410,7 @@
                         Net Profit Margin
                         ${renderInfoIconWithTooltip('Net Profit Margin = Net Income / Revenue')}
                     </div>
+                    <div class="text-xs text-gray-500 mt-1">FY ${profitMarginYear}</div>
                 </div>
                 <div class="text-center p-4 rounded-lg shadow-sm border border-gray-200">
                     <div class="text-2xl font-bold text-green-600">${roa}%</div>
@@ -413,6 +418,7 @@
                         Return on Assets
                         ${renderInfoIconWithTooltip('Return on Assets = Net Income / Total Assets')}
                     </div>
+                    <div class="text-xs text-gray-500 mt-1">FY ${roaYear}</div>
                 </div>
                 <div class="text-center p-4 rounded-lg shadow-sm border border-gray-200">
                     <div class="text-2xl font-bold text-purple-600">${cashRatio}%</div>
@@ -420,6 +426,7 @@
                         Cash Ratio
                         ${renderInfoIconWithTooltip('Cash Ratio = Cash & Equivalents / Total Assets')}
                     </div>
+                    <div class="text-xs text-gray-500 mt-1">FY ${cashRatioYear}</div>
                 </div>
             `;
             lucide.createIcons();
@@ -573,14 +580,17 @@
                             <div class="text-center p-3 bg-gray-50 rounded">
                                 <div class="text-lg font-bold text-gray-700">$${formatValue(metrics.operating_income?.latest_value || 0)}B</div>
                                 <div class="text-xs text-gray-600">Operating Income</div>
+                                <div class="text-xs text-gray-500">FY ${metrics.operating_income?.latest_year || 'N/A'}</div>
                             </div>
                             <div class="text-center p-3 bg-gray-50 rounded">
                                 <div class="text-lg font-bold text-gray-700">$${formatValue(metrics.research_development?.latest_value || 0)}B</div>
                                 <div class="text-xs text-gray-600">R&D Investment</div>
+                                <div class="text-xs text-gray-500">FY ${metrics.research_development?.latest_year || 'N/A'}</div>
                             </div>
                             <div class="text-center p-3 bg-gray-50 rounded">
                                 <div class="text-lg font-bold text-gray-700">$${formatValue(metrics.cash_and_equivalents?.latest_value || 0)}B</div>
                                 <div class="text-xs text-gray-600">Cash Position</div>
+                                <div class="text-xs text-gray-500">FY ${metrics.cash_and_equivalents?.latest_year || 'N/A'}</div>
                             </div>
                         </div>
                         <div class="mt-4 p-3 bg-blue-50 rounded-lg">
