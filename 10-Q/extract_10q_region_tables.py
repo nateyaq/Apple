@@ -6,6 +6,8 @@ import argparse
 from pathlib import Path
 
 HEADERS = {'User-Agent': "apple-dashboard@example.com"}
+CIK = '320193'  # Apple
+SEC_SUBMISSIONS_URL = f'https://data.sec.gov/submissions/CIK{int(CIK):010d}.json'
 
 # --- Table Extraction ---
 def find_section_table(soup, section_title):
@@ -211,29 +213,60 @@ def extract_region_data_from_table(table_data):
                         })
     return region_data
 
+def get_10q_filing_urls(count=None):
+    resp = requests.get(SEC_SUBMISSIONS_URL, headers=HEADERS)
+    resp.raise_for_status()
+    data = resp.json()
+    filings = data['filings']['recent']
+    urls = []
+    for i, form in enumerate(filings['form']):
+        if form == '10-Q':
+            accession = filings['accessionNumber'][i].replace('-', '')
+            primary_doc = filings['primaryDocument'][i]
+            filing_date = filings['filingDate'][i]
+            doc_url = f'https://www.sec.gov/Archives/edgar/data/{int(CIK)}/{accession}/{primary_doc}'
+            urls.append({'url': doc_url, 'date': filing_date, 'accession': filings['accessionNumber'][i]})
+            if count and len(urls) >= count:
+                break
+    return urls
+
 def main():
     parser = argparse.ArgumentParser(description="Apple 10-Q Region Table Extractor")
-    parser.add_argument('--url', type=str, required=True, help='SEC 10-Q filing URL to process')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--url', type=str, help='SEC 10-Q filing URL to process')
+    group.add_argument('--last-n', type=int, help='Fetch and process the latest N 10-Q filings')
     parser.add_argument('--output', type=str, default='10q_region_data.json', help='Output JSON file')
     args = parser.parse_args()
-    resp = requests.get(args.url, headers=HEADERS)
-    resp.raise_for_status()
-    soup = BeautifulSoup(resp.text, 'lxml')
-    # Use the actual header for region table
-    table = find_section_table(soup, 'The following table shows net sales by reportable segment')
-    if not table:
-        print("No region table found.")
-        return
-    table_data = extract_table_data(table)
-    region_data = extract_region_data_from_table(table_data)
-    out = [{
-        'url': args.url,
-        'region_operating': region_data
-    }]
+    filings = []
+    if args.url:
+        filings = [{'url': args.url}]
+    elif args.last_n:
+        filings = get_10q_filing_urls(count=args.last_n)
+    results = []
+    for filing in filings:
+        print(f"Extracting: {filing['url']}")
+        try:
+            resp = requests.get(filing['url'], headers=HEADERS)
+            resp.raise_for_status()
+            soup = BeautifulSoup(resp.text, 'lxml')
+            table = find_section_table(soup, 'The following table shows net sales by reportable segment')
+            if not table:
+                print(f"No region table found for {filing['url']}")
+                continue
+            table_data = extract_table_data(table)
+            region_data = extract_region_data_from_table(table_data)
+            results.append({
+                'url': filing['url'],
+                'date': filing.get('date'),
+                'accession': filing.get('accession'),
+                'region_operating': region_data
+            })
+        except Exception as e:
+            print(f"Error extracting {filing['url']}: {e}")
     out_path = Path(__file__).parent / args.output
     with open(out_path, 'w') as f:
-        json.dump(out, f, indent=2)
-    print(f"Saved region data to {out_path}")
+        json.dump(results, f, indent=2)
+    print(f"Saved {len(results)} filings to {out_path}")
 
 if __name__ == '__main__':
     main() 
