@@ -261,6 +261,35 @@
             };
         }
 
+        // Helper: Compute true YoY growth for latest quarter (Q vs same Q last year)
+        function getQuarterlyYoYGrowth(metricKey, secData) {
+            // Find latest quarter value and period
+            const rawMetric = secData.raw_metrics[metricKey];
+            if (!rawMetric || !Array.isArray(rawMetric.data) || rawMetric.data.length === 0) return 0;
+            // Sort by end date descending
+            const sorted = rawMetric.data
+                .filter(d => d && !isNaN(parseFloat(d.val)) && d.end && d.form === '10-Q')
+                .map(d => ({...d, dateObj: new Date(d.end)}))
+                .sort((a, b) => b.dateObj - a.dateObj);
+            if (sorted.length === 0) return 0;
+            const latest = sorted[0];
+            // Find same quarter last year
+            const latestDate = latest.dateObj;
+            const prevYear = latestDate.getFullYear() - 1;
+            const latestMonth = latestDate.getMonth();
+            // Find the closest 10-Q in the previous year with the same fiscal quarter
+            const match = sorted.find(d => {
+                const dYear = d.dateObj.getFullYear();
+                const dMonth = d.dateObj.getMonth();
+                return dYear === prevYear && dMonth === latestMonth;
+            });
+            if (!match) return 0;
+            const latestVal = parseFloat(latest.val);
+            const prevVal = parseFloat(match.val);
+            if (isNaN(latestVal) || isNaN(prevVal) || prevVal === 0) return 0;
+            return ((latestVal - prevVal) / prevVal) * 100;
+        }
+
         function populateSummaryCards(secData) {
             const currentMetrics = getMetricsForPeriod(secData, currentPeriod);
             const currentYear = new Date().getFullYear();
@@ -273,7 +302,7 @@
                     title: 'Total Revenue',
                     ...getValuePeriodForm(currentMetrics.revenue),
                     growth: currentPeriod === 'quarterly' ? 
-                        (currentMetrics.revenue?.quarterly_vs_annual_change ?? 0) : 
+                        getQuarterlyYoYGrowth('revenue', secData) : 
                         (currentMetrics.revenue?.growth_rate ?? 0),
                     icon: 'dollar-sign',
                     color: 'text-green-600',
@@ -285,7 +314,7 @@
                     title: 'Net Income',
                     ...getValuePeriodForm(currentMetrics.net_income),
                     growth: currentPeriod === 'quarterly' ? 
-                        (currentMetrics.net_income?.quarterly_vs_annual_change ?? 0) : 
+                        getQuarterlyYoYGrowth('net_income', secData) : 
                         (currentMetrics.net_income?.growth_rate ?? 0),
                     icon: 'target',
                     color: 'text-blue-600',
@@ -297,7 +326,7 @@
                     title: 'Total Assets',
                     ...getValuePeriodForm(currentMetrics.total_assets),
                     growth: currentPeriod === 'quarterly' ? 
-                        (currentMetrics.total_assets?.quarterly_vs_annual_change ?? 0) : 
+                        getQuarterlyYoYGrowth('total_assets', secData) : 
                         (currentMetrics.total_assets?.growth_rate ?? 0),
                     icon: 'building',
                     color: 'text-purple-600',
@@ -309,7 +338,7 @@
                     title: 'Cash & Equivalents',
                     ...getValuePeriodForm(currentMetrics.cash_and_equivalents),
                     growth: currentPeriod === 'quarterly' ? 
-                        (currentMetrics.cash_and_equivalents?.quarterly_vs_annual_change ?? 0) : 
+                        getQuarterlyYoYGrowth('cash_and_equivalents', secData) : 
                         (currentMetrics.cash_and_equivalents?.growth_rate ?? 0),
                     icon: 'piggy-bank',
                     color: 'text-yellow-600',
@@ -330,14 +359,6 @@
                         <div style="padding:0.75rem;border-radius:0.75rem;background:#f3f4f6;">
                             <i data-lucide="${card.icon}" class="summary-icon" style="color:#2563eb;"></i>
                         </div>
-                    </div>
-                    <div style="display:flex;align-items:center;margin-top:0.75rem;">
-                        <i data-lucide="${card.growth >= 0 ? 'trending-up' : 'trending-down'}" 
-                           style="font-size:1.1rem;color:${card.growth >= 0 ? '#16a34a' : '#dc2626'};"></i>
-                        <span style="margin-left:0.5rem;font-size:1rem;font-weight:500;color:${card.growth >= 0 ? '#16a34a' : '#dc2626'};">
-                            ${card.growth >= 0 ? '+' : ''}${card.growth.toFixed(1)}%
-                        </span>
-                        <span style="margin-left:0.75rem;font-size:0.95rem;color:#6b7280;">${currentPeriod === 'quarterly' ? 'vs Annual' : 'YoY'}</span>
                     </div>
                 </div>
             `).join('');
@@ -530,11 +551,7 @@
                 lucide.createIcons();
                 return;
             }
-
-            // Use the same metrics as the top row for consistency
             const metrics = getMetricsForPeriod(globalSecData, currentPeriod);
-            const growthAnalysis = globalSecData.growth_analysis || [];
-
             document.getElementById('charts-section').innerHTML = `
                 <!-- Financial Performance Overview -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
@@ -552,7 +569,6 @@
                                 <div class="text-xs text-gray-600 mt-1">FY ${metrics.net_income?.latest_year || 'N/A'}</div>
                             </div>
                         </div>
-                        
                         <div class="grid grid-cols-3 gap-3">
                             <div class="text-center p-3 bg-gray-50 rounded">
                                 <div class="text-lg font-bold text-gray-700">$${formatValue(metrics.operating_income?.latest_value || 0)}B</div>
@@ -567,7 +583,6 @@
                                 <div class="text-xs text-gray-600">Cash Position</div>
                             </div>
                         </div>
-                        
                         <div class="mt-4 p-3 bg-blue-50 rounded-lg">
                             <div class="text-sm text-blue-800 text-center">
                                 <strong>Market Position:</strong> Apple maintains strong financial fundamentals with 
@@ -576,14 +591,18 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Live Growth Rate Analysis -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Year-over-Year Growth Analysis</h3>
                     <div class="h-80 overflow-hidden">
                         <div class="space-y-2 h-full overflow-y-auto pr-2">
                             ${Object.entries(metrics).map(([key, metric]) => {
-                                const growthRate = metric.growth_rate || 0;
+                                let growthRate = 0;
+                                if (currentPeriod === 'quarterly') {
+                                    growthRate = getQuarterlyYoYGrowth(key, globalSecData);
+                                } else {
+                                    growthRate = metric.growth_rate || 0;
+                                }
                                 const isPositive = growthRate >= 0;
                                 return `
                                     <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
@@ -604,7 +623,6 @@
                                 `;
                             }).join('')}
                         </div>
-                        
                         <div class="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
                             <div class="text-sm text-gray-700 text-center">
                                 <i data-lucide="info" class="h-4 w-4 inline mr-2 text-blue-600"></i>
@@ -655,7 +673,7 @@
                             <div class="p-4 bg-green-50 rounded-lg">
                                 <p class="text-sm text-gray-600">Growth Rate</p>
                                 <p class="text-xl font-bold" id="growth-rate">--</p>
-                                <p class="text-xs text-gray-500">Year over Year</p>
+                                <p class="text-xs text-gray-500">Latest Growth Rate</p>
                             </div>
                             <div class="p-4 bg-purple-50 rounded-lg" id="quarterly-comparison" style="display: none;">
                                 <p class="text-sm text-gray-600">Q vs Annual</p>
@@ -716,7 +734,7 @@
                     ${renderInfoIconWithTooltip('Growth Rate = Year-over-year growth, comparing the latest annual value to the previous year.')}
                   </div>
                   <p class="text-xl font-bold ${growthRate >= 0 ? 'text-green-600' : 'text-red-600'}">${growthRate >= 0 ? '+' : ''}${growthRate.toFixed(1)}%</p>
-                  <p class="text-xs text-gray-500">Year over Year</p>
+                  <p class="text-xs text-gray-500">Latest Growth Rate</p>
                 </div>
                 <div class="p-4 bg-purple-50 rounded-lg" id="quarterly-comparison" style="${quarterlyChange !== null ? '' : 'display: none;'}">
                   <div class="flex items-center gap-1">
