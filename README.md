@@ -229,7 +229,7 @@ This project demonstrates key skills for business systems analyst roles:
 ### Technical Skills
 - **API Integration**: SEC EDGAR API consumption
 - **Data Processing**: ETL pipelines with Python/Pandas
-- **Frontend Development**: React/TypeScript dashboard creation
+- **Frontend Development**: Dashboard creation
 - **Data Visualization**: Interactive charts and KPI displays
 
 ### Business Skills
@@ -237,9 +237,6 @@ This project demonstrates key skills for business systems analyst roles:
 - **Data Storytelling**: Presenting complex data clearly
 - **Stakeholder Communication**: Executive-level reporting
 - **Process Documentation**: Clear technical documentation
-
-### Interview Preparation
-- **SQL Knowledge**: Complemented by comprehensive SQL study guide
 - **Corporate Finance**: Real-world financial data analysis
 - **Data Quality**: Built-in validation and governance practices
 - **Project Management**: End-to-end project delivery
@@ -259,9 +256,8 @@ This project is for educational and demonstration purposes. SEC data is publicly
 ## 🔗 Related Resources
 
 - [SEC EDGAR API Documentation](https://www.sec.gov/edgar/sec-api-documentation)
-- [Apple Inc. SEC Filings](https://www.sec.gov/cik-lookup)
-- [US-GAAP Financial Reporting Standards](https://www.fasb.org/gaap)
-- [Complete SQL Study Guide](./complete_sql_study_chat.md)
+- [Apple Inc. SEC Filings](https://www.sec.gov/edgar/browse/?CIK=320193)
+- [US-GAAP Financial Reporting Standards](https://www.fasb.org)
 
 ---
 
@@ -311,7 +307,6 @@ This project is for educational and demonstration purposes. SEC data is publicly
 - `10-K/10k_summary_data.json` (annual, by year)
 - `10-Q/10q_summary_data.json` and `10-Q/10q_region_data.json` (quarterly, by period)
 - (Optional) `apple_sec_sales_data.json` (large, root, should be gitignored)
-- (Optional) `sales_data/` (large, should be gitignored)
 
 ### Browser Compatibility
 - Uses the standard `appearance` property for number inputs, with `-webkit-appearance` and `-moz-appearance` for cross-browser support.
