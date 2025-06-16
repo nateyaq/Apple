@@ -244,7 +244,1263 @@
       }
     ],
     "segment_operating": [],
-    "date": null,
-    "accession": null
+    "date": "2025-05-02",
+    "accession": "0000320193-25-000057"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000008/aapl-20241228.htm",
+    "products_and_services": [
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended December 28, 2024",
+        "net_sales": 69138.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 69702.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended December 28, 2024",
+        "net_sales": 8987.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended December 28, 2024",
+        "net_sales": 8987.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 7780.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 7780.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended December 28, 2024",
+        "net_sales": 8088.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended December 28, 2024",
+        "net_sales": 8088.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 7023.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 7023.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended December 28, 2024",
+        "net_sales": 11747.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended December 28, 2024",
+        "net_sales": 11747.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 11953.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 11953.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended December 28, 2024",
+        "net_sales": 26340.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended December 28, 2024",
+        "net_sales": 26340.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 23117.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 23117.0,
+        "type": "product"
+      }
+    ],
+    "segment_operating": [],
+    "date": "2025-01-31",
+    "accession": "0000320193-25-000008"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000081/aapl-20240629.htm",
+    "products_and_services": [
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended June 29, 2024",
+        "net_sales": 39296.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 39669.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Nine Months Ended June 29, 2024",
+        "net_sales": 154961.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 156778.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended June 29, 2024",
+        "net_sales": 7009.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended June 29, 2024",
+        "net_sales": 7009.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 6840.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 6840.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Nine Months Ended June 29, 2024",
+        "net_sales": 22240.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Nine Months Ended June 29, 2024",
+        "net_sales": 22240.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 21743.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 21743.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended June 29, 2024",
+        "net_sales": 7162.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended June 29, 2024",
+        "net_sales": 7162.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 5791.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 5791.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Nine Months Ended June 29, 2024",
+        "net_sales": 19744.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Nine Months Ended June 29, 2024",
+        "net_sales": 19744.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 21857.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 21857.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended June 29, 2024",
+        "net_sales": 8097.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended June 29, 2024",
+        "net_sales": 8097.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 8284.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 8284.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Nine Months Ended June 29, 2024",
+        "net_sales": 27963.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Nine Months Ended June 29, 2024",
+        "net_sales": 27963.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 30523.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 30523.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended June 29, 2024",
+        "net_sales": 24213.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended June 29, 2024",
+        "net_sales": 24213.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 21213.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 21213.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Nine Months Ended June 29, 2024",
+        "net_sales": 71197.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Nine Months Ended June 29, 2024",
+        "net_sales": 71197.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 62886.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 62886.0,
+        "type": "product"
+      }
+    ],
+    "segment_operating": [],
+    "date": "2024-08-02",
+    "accession": "0000320193-24-000081"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000069/aapl-20240330.htm",
+    "products_and_services": [
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended March 30, 2024",
+        "net_sales": 45963.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 51334.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 115665.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 117109.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended March 30, 2024",
+        "net_sales": 7451.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended March 30, 2024",
+        "net_sales": 7451.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 7168.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 7168.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 15231.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 15231.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 14903.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 14903.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended March 30, 2024",
+        "net_sales": 5559.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended March 30, 2024",
+        "net_sales": 5559.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 6670.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 6670.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 12582.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 12582.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 16066.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 16066.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended March 30, 2024",
+        "net_sales": 7913.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended March 30, 2024",
+        "net_sales": 7913.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 8757.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 8757.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 19866.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 19866.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 22239.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 22239.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended March 30, 2024",
+        "net_sales": 23867.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended March 30, 2024",
+        "net_sales": 23867.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 20907.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 20907.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 46984.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 46984.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 41673.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 41673.0,
+        "type": "product"
+      }
+    ],
+    "segment_operating": [],
+    "date": "2024-05-03",
+    "accession": "0000320193-24-000069"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000006/aapl-20231230.htm",
+    "products_and_services": [
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 69702.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 65775.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 7780.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 7780.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 7735.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 7735.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 7023.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 7023.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 9396.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 9396.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 11953.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 11953.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 13482.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 13482.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 23117.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended December 30, 2023",
+        "net_sales": 23117.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 20766.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 20766.0,
+        "type": "product"
+      }
+    ],
+    "segment_operating": [],
+    "date": "2024-02-02",
+    "accession": "0000320193-24-000006"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000077/aapl-20230701.htm",
+    "products_and_services": [
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 39669.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended June 25, 2022",
+        "net_sales": 40665.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 156778.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Nine Months Ended June 25, 2022",
+        "net_sales": 162863.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 6840.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 6840.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended June 25, 2022",
+        "net_sales": 7382.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended June 25, 2022",
+        "net_sales": 7382.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 21743.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 21743.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Nine Months Ended June 25, 2022",
+        "net_sales": 28669.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Nine Months Ended June 25, 2022",
+        "net_sales": 28669.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 5791.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 5791.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended June 25, 2022",
+        "net_sales": 7224.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended June 25, 2022",
+        "net_sales": 7224.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 21857.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 21857.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Nine Months Ended June 25, 2022",
+        "net_sales": 22118.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Nine Months Ended June 25, 2022",
+        "net_sales": 22118.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 8284.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 8284.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended June 25, 2022",
+        "net_sales": 8084.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended June 25, 2022",
+        "net_sales": 8084.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 30523.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 30523.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Nine Months Ended June 25, 2022",
+        "net_sales": 31591.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Nine Months Ended June 25, 2022",
+        "net_sales": 31591.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 21213.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended July 1, 2023",
+        "net_sales": 21213.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended June 25, 2022",
+        "net_sales": 19604.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended June 25, 2022",
+        "net_sales": 19604.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 62886.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Nine Months Ended July 1, 2023",
+        "net_sales": 62886.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Nine Months Ended June 25, 2022",
+        "net_sales": 58941.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Nine Months Ended June 25, 2022",
+        "net_sales": 58941.0,
+        "type": "product"
+      }
+    ],
+    "segment_operating": [],
+    "date": "2023-08-04",
+    "accession": "0000320193-23-000077"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000064/aapl-20230401.htm",
+    "products_and_services": [
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 51334.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Three Months Ended March 26, 2022",
+        "net_sales": 50570.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 117109.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae",
+        "period": "Six Months Ended March 26, 2022",
+        "net_sales": 122198.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 7168.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 7168.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended March 26, 2022",
+        "net_sales": 10435.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Three Months Ended March 26, 2022",
+        "net_sales": 10435.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 14903.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 14903.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Six Months Ended March 26, 2022",
+        "net_sales": 21287.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae",
+        "period": "Six Months Ended March 26, 2022",
+        "net_sales": 21287.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 6670.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 6670.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended March 26, 2022",
+        "net_sales": 7646.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Three Months Ended March 26, 2022",
+        "net_sales": 7646.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 16066.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 16066.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Six Months Ended March 26, 2022",
+        "net_sales": 14894.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae",
+        "period": "Six Months Ended March 26, 2022",
+        "net_sales": 14894.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 8757.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 8757.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended March 26, 2022",
+        "net_sales": 8806.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Three Months Ended March 26, 2022",
+        "net_sales": 8806.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 22239.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 22239.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Six Months Ended March 26, 2022",
+        "net_sales": 23507.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories",
+        "period": "Six Months Ended March 26, 2022",
+        "net_sales": 23507.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 20907.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended April 1, 2023",
+        "net_sales": 20907.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended March 26, 2022",
+        "net_sales": 19821.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Three Months Ended March 26, 2022",
+        "net_sales": 19821.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 41673.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Six Months Ended April 1, 2023",
+        "net_sales": 41673.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Six Months Ended March 26, 2022",
+        "net_sales": 39337.0,
+        "type": "product"
+      },
+      {
+        "product": "Services",
+        "period": "Six Months Ended March 26, 2022",
+        "net_sales": 39337.0,
+        "type": "product"
+      }
+    ],
+    "segment_operating": [],
+    "date": "2023-05-05",
+    "accession": "0000320193-23-000064"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000006/aapl-20221231.htm",
+    "products_and_services": [
+      {
+        "product": "iPhone \u00ae (1)",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 65775.0,
+        "type": "product"
+      },
+      {
+        "product": "iPhone \u00ae (1)",
+        "period": "Three Months Ended December 25, 2021",
+        "net_sales": 71628.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae (1)",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 7735.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae (1)",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 7735.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae (1)",
+        "period": "Three Months Ended December 25, 2021",
+        "net_sales": 10852.0,
+        "type": "product"
+      },
+      {
+        "product": "Mac \u00ae (1)",
+        "period": "Three Months Ended December 25, 2021",
+        "net_sales": 10852.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae (1)",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 9396.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae (1)",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 9396.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae (1)",
+        "period": "Three Months Ended December 25, 2021",
+        "net_sales": 7248.0,
+        "type": "product"
+      },
+      {
+        "product": "iPad \u00ae (1)",
+        "period": "Three Months Ended December 25, 2021",
+        "net_sales": 7248.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories (1)(2)",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 13482.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories (1)(2)",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 13482.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories (1)(2)",
+        "period": "Three Months Ended December 25, 2021",
+        "net_sales": 14701.0,
+        "type": "product"
+      },
+      {
+        "product": "Wearables, Home and Accessories (1)(2)",
+        "period": "Three Months Ended December 25, 2021",
+        "net_sales": 14701.0,
+        "type": "product"
+      },
+      {
+        "product": "Services (3)",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 20766.0,
+        "type": "product"
+      },
+      {
+        "product": "Services (3)",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 20766.0,
+        "type": "product"
+      },
+      {
+        "product": "Services (3)",
+        "period": "Three Months Ended December 25, 2021",
+        "net_sales": 19516.0,
+        "type": "product"
+      },
+      {
+        "product": "Services (3)",
+        "period": "Three Months Ended December 25, 2021",
+        "net_sales": 19516.0,
+        "type": "product"
+      },
+      {
+        "product": "Total net sales (4)",
+        "period": "Three Months Ended December 31, 2022",
+        "net_sales": 117154.0,
+        "type": "product"
+      },
+      {
+        "product": "Total net sales (4)",
+        "period": "Three Months Ended December 25, 2021",
+        "net_sales": 123945.0,
+        "type": "product"
+      }
+    ],
+    "segment_operating": [],
+    "date": "2023-02-03",
+    "accession": "0000320193-23-000006"
   }
 ]
