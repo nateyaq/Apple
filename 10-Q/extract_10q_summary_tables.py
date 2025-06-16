@@ -6,6 +6,11 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 
+# Example usage:
+# Single filing: python3 extract_10q_summary_tables.py --url <10-Q-url> --output <output-file>
+# Batch mode (latest N filings): python3 extract_10q_summary_tables.py --last-n 8 --output <output-file>
+# Fetch all available 10-Qs: python3 extract_10q_summary_tables.py --all --output <output-file>
+
 CIK = '320193'  # Apple
 HEADERS = {'User-Agent': "apple-dashboard@example.com"}
 SEC_SUBMISSIONS_URL = f'https://data.sec.gov/submissions/CIK{int(CIK):010d}.json'
