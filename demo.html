@@ -1008,12 +1008,33 @@
             background: #e0e7ef !important;
         }
         .custom-tooltip {
-            font-family: inherit !important;
-            background: #222 !important;
-            color: #fff !important;
-            font-size: 0.95rem !important;
-            border-radius: 0.75rem !important;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.18) !important;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 120%;
+            background: #222;
+            color: #fff;
+            font-size: 0.875rem;
+            font-weight: 400;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            width: min(calc(100vw - 2rem), 360px);
+            max-width: 360px;
+            text-align: left;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+        @media (max-width: 480px) {
+            .custom-tooltip {
+                max-width: 90vw !important;
+                padding: 1rem !important;
+                font-size: 1rem !important;
+            }
         }
         .chart-container {
             background: #fff !important;
@@ -1053,30 +1074,6 @@
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
-        }
-        .custom-tooltip {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            top: 120%;
-            background: #222;
-            color: #fff;
-            font-size: 0.875rem;
-            font-weight: 400;
-            padding: 0.75rem 1rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s;
-            width: min(calc(100vw - 2rem), 360px);
-            text-align: left;
-            line-height: 1.5;
-        }
-        .group:hover .custom-tooltip {
-            opacity: 1;
-            pointer-events: auto;
         }
         .custom-tooltip-arrow {
             position: absolute;
@@ -1162,6 +1159,10 @@
             min-height: 180px !important;
             height: auto !important;
           }
+        }
+        .group:hover .custom-tooltip {
+            opacity: 1;
+            pointer-events: auto;
         }
     </style>
 </body>
