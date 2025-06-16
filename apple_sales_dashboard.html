@@ -169,15 +169,15 @@
       <p class="text-sm sm:text-base text-gray-600 mb-4">Perfomance Review Dashboard</p>
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
         <!-- Period Selector -->
-        <div class="flex flex-row items-center gap-1 w-full sm:w-auto mb-2 sm:mb-0">
-          <label for="period-selector" class="text-sm font-medium text-gray-700 flex items-center gap-1 mb-0">
-            Period:
-          </label>
-          <select id="period-selector" class="w-full sm:w-auto ml-2 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
+          <div class="flex flex-row items-center gap-1 w-full sm:w-auto mb-2 sm:mb-0">
+            <label for="period-selector" class="text-sm font-medium text-gray-700 flex items-center gap-1 mb-0">
+              Period:
+            </label>
+            <select id="period-selector" class="w-full sm:w-auto ml-2 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
             <option value="quarterly">Quarterly</option>
-            <option value="annual">Annual</option>
-          </select>
-        </div>
+              <option value="annual">Annual</option>
+            </select>
+          </div>
         <!-- Year Selector (move here, after period) -->
         <div class="flex flex-row items-center gap-2 w-full sm:w-auto" id="year-selector-row" style="display: none;">
           <label class="text-sm font-medium text-gray-700">Year:</label>
@@ -191,25 +191,25 @@
           <select id="comparison-quarter-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white"></select>
         </div>
         <!-- Quota and Region Selectors -->
-        <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
+          <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
           <label class="text-sm font-medium text-gray-700">Quota:</label>
           <input id="quota-input" type="number" min="0" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white no-spinner" placeholder="Enter quota" />
           <select id="quota-unit" class="px-2 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
             <option value="1000000000" selected>Billion</option>
             <option value="1000000">Million</option>
             <option value="1000">Thousand</option>
-          </select>
+            </select>
+          </div>
+          <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
+            <label class="text-sm font-medium text-gray-700">Region:</label>
+            <select id="region-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
+              <option value="All">All Regions</option>
+              <option value="Americas">Americas</option>
+              <option value="Europe">Europe</option>
+              <option value="Asia Pacific">Asia Pacific</option>
+            </select>
+          </div>
         </div>
-        <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
-          <label class="text-sm font-medium text-gray-700">Region:</label>
-          <select id="region-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
-            <option value="All">All Regions</option>
-            <option value="Americas">Americas</option>
-            <option value="Europe">Europe</option>
-            <option value="Asia Pacific">Asia Pacific</option>
-          </select>
-        </div>
-      </div>
     </div>
 
     <!-- Summary Cards Section (responsive grid, no overlap) -->
