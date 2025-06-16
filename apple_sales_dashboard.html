@@ -156,7 +156,9 @@
       margin: 0;
     }
     input[type=number].no-spinner {
+      -webkit-appearance: textfield;
       -moz-appearance: textfield;
+      appearance: textfield;
     }
   </style>
 </head>
@@ -191,7 +193,7 @@
         <!-- Quota and Region Selectors -->
         <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
           <label class="text-sm font-medium text-gray-700">Quota:</label>
-          <input id="quota-input" type="number" min="0" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white no-spinner" placeholder="Enter quota" style="appearance: textfield;" />
+          <input id="quota-input" type="number" min="0" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white no-spinner" placeholder="Enter quota" />
           <select id="quota-unit" class="px-2 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
             <option value="1000000000" selected>Billion</option>
             <option value="1000000">Million</option>
