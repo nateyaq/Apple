@@ -12,6 +12,7 @@
   - [ ] No tooltips or cards deviate from the style guide
   - [ ] No existing functionality is broken (data, controls, tooltips, etc.)
   - [ ] All tests pass (unit, integration, and UI if available)
+- [ ] All number inputs use standard and vendor-prefixed 'appearance' for cross-browser compatibility.
 
 ## Version Control
 - Tag all working releases so you can easily roll back if needed.
@@ -25,4 +26,7 @@ When submitting a PR, include:
 - What was changed and why
 - Screenshots of any UI changes
 - Confirmation that all tests pass
-- Reference to the style guide for any UI changes 
+- Reference to the style guide for any UI changes
+
+## Data Files & .gitignore
+- Always add large or sensitive data files (e.g., sales_data/, apple_sec_sales_data.json) to .gitignore before committing. 

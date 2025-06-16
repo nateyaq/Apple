@@ -28,4 +28,12 @@
 
 ## Visual Regression Testing
 - After any UI change, visually check all tooltips, cards, and controls for consistency.
-- (Recommended) Use screenshot comparison tools or browser extensions to catch visual regressions. 
+- (Recommended) Use screenshot comparison tools or browser extensions to catch visual regressions.
+
+## Input Styling
+- All number inputs must use the standard `appearance: textfield;` property, with `-webkit-appearance` and `-moz-appearance` for compatibility.
+- Remove any nonstandard inline `appearance` styles from HTML.
+
+## Filter Row Layout
+- The filter row must always show controls in this order: Period selector, Year/Quarter selector(s), Quota input/unit, Region selector.
+- Year selector appears only in annual mode; quarter selectors only in quarterly mode. 

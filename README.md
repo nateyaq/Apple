@@ -298,3 +298,25 @@ This project is for educational and demonstration purposes. SEC data is publicly
   npx playwright test
   ```
 - Playwright config and tests are in `ui-tests/`.
+
+## 🆕 Recent Features & Data Structure
+
+- **Annual/Quarterly/Year Selectors:** Switch between annual and quarterly data, select specific years or quarters for comparison.
+- **Region/Product Chart Logic:** Region selector filters region charts and summary cards; product charts always show global product sales.
+- **Quota Line:** Add a quota value and unit (Billion, Million, Thousand) to display a reference line on charts.
+- **Summary Card Logic:** QoQ is N/A in annual mode, YoY is N/A in quarterly mode.
+- **Data Source:** Dashboard now loads data from structured JSON files in `10-K/` (annual) and `10-Q/` (quarterly) subfolders.
+
+### Data Files
+- `10-K/10k_summary_data.json` (annual, by year)
+- `10-Q/10q_summary_data.json` and `10-Q/10q_region_data.json` (quarterly, by period)
+- (Optional) `apple_sec_sales_data.json` (large, root, should be gitignored)
+- (Optional) `sales_data/` (large, should be gitignored)
+
+### Browser Compatibility
+- Uses the standard `appearance` property for number inputs, with `-webkit-appearance` and `-moz-appearance` for cross-browser support.
+
+### Git Ignore
+- Add large or sensitive data files/folders to `.gitignore`:
+  - `sales_data/`
+  - `apple_sec_sales_data.json`
