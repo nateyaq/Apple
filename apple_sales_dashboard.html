@@ -148,87 +148,107 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
       }
     }
+
+    /* Hide number input spinners for all browsers */
+    input[type=number].no-spinner::-webkit-inner-spin-button,
+    input[type=number].no-spinner::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number].no-spinner {
+      -moz-appearance: textfield;
+    }
   </style>
 </head>
 <body class="bg-gray-50">
   <div class="p-3 sm:p-4 lg:p-6 min-h-screen">
     <div class="mb-4 sm:mb-6 lg:mb-8">
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-        <div>
           <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Apple Sales & Finance Analytics - Mock data</h1>
-          <p class="text-sm sm:text-base text-gray-600">Quarterly Business Review Dashboard</p>
-        </div>
+      <p class="text-sm sm:text-base text-gray-600 mb-4">Quarterly Business Review Dashboard</p>
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
-          <!-- Period Selector (now horizontal) -->
-          <div class="flex flex-row items-center gap-1 w-full sm:w-auto mb-2 sm:mb-0">
-            <label for="period-selector" class="text-sm font-medium text-gray-700 flex items-center gap-1 mb-0">
-              Period:
-              <span class="relative group align-middle">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-400 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path stroke="currentColor" stroke-width="2" d="M12 8v4m0 4h.01"/></svg>
-                <div class="custom-tooltip">
-                  <div class="custom-tooltip-arrow">
-                    <svg width='16' height='8'><polygon points='0,8 8,0 16,8' style='fill:#222;'/></svg>
-                  </div>
-                  <div>
-                    <strong>Annual View</strong>
-                    <div class="text-sm" style="margin-bottom: 10px;">
-                      Shows the latest available 10-K (annual report) for each metric.
-                    </div>
-                    <strong>Latest View</strong>
-                    <div class="text-sm">
-                      Shows the most recent 10-Q (quarterly report) for each metric.<br>
-                      If a 10-K is not available for the current year, the most recent prior 10-K is shown.
-                    </div>
-                  </div>
-                </div>
-              </span>
-            </label>
-            <select id="period-selector" class="w-full sm:w-auto ml-2 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
-              <option value="latest">Latest</option>
-              <option value="annual">Annual</option>
-            </select>
-          </div>
-          <!-- Quarter Selector -->
-          <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
-            <label class="text-sm font-medium text-gray-700">Quarter:</label>
-            <select id="quarter-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
-              <option value="Q2">Q2 2024</option>
-              <option value="Q1">Q1 2024</option>
-            </select>
-          </div>
-          <!-- Region Selector -->
-          <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
-            <label class="text-sm font-medium text-gray-700">Region:</label>
-            <select id="region-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
-              <option value="All">All Regions</option>
-              <option value="Americas">Americas</option>
-              <option value="Europe">Europe</option>
-              <option value="Asia Pacific">Asia Pacific</option>
-            </select>
-          </div>
+        <!-- Period Selector -->
+        <div class="flex flex-row items-center gap-1 w-full sm:w-auto mb-2 sm:mb-0">
+          <label for="period-selector" class="text-sm font-medium text-gray-700 flex items-center gap-1 mb-0">
+            Period:
+          </label>
+          <select id="period-selector" class="w-full sm:w-auto ml-2 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
+            <option value="quarterly">Quarterly</option>
+            <option value="annual">Annual</option>
+          </select>
+        </div>
+        <!-- Year Selector (move here, after period) -->
+        <div class="flex flex-row items-center gap-2 w-full sm:w-auto" id="year-selector-row" style="display: none;">
+          <label class="text-sm font-medium text-gray-700">Year:</label>
+          <select id="year-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white"></select>
+        </div>
+        <!-- Quarter Selectors (quarterly mode only) -->
+        <div class="flex flex-row items-center gap-2 w-full sm:w-auto" id="quarter-selectors-row">
+          <label class="text-sm font-medium text-gray-700">Current Quarter:</label>
+          <select id="current-quarter-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white"></select>
+          <label class="text-sm font-medium text-gray-700">Comparison Quarter:</label>
+          <select id="comparison-quarter-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white"></select>
+        </div>
+        <!-- Quota and Region Selectors -->
+        <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
+          <label class="text-sm font-medium text-gray-700">Quota:</label>
+          <input id="quota-input" type="number" min="0" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white no-spinner" placeholder="Enter quota" style="appearance: textfield;" />
+          <select id="quota-unit" class="px-2 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
+            <option value="1000000000" selected>Billion</option>
+            <option value="1000000">Million</option>
+            <option value="1000">Thousand</option>
+          </select>
+        </div>
+        <div class="flex flex-row items-center gap-2 w-full sm:w-auto">
+          <label class="text-sm font-medium text-gray-700">Region:</label>
+          <select id="region-selector" class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 bg-white">
+            <option value="All">All Regions</option>
+            <option value="Americas">Americas</option>
+            <option value="Europe">Europe</option>
+            <option value="Asia Pacific">Asia Pacific</option>
+          </select>
         </div>
       </div>
     </div>
 
-    <div id="summary-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6"></div>
+    <!-- Summary Cards Section (responsive grid, no overlap) -->
+    <div id="summary-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between min-w-0">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-gray-600">Total Revenue</span>
+        </div>
+        <div class="text-2xl font-bold text-gray-900" id="totalSales">$0.0B</div>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between min-w-0">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-gray-600">All Regions Revenue</span>
+        </div>
+        <div class="text-2xl font-bold text-gray-900" id="netRevenue">$0.0B</div>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between min-w-0">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-gray-600">QoQ Change</span>
+        </div>
+        <div class="text-2xl font-bold text-gray-900" id="qoqChange">0.0%</div>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between min-w-0">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-gray-600">YoY Change</span>
+        </div>
+        <div class="text-2xl font-bold text-gray-900" id="yoyChange">0.0%</div>
+      </div>
+    </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-      <div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4">Territory Performance vs Quota</h3>
-        <div class="chart-container">
-          <canvas id="territory-bar-chart" height="220"></canvas>
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 min-w-0 overflow-x-auto">
+        <h2 class="text-lg font-semibold mb-2">Territory Performance vs Quota</h2>
+        <div class="h-80 min-h-[20rem]">
+          <canvas id="territory-bar-chart"></canvas>
         </div>
       </div>
-      <div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4">Product Line Revenue</h3>
-        <div class="chart-container">
-          <canvas id="product-bar-chart" height="220"></canvas>
-        </div>
-      </div>
-      <div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4">Revenue by Sales Channel</h3>
-        <div class="chart-container">
-          <canvas id="channel-pie-chart" height="220"></canvas>
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 min-w-0 overflow-x-auto">
+        <h2 class="text-lg font-semibold mb-2">Product Line Revenue</h2>
+        <div class="h-80 min-h-[20rem]">
+          <canvas id="product-bar-chart"></canvas>
         </div>
       </div>
     </div>
@@ -294,371 +314,436 @@
       `;
     }
 
-    // --- Dashboard Logic ---
-    async function loadData() {
-      try {
-        const response = await fetch('sales_data/apple_sec_sales_data.json');
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error('Error loading data:', error);
-        return null;
+    // --- Data Loading ---
+    async function loadAnnualData() {
+      const res = await fetch('10-K/10k_summary_data.json');
+      return (await res.json())[0];
+    }
+    async function loadQuarterlyData() {
+      const [summary, regions] = await Promise.all([
+        fetch('10-Q/10q_summary_data.json').then(r => r.json()),
+        fetch('10-Q/10q_region_data.json').then(r => r.json())
+      ]);
+      return { summary: summary[0], regions: regions[0] };
+    }
+
+    // --- State ---
+    let annualData = null;
+    let quarterlyData = null;
+    let currentPeriod = 'quarterly';
+    let currentQuarter = '';
+    let comparisonQuarter = '';
+    let currentRegion = 'All';
+    let quotaValue = null;
+    let quotaUnit = 1000000000;
+    let currentYear = '';
+
+    // --- Event Listeners ---
+    function addSelectorListeners() {
+      document.getElementById('period-selector').addEventListener('change', onPeriodChange);
+      document.getElementById('quota-input').addEventListener('input', e => {
+        const val = parseInt(e.target.value, 10);
+        quotaValue = (!isNaN(val) && val > 0) ? val : null;
+        updateDashboard();
+      });
+      document.getElementById('quota-unit').addEventListener('change', e => {
+        quotaUnit = parseInt(e.target.value, 10);
+        updateDashboard();
+      });
+      document.getElementById('region-selector').addEventListener('change', onRegionChange);
+      document.getElementById('current-quarter-selector').addEventListener('change', e => {
+        currentQuarter = e.target.value;
+        updateDashboard();
+      });
+      document.getElementById('comparison-quarter-selector').addEventListener('change', e => {
+        comparisonQuarter = e.target.value;
+        updateDashboard();
+      });
+      document.getElementById('year-selector').addEventListener('change', e => {
+        currentYear = e.target.value;
+        updateDashboard();
+      });
+      console.log('Selector listeners added');
+    }
+    function removeSelectorListeners() {
+      document.getElementById('period-selector').removeEventListener('change', onPeriodChange);
+      document.getElementById('quota-input').removeEventListener('input', e => {
+        const val = parseInt(e.target.value, 10);
+        quotaValue = (!isNaN(val) && val > 0) ? val : null;
+        updateDashboard();
+      });
+      document.getElementById('quota-unit').removeEventListener('change', e => {
+        quotaUnit = parseInt(e.target.value, 10);
+        updateDashboard();
+      });
+      document.getElementById('region-selector').removeEventListener('change', onRegionChange);
+      document.getElementById('current-quarter-selector').removeEventListener('change', e => {
+        currentQuarter = e.target.value;
+        updateDashboard();
+      });
+      document.getElementById('comparison-quarter-selector').removeEventListener('change', e => {
+        comparisonQuarter = e.target.value;
+        updateDashboard();
+      });
+      document.getElementById('year-selector').removeEventListener('change', e => {
+        currentYear = e.target.value;
+        updateDashboard();
+      });
+      console.log('Selector listeners removed');
+    }
+    function onPeriodChange(e) {
+      currentPeriod = e.target.value;
+      console.log('Period changed:', currentPeriod);
+      populateSelectors();
+      updateDashboard();
+    }
+    function onRegionChange(e) {
+      currentRegion = e.target.value;
+      console.log('Region changed:', currentRegion);
+      updateDashboard();
+    }
+
+    // --- Populate Selectors ---
+    function populateSelectors() {
+      removeSelectorListeners();
+      // Period selector
+      const periodSel = document.getElementById('period-selector');
+      periodSel.innerHTML = '<option value="quarterly">Quarterly</option><option value="annual">Annual</option>';
+      periodSel.value = currentPeriod;
+
+      // Region selector (from region data)
+      const regionSel = document.getElementById('region-selector');
+      const regions = [...new Set([
+        ...quarterlyData.regions.region_operating.map(r => r.region),
+        ...annualData.segment_operating.map(r => r.region)
+      ])].filter(r => r && r !== 'Total net sales');
+      regionSel.innerHTML = '<option value="All">All Regions</option>' + regions.map(r => `<option value="${r}">${r}</option>`).join('');
+      regionSel.value = currentRegion;
+
+      // Populate quarter selectors for quarterly mode
+      const currentQuarterSel = document.getElementById('current-quarter-selector');
+      const comparisonQuarterSel = document.getElementById('comparison-quarter-selector');
+      const periods = [...new Set(quarterlyData.summary.products_and_services.map(p => p.period).filter(period => period && period.startsWith('Three Months Ended')))].sort((a, b) => new Date(a.replace('Three Months Ended ', '')) - new Date(b.replace('Three Months Ended ', ''))).reverse();
+      currentQuarterSel.innerHTML = periods.map(p => `<option value="${p}">${periodToQuarterLabel(p)}</option>`).join('');
+      comparisonQuarterSel.innerHTML = periods.map(p => `<option value="${p}">${periodToQuarterLabel(p)}</option>`).join('');
+      if (!currentQuarter || !periods.includes(currentQuarter)) currentQuarter = periods[0];
+      if (!comparisonQuarter || !periods.includes(comparisonQuarter)) comparisonQuarter = periods[1] || periods[0];
+      currentQuarterSel.value = currentQuarter;
+      comparisonQuarterSel.value = comparisonQuarter;
+      // Hide quarter selectors if annual
+      currentQuarterSel.parentElement.style.display = (currentPeriod === 'annual') ? 'none' : '';
+      comparisonQuarterSel.parentElement.style.display = (currentPeriod === 'annual') ? 'none' : '';
+
+      // Year selector for annual mode
+      const yearSelectorRow = document.getElementById('year-selector-row');
+      const yearSelector = document.getElementById('year-selector');
+      const years = [...new Set(annualData.products_and_services.map(p => p.year))].sort((a, b) => b - a);
+      yearSelector.innerHTML = years.map(y => `<option value="${y}">${y}</option>`).join('');
+      if (!currentYear || !years.includes(Number(currentYear))) currentYear = years[0];
+      yearSelector.value = currentYear;
+      yearSelectorRow.style.display = (currentPeriod === 'annual') ? '' : 'none';
+
+      addSelectorListeners();
+    }
+
+    // --- Update Dashboard ---
+    function updateDashboard() {
+      console.trace('updateDashboard called');
+      const mainProducts = [
+        'iPhone',
+        'Mac',
+        'iPad',
+        'Services',
+        'Wearables, Home and Accessories'
+      ];
+      function normalizeProductName(name) {
+        return name.replace(' ®', '');
+      }
+      const regionSelected = currentRegion !== 'All' ? currentRegion : null;
+      if (currentPeriod === 'annual') {
+        // Annual view: use 10-K data for selected year and previous year
+        const years = [...new Set(annualData.products_and_services.map(p => p.year))].sort();
+        const selectedYear = Number(currentYear) || years[years.length - 1];
+        const prevYear = years[years.indexOf(selectedYear) - 1];
+        const lastTwo = [selectedYear, prevYear].filter(Boolean);
+        const products = mainProducts.map(product => ({
+          product,
+          sales: lastTwo.map(year => {
+            const entry = annualData.products_and_services.find(p => normalizeProductName(p.product) === product && p.year === year);
+            return entry ? entry.net_sales : 0;
+          })
+        }));
+        let regions = [...new Set(annualData.segment_operating.filter(r => r.type === 'region').map(r => r.region))].map(region => ({
+          region,
+          sales: lastTwo.map(year => {
+            const entry = annualData.segment_operating.find(r => r.region === region && r.year === year);
+            return entry ? entry.net_sales : 0;
+          })
+        }));
+        if (regionSelected) {
+          regions = regions.filter(r => r.region === regionSelected);
+        }
+        products.sort((a, b) => (b.sales[0] || 0) - (a.sales[0] || 0));
+        regions.sort((a, b) => (b.sales[0] || 0) - (a.sales[0] || 0));
+        const totalSales = products.reduce((sum, p) => sum + (p.sales[0] || 0), 0);
+        let regionRevenue = 0, prevRegionRevenue = 0, yoyRegionRevenue = 0;
+        if (regionSelected) {
+          const regionObj = regions.find(r => r.region === regionSelected);
+          regionRevenue = regionObj ? (regionObj.sales[0] || 0) : 0;
+          prevRegionRevenue = regionObj ? (regionObj.sales[1] || 0) : 0;
+          yoyRegionRevenue = prevRegionRevenue;
+        } else {
+          regionRevenue = regions.reduce((sum, r) => sum + (r.sales[0] || 0), 0);
+          prevRegionRevenue = regions.reduce((sum, r) => sum + (r.sales[1] || 0), 0);
+          yoyRegionRevenue = prevRegionRevenue;
+        }
+        const qoqChange = prevRegionRevenue ? ((regionRevenue - prevRegionRevenue) / prevRegionRevenue) * 100 : 0;
+        const yoyChange = qoqChange;
+        updateSummaryCards(totalSales, regionRevenue, qoqChange, yoyChange, regionSelected);
+        updateProductBarChart(lastTwo.map(y => `FY ${y}`), products, `Product Line Revenue: FY ${lastTwo[0]}${lastTwo[1] ? ' vs FY ' + lastTwo[1] : ''}`);
+        updateRegionBarChart(lastTwo.map(y => `FY ${y}`), regions, `Territory Performance: FY ${lastTwo[0]}${lastTwo[1] ? ' vs FY ' + lastTwo[1] : ''}`);
+      } else {
+        // Quarterly view: use selected quarters for comparison
+        const allPeriods = [...new Set(quarterlyData.summary.products_and_services.filter(p => mainProducts.includes(normalizeProductName(p.product))).map(p => p.period))];
+        const periods = allPeriods.filter(period => period && period.startsWith('Three Months Ended'));
+        periods.sort((a, b) => new Date(a.replace('Three Months Ended ', '')) - new Date(b.replace('Three Months Ended ', ''))).reverse();
+        const selectedPeriods = [currentQuarter, comparisonQuarter];
+        // Prepare product and region data for grouped bar chart
+        const products = mainProducts.map(product => ({
+          product,
+          sales: selectedPeriods.map(period => {
+            const entry = quarterlyData.summary.products_and_services.find(p => normalizeProductName(p.product) === product && p.period === period);
+            return entry ? entry.net_sales : 0;
+          })
+        }));
+        let regions = [...new Set(quarterlyData.regions.region_operating.filter(r => r.type === 'region').map(r => r.region))].map(region => ({
+          region,
+          sales: selectedPeriods.map(period => {
+            const entry = quarterlyData.regions.region_operating.find(r => r.region === region && r.period === period);
+            return entry ? entry.net_sales : 0;
+          })
+        }));
+        // If a region is selected, filter to just that region
+        if (regionSelected) {
+          regions = regions.filter(r => r.region === regionSelected);
+        }
+        // Sort products and regions by most recent value (highest to lowest)
+        products.sort((a, b) => (b.sales[0] || 0) - (a.sales[0] || 0));
+        regions.sort((a, b) => (b.sales[0] || 0) - (a.sales[0] || 0));
+        // Summary cards
+        const totalSales = products.reduce((sum, p) => sum + (p.sales[0] || 0), 0);
+        let regionRevenue = 0, prevRegionRevenue = 0, yoyRegionRevenue = 0;
+        if (regionSelected) {
+          const regionObj = regions.find(r => r.region === regionSelected);
+          regionRevenue = regionObj ? (regionObj.sales[0] || 0) : 0;
+          // QoQ: previous quarter
+          let prevQuarterIdx = periods.indexOf(currentQuarter) + 1;
+          let prevQuarter = periods[prevQuarterIdx] || comparisonQuarter;
+          if (prevQuarter) {
+            const entry = quarterlyData.regions.region_operating.find(r => r.region === regionSelected && r.period === prevQuarter);
+            prevRegionRevenue = entry ? entry.net_sales : 0;
+          }
+          // YoY: same quarter last year
+          const currentYear = currentQuarter.match(/\d{4}/)?.[0];
+          const currentQ = currentQuarter.match(/Q(\d)/)?.[1];
+          let yoyQuarter = periods.find(p => {
+            const y = p.match(/\d{4}/)?.[0];
+            const q = p.match(/Q(\d)/)?.[1];
+            return y == (currentYear - 1) && q == currentQ;
+          });
+          if (yoyQuarter) {
+            const entry = quarterlyData.regions.region_operating.find(r => r.region === regionSelected && r.period === yoyQuarter);
+            yoyRegionRevenue = entry ? entry.net_sales : 0;
+          }
+        } else {
+          regionRevenue = regions.reduce((sum, r) => sum + (r.sales[0] || 0), 0);
+          // QoQ: previous quarter
+          let prevQuarterIdx = periods.indexOf(currentQuarter) + 1;
+          let prevQuarter = periods[prevQuarterIdx] || comparisonQuarter;
+          if (prevQuarter) {
+            const prevRegions = [...new Set(quarterlyData.regions.region_operating.filter(r => r.type === 'region').map(r => r.region))].map(region => {
+              const entry = quarterlyData.regions.region_operating.find(r2 => r2.region === region && r2.period === prevQuarter);
+              return entry ? entry.net_sales : 0;
+            });
+            prevRegionRevenue = prevRegions.reduce((a, b) => a + b, 0);
+          }
+          // YoY: same quarter last year
+          const currentYear = currentQuarter.match(/\d{4}/)?.[0];
+          const currentQ = currentQuarter.match(/Q(\d)/)?.[1];
+          let yoyQuarter = periods.find(p => {
+            const y = p.match(/\d{4}/)?.[0];
+            const q = p.match(/Q(\d)/)?.[1];
+            return y == (currentYear - 1) && q == currentQ;
+          });
+          if (yoyQuarter) {
+            const yoyRegions = [...new Set(quarterlyData.regions.region_operating.filter(r => r.type === 'region').map(r => r.region))].map(region => {
+              const entry = quarterlyData.regions.region_operating.find(r2 => r2.region === region && r2.period === yoyQuarter);
+              return entry ? entry.net_sales : 0;
+            });
+            yoyRegionRevenue = yoyRegions.reduce((a, b) => a + b, 0);
+          }
+        }
+        const qoqChange = prevRegionRevenue ? ((regionRevenue - prevRegionRevenue) / prevRegionRevenue) * 100 : 0;
+        const yoyChange = yoyRegionRevenue ? ((regionRevenue - yoyRegionRevenue) / yoyRegionRevenue) * 100 : 0;
+        updateSummaryCards(totalSales, regionRevenue, qoqChange, yoyChange, regionSelected);
+        const labelQuarters = selectedPeriods.map(periodToQuarterLabel);
+        updateProductBarChart(labelQuarters, products, `Product Line Revenue: ${labelQuarters[0]} vs ${labelQuarters[1]}`);
+        updateRegionBarChart(labelQuarters, regions, `Territory Performance: ${labelQuarters[0]} vs ${labelQuarters[1]}`);
       }
     }
 
-    async function updateDashboard() {
-      const periodType = document.getElementById('period-selector').value;
-      // const periodDetailSelector = document.getElementById('period-detail-selector');
-      const data = await loadData();
-      // --- Patch: adapt to actual JSON structure ---
-      const filings = data.filings || [];
-      const annual = filings.filter(f => f.form_type === '10-K');
-      const quarterly = filings.filter(f => f.form_type === '10-Q');
-      data.annual = annual;
-      data.quarterly = quarterly;
-      for (const filing of filings) {
-        // Patch: group note2 by period
-        const note2 = filing.note2 || [];
-        const periodMap2 = {};
-        for (const prod of note2) {
-          for (const periodKey in prod.values) {
-            if (!periodMap2[periodKey]) periodMap2[periodKey] = [];
-            periodMap2[periodKey].push({
-              product_line: prod.product,
-              revenue: prod.values[periodKey].value
-            });
-          }
-        }
-        filing.note2_periods = Object.entries(periodMap2).map(([period, products]) => ({
-          label: period,
-          products
-        }));
-        // Patch: group note10 by period
-        const note10 = filing.note10 || [];
-        const periodMap10 = {};
-        for (const seg of note10) {
-          for (const periodKey in seg.values) {
-            if (!periodMap10[periodKey]) periodMap10[periodKey] = [];
-            const entry = {
-              region: seg.region,
-              net_sales: seg.metric.toLowerCase().includes('net sales') ? seg.values[periodKey].value : undefined,
-              operating_income: seg.metric.toLowerCase().includes('operating income') ? seg.values[periodKey].value : undefined
-            };
-            periodMap10[periodKey].push(entry);
-          }
-        }
-        filing.note10_periods = Object.entries(periodMap10).map(([period, segments]) => ({
-          label: period,
-          segments: segments.reduce((acc, seg) => {
-            let found = acc.find(s => s.region === seg.region);
-            if (!found) {
-              found = { region: seg.region };
-              acc.push(found);
-            }
-            if (seg.net_sales !== undefined) found.net_sales = seg.net_sales;
-            if (seg.operating_income !== undefined) found.operating_income = seg.operating_income;
-            return acc;
-          }, [])
-        }));
-      }
-      if (!data) {
-        console.error('Failed to load data');
-        return;
-      }
-      // Get the appropriate data based on period
-      const sourceData = periodType === 'annual' ? data.annual : data.quarterly;
-      const latestFiling = sourceData[0]; // Most recent filing
-      // Get all available periods from JSON
-      const note2Periods = latestFiling.note2_periods || [];
-      const note10Periods = latestFiling.note10_periods || [];
-      // Helper to normalize and extract period type and date
-      function extractPeriodParts(label) {
-        if (!label) return { type: '', date: '' };
-        const clean = label.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
-        // Try to split into type and date
-        const match = clean.match(/(three|six|nine) months ended ([a-z]+ \d{4,})/);
-        if (match) {
-          return { type: match[1] + ' months ended', date: match[2] };
-        }
-        // fallback: try to split by first number
-        const idx = clean.search(/\d/);
-        if (idx > 0) {
-          return { type: clean.slice(0, idx).trim(), date: clean.slice(idx).trim() };
-        }
-        return { type: clean, date: '' };
-      }
-      // Build fuzzy-matched period label pairs, fallback to index match if needed
-      let periodPairs = [];
-      note2Periods.forEach((p2, idx) => {
-        const p2parts = extractPeriodParts(p2.label);
-        let match = note10Periods.find(p10 => {
-          const p10parts = extractPeriodParts(p10.label);
-          return p2parts.type === p10parts.type && p2parts.date === p10parts.date;
-        });
-        // Fallback: match by index if no label match
-        if (!match && note10Periods[idx]) {
-          match = note10Periods[idx];
-        }
-        if (match) {
-          periodPairs.push({ label: p2.label, note2: p2, note10: match });
-        }
-      });
-      // For dropdown, show both quarter and YTD
-      const displayLabels = periodPairs.map(pair => pair.label);
-      // Debug: log available period labels
-      console.log('Available period labels:', displayLabels);
-      // const selectedPeriodLabel = periodDetailSelector.value || displayLabels[0];
-      const selectedPeriodLabel = displayLabels[0];
-      // Debug: log selected period label
-      console.log('Selected period label:', selectedPeriodLabel);
-      // Get data for selected period
-      const selectedPair = periodPairs.find(pair => pair.label === selectedPeriodLabel);
-      const note2Period = selectedPair ? selectedPair.note2 : null;
-      const note10Period = selectedPair ? selectedPair.note10 : null;
-      // --- Patch: Transform note10 array to segments array for dashboard compatibility ---
-      if (note10Period && Array.isArray(note10Period)) {
-        // Group by region
-        const regionMap = {};
-        note10Period.forEach(entry => {
-          const region = entry.region;
-          const metric = entry.metric;
-          // Get the latest period value (highest Period N)
-          let latestValue = null;
-          if (entry.values && typeof entry.values === 'object') {
-            // Find the highest Period N
-            const periodKeys = Object.keys(entry.values).sort((a, b) => {
-              const getNum = s => parseInt((s.match(/\d+/) || [0])[0], 10);
-              return getNum(b) - getNum(a);
-            });
-            if (periodKeys.length > 0) {
-              latestValue = entry.values[periodKeys[0]].value;
-            }
-          }
-          if (!regionMap[region]) regionMap[region] = {};
-          if (metric.toLowerCase().includes('net sales')) {
-            regionMap[region].net_sales = latestValue;
-          } else if (metric.toLowerCase().includes('operating income')) {
-            regionMap[region].operating_income = latestValue;
-          }
-        });
-        // Convert to segments array
-        note10Period.segments = Object.entries(regionMap).map(([region, vals]) => ({
-          region,
-          net_sales: vals.net_sales || 0,
-          operating_income: vals.operating_income || 0
-        }));
-      }
-      // Debug: log all period labels and their extracted parts
-      console.log('Note2 period labels:', note2Periods.map(p => p.label));
-      note2Periods.forEach(p => {
-        const parts = extractPeriodParts(p.label);
-        console.log('Note2 label:', p.label, '->', parts);
-      });
-      console.log('Note10 period labels:', note10Periods.map(p => p.label));
-      note10Periods.forEach(p => {
-        const parts = extractPeriodParts(p.label);
-        console.log('Note10 label:', p.label, '->', parts);
-      });
-      // Debug: log product lines and full products array for selected period
-      if (note2Period && note2Period.products) {
-        console.log('Product lines for selected period:', note2Period.products.map(item => item.product_line));
-        console.log('Full products array:', note2Period.products);
+    // --- Summary Cards ---
+    function updateSummaryCards(totalSales, regionRevenue, qoqChange, yoyChange, regionSelected) {
+      document.getElementById('totalSales').textContent = `$${(totalSales / 1000).toFixed(1)}B`;
+      const regionLabel = regionSelected ? `${regionSelected} Revenue` : 'All Regions Revenue';
+      document.getElementById('netRevenue').previousElementSibling.querySelector('span').textContent = regionLabel;
+      document.getElementById('netRevenue').textContent = `$${(regionRevenue / 1000).toFixed(1)}B`;
+      if (currentPeriod === 'annual') {
+        document.getElementById('qoqChange').textContent = 'N/A';
+        document.getElementById('yoyChange').textContent = `${yoyChange.toFixed(1)}%`;
       } else {
-        console.log('No product lines found for selected period');
+        document.getElementById('qoqChange').textContent = `${qoqChange.toFixed(1)}%`;
+        document.getElementById('yoyChange').textContent = 'N/A';
       }
-      // If no match, show a message and skip rendering
-      if (!note2Period || !note10Period) {
-        document.getElementById('summary-cards').innerHTML = '<div class="p-4 text-red-600">No matching period data found for this selection.</div>';
-        if (window.productBarChart) window.productBarChart.destroy();
-        if (window.territoryBarChart) window.territoryBarChart.destroy();
-        if (window.channelPieChart) window.channelPieChart.destroy();
-        return;
-      }
-      // Product line revenue
-      const productLineData = {};
-      let totalRevenue = 0;
-      if (note2Period && note2Period.products) {
-        for (const item of note2Period.products) {
-          if (item.product_line && typeof item.revenue === 'number') {
-            productLineData[item.product_line] = item.revenue / 1000; // convert to B
-            totalRevenue += item.revenue;
-          }
-        }
-      }
-      // Segment data
-      const segmentData = {};
-      if (note10Period && note10Period.segments) {
-        for (const item of note10Period.segments) {
-          if (item.region) {
-            segmentData[item.region] = {
-              sales: item.net_sales ? item.net_sales / 1000 : 0, // convert to B
-              income: item.operating_income ? item.operating_income / 1000 : 0
-            };
-          }
-        }
-      }
-      // Fallback to mock data if segmentData is empty
-      const hasValidSegmentData = Object.values(segmentData).some(seg => seg.sales > 0);
-      if (!hasValidSegmentData) {
-        segmentData['Americas'] = { sales: 100, income: 30 };
-        segmentData['Europe'] = { sales: 80, income: 20 };
-        segmentData['Greater China'] = { sales: 60, income: 15 };
-        segmentData['Japan'] = { sales: 40, income: 10 };
-        segmentData['Rest of Asia Pacific'] = { sales: 30, income: 8 };
-      }
-      // Update summary cards
-      const netRevenue = totalRevenue;
-      const totalIncome = Object.values(segmentData).reduce((sum, seg) => sum + seg.income, 0);
-      document.getElementById('summary-cards').innerHTML = `
-        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-xs font-medium text-gray-600">Total Revenue ${renderInfoIconWithTooltip('Total net sales from SEC filings.')}</p>
-              <p class="text-xl font-bold text-gray-900">$${(totalRevenue / 1000).toFixed(1)}B</p>
-            </div>
-            <span class="h-6 w-6 text-green-600">💵</span>
-          </div>
-        </div>
-        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-xs font-medium text-gray-600">Net Revenue ${renderInfoIconWithTooltip('Net sales from SEC filings.')}</p>
-              <p class="text-xl font-bold text-gray-900">$${(netRevenue / 1000).toFixed(1)}B</p>
-            </div>
-            <span class="h-6 w-6 text-blue-600">🎯</span>
-          </div>
-        </div>
-        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-xs font-medium text-gray-600">Operating Income ${renderInfoIconWithTooltip('Total operating income from SEC filings.')}</p>
-              <p class="text-xl font-bold text-gray-900">$${totalIncome.toFixed(1)}B</p>
-            </div>
-            <span class="h-6 w-6 text-green-600">✅</span>
-          </div>
-        </div>
-        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-xs font-medium text-gray-600">Operating Margin ${renderInfoIconWithTooltip('Operating income as percentage of net sales.')}</p>
-              <p class="text-xl font-bold text-gray-900">${((totalIncome * 1000 / totalRevenue) * 100).toFixed(1)}%</p>
-            </div>
-            <span class="h-6 w-6 text-purple-600">📊</span>
-          </div>
-        </div>
-      `;
-      // Update Territory Performance Chart (using segment data)
-      const territoryLabels = Object.keys(segmentData);
-      const salesData = territoryLabels.map(region => segmentData[region].sales);
-      const incomeData = territoryLabels.map(region => segmentData[region].income);
-      const quotaData = salesData.map(sales => sales * 1.01);
-      if (window.territoryBarChart) window.territoryBarChart.destroy();
-      window.territoryBarChart = new Chart(document.getElementById('territory-bar-chart').getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: territoryLabels,
-          datasets: [
-            { label: 'Net Sales', data: salesData, backgroundColor: '#007AFF' },
-            { label: 'Operating Income', data: incomeData, backgroundColor: '#34C759' },
-            { label: 'Quota', data: quotaData, backgroundColor: '#FF9500', borderWidth: 1, borderColor: '#FF9500', type: 'line', fill: false }
-          ]
-        },
-        options: { 
-          responsive: true, 
-          plugins: { 
-            legend: { position: 'top' },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return `${context.dataset.label}: $${context.parsed.y.toFixed(2)}B`;
-                }
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: value => `$${value}B`
-              }
-            }
-          }
-        }
-      });
-      // Update Product Line Revenue Chart
-      let productLabels = [];
-      let productRevenueData = [];
-      if (note2Period && note2Period.products) {
-        productLabels = note2Period.products.map(item => item.product_line);
-        productRevenueData = note2Period.products.map(item => item.revenue / 1000);
-      }
-      if (window.productBarChart) window.productBarChart.destroy();
-      window.productBarChart = new Chart(document.getElementById('product-bar-chart').getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: productLabels,
-          datasets: [
-            { label: 'Revenue', data: productRevenueData, backgroundColor: '#AF52DE' }
-          ]
-        },
-        options: { 
-          responsive: true, 
-          plugins: { 
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return `Revenue: $${context.parsed.y.toFixed(2)}B`;
-                }
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: value => `$${value}B`
-              }
-            }
-          }
-        }
-      });
-      // Update Channel Pie Chart (using segment data)
-      const channelLabels = territoryLabels;
-      const channelRevenueData = salesData;
-      const channelColors = ['#007AFF', '#34C759', '#FF9500', '#AF52DE'];
-      if (window.channelPieChart) window.channelPieChart.destroy();
-      window.channelPieChart = new Chart(document.getElementById('channel-pie-chart').getContext('2d'), {
-        type: 'pie',
-        data: {
-          labels: channelLabels,
-          datasets: [
-            { data: channelRevenueData, backgroundColor: channelColors }
-          ]
-        },
-        options: { 
-          responsive: true, 
-          plugins: { 
-            legend: { position: 'top' },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return `${context.label}: $${context.parsed.toFixed(2)}B`;
-                }
-              }
-            }
-          }
-        }
-      });
-      // Update data freshness
-      const filingDate = new Date(latestFiling.date);
-      document.getElementById('data-freshness').textContent = filingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
     }
-    document.getElementById('quarter-selector').addEventListener('change', updateDashboard);
-    document.getElementById('region-selector').addEventListener('change', updateDashboard);
-    document.getElementById('period-selector').addEventListener('change', updateDashboard);
-    // document.getElementById('period-detail-selector').addEventListener('change', updateDashboard);
-    window.onload = updateDashboard;
+
+    // --- Charts ---
+    let productChart = null;
+    let regionChart = null;
+    function getQuotaDisplayValue() {
+      // Always return the quota in the base unit (e.g., 7B = 7,000,000,000)
+      return quotaValue && quotaUnit ? quotaValue * quotaUnit : null;
+    }
+    function getQuotaDisplayInBillions() {
+      // For chart display, always show quota in billions
+      const val = getQuotaDisplayValue();
+      return val ? val / 1000000000 : null;
+    }
+    function updateProductBarChart(labels, products, chartTitle) {
+      const ctx = document.getElementById('product-bar-chart')?.getContext('2d');
+      if (!ctx) return;
+      if (productChart) productChart.destroy();
+      const quotaDisplay = getQuotaDisplayInBillions();
+      productChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: products.map((p, i) => ({
+            label: p.product,
+            data: p.sales.map(v => v / 1000),
+            backgroundColor: getProductColor(p.product, 0.7),
+            borderColor: getProductColor(p.product, 1),
+            borderWidth: 1
+          }))
+          .concat(quotaDisplay ? [{
+            label: 'Quota',
+            type: 'line',
+            data: Array(labels.length).fill(quotaDisplay),
+            borderColor: '#FF9500',
+            borderWidth: 2,
+            borderDash: [6, 6],
+            pointRadius: 0,
+            fill: false,
+            order: 0
+          }] : [])
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false,
+          plugins: { 
+            legend: { position: 'top' },
+            title: { display: true, text: chartTitle },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  if (context.dataset.label === 'Quota') {
+                    return `Quota: $${context.parsed.y.toFixed(1)}B`;
+                  }
+                  let label = `${context.dataset.label}: $${context.parsed.y.toFixed(1)}B`;
+                  if (quotaDisplay && context.parsed.y !== undefined) {
+                    label += ` (Quota: $${quotaDisplay.toFixed(1)}B)`;
+                  }
+                  return label;
+                }
+              }
+            }
+          },
+          scales: {
+            x: { stacked: false },
+            y: {
+              beginAtZero: true,
+              ticks: { callback: v => `$${v}B` }
+            }
+          }
+        }
+      });
+    }
+    function updateRegionBarChart(labels, regions, chartTitle) {
+      const ctx = document.getElementById('territory-bar-chart')?.getContext('2d');
+      if (!ctx) return;
+      if (regionChart) regionChart.destroy();
+      const quotaDisplay = getQuotaDisplayInBillions();
+      regionChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: regions.map((r, i) => ({
+            label: r.region,
+            data: r.sales.map(v => v / 1000),
+            backgroundColor: getRegionColor(r.region, 0.7),
+            borderColor: getRegionColor(r.region, 1),
+            borderWidth: 1
+          }))
+          .concat(quotaDisplay ? [{
+            label: 'Quota',
+            type: 'line',
+            data: Array(labels.length).fill(quotaDisplay),
+            borderColor: '#FF9500',
+            borderWidth: 2,
+            borderDash: [6, 6],
+            pointRadius: 0,
+            fill: false,
+            order: 0
+          }] : [])
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false,
+          plugins: { 
+            legend: { position: 'top' },
+            title: { display: true, text: chartTitle },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  if (context.dataset.label === 'Quota') {
+                    return `Quota: $${context.parsed.y.toFixed(1)}B`;
+                  }
+                  let label = `${context.dataset.label}: $${context.parsed.y.toFixed(1)}B`;
+                  if (quotaDisplay && context.parsed.y !== undefined) {
+                    label += ` (Quota: $${quotaDisplay.toFixed(1)}B)`;
+                  }
+                  return label;
+                }
+              }
+            }
+          },
+          scales: {
+            x: { stacked: false },
+            y: {
+              beginAtZero: true,
+              ticks: { callback: v => `$${v}B` }
+            }
+          }
+        }
+      });
+    }
+
+    // --- Init ---
+    document.addEventListener('DOMContentLoaded', async () => {
+      [annualData, quarterlyData] = await Promise.all([loadAnnualData(), loadQuarterlyData()]);
+      populateSelectors();
+      updateDashboard();
+    });
 
     // Chat UI logic
     const chatBtn = document.getElementById('chat-btn');
@@ -694,11 +779,51 @@
     function setupTooltips() {
       // No-op for now, as tooltips are pure CSS. If you add JS tooltips, call this after DOM updates.
     }
-    // Call after dashboard updates
-    window.updateDashboard = function() {
-      updateDashboard();
-      setupTooltips();
-    };
+
+    // Add color helpers for charts
+    function getProductColor(product, alpha = 1) {
+      const colors = {
+        'iPhone': `rgba(0, 122, 255, ${alpha})`,
+        'iPhone ®': `rgba(0, 122, 255, ${alpha})`,
+        'Mac': `rgba(88, 86, 214, ${alpha})`,
+        'Mac ®': `rgba(88, 86, 214, ${alpha})`,
+        'iPad': `rgba(255, 149, 0, ${alpha})`,
+        'iPad ®': `rgba(255, 149, 0, ${alpha})`,
+        'Wearables, Home and Accessories': `rgba(52, 199, 89, ${alpha})`,
+        'Services': `rgba(255, 45, 85, ${alpha})`
+      };
+      return colors[product] || `rgba(142, 142, 147, ${alpha})`;
+    }
+    function getRegionColor(region, alpha = 1) {
+      const colors = {
+        'Americas': `rgba(0, 122, 255, ${alpha})`,
+        'Europe': `rgba(88, 86, 214, ${alpha})`,
+        'Greater China': `rgba(255, 149, 0, ${alpha})`,
+        'Japan': `rgba(52, 199, 89, ${alpha})`,
+        'Rest of Asia Pacific': `rgba(255, 45, 85, ${alpha})`
+      };
+      return colors[region] || `rgba(142, 142, 147, ${alpha})`;
+    }
+
+    // Helper to translate 'Three Months Ended ...' to 'Qx YYYY'
+    function periodToQuarterLabel(period) {
+      if (!period) return period;
+      // Example: 'Three Months Ended March 30, 2024'
+      const dateMatch = period.match(/Three Months Ended ([A-Za-z]+) (\d{1,2}), (\d{4})/);
+      if (!dateMatch) return period;
+      const month = dateMatch[1];
+      const day = parseInt(dateMatch[2], 10);
+      const year = dateMatch[3];
+      // Q1: Jan-Mar, Q2: Apr-Jun, Q3: Jul-Sep, Q4: Oct-Dec
+      const monthToQ = {
+        'March': 'Q1',
+        'June': 'Q2',
+        'September': 'Q3',
+        'December': 'Q4'
+      };
+      const q = monthToQ[month] || '';
+      return q ? `${q} ${year}` : period;
+    }
   </script>
 </body>
 </html> 
