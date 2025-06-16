@@ -31,6 +31,4 @@ ENV/
 
 # Sales Data
 sales_data/
-
-# Apple SEC Dashboard Data
-apple_sec_dashboard_data.json 
+apple_sec_sales_data.json 
