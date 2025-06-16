@@ -139,21 +139,28 @@ def extract_region_data_from_table(table_data):
         return []
     header_row = table_data[header_row_idx]
     # The period row is usually 2 rows above the region row
-    period_row = table_data[header_row_idx-2] if header_row_idx >= 2 else table_data[0]
+    period_type_row = table_data[header_row_idx-2] if header_row_idx >= 2 else table_data[0]
     date_row = table_data[header_row_idx-1] if header_row_idx >= 1 else table_data[0]
-    # Build a map of column index to period label (date)
+    # Build a map of column index to period label (e.g., 'Three Months Ended March 29, 2025')
     col_period_map = {}
-    last_period = None
-    for idx, val in enumerate(period_row):
-        if 'ended' in val.lower():
-            last_period = val.strip()
-        if re.match(r'\w+ \d{1,2}, \d{4}', val):
-            col_period_map[idx] = val.strip()
-        elif re.match(r'\w+ \d{1,2}, \d{4}', date_row[idx]):
-            col_period_map[idx] = date_row[idx].strip()
+    col_period_type_map = {}
+    last_period_type = ''
+    for idx in range(len(header_row)):
+        period_type = period_type_row[idx].strip() if idx < len(period_type_row) else ''
+        date = date_row[idx].strip() if idx < len(date_row) else ''
+        if period_type:
+            last_period_type = period_type
+        # Only build period if both are present and period_type contains 'ended'
+        if last_period_type and date and 'ended' in last_period_type.lower():
+            col_period_map[idx] = f"{last_period_type} {date}"
+            col_period_type_map[idx] = last_period_type.strip().lower()
+        elif date:
+            col_period_map[idx] = date
+            col_period_type_map[idx] = ''
     # Now extract region rows
     regions = ['Americas', 'Europe', 'Greater China', 'Japan', 'Rest of Asia Pacific', 'Total net sales']
     region_data = []
+    date_regex = re.compile(r'(\w+ \d{1,2}, \d{4})')
     for row in table_data[header_row_idx:]:
         if not row or not isinstance(row[0], str):
             continue
@@ -165,19 +172,43 @@ def extract_region_data_from_table(table_data):
             if idx == 0:
                 continue
             period = col_period_map.get(idx)
+            period_type = col_period_type_map.get(idx, '')
             if not period:
                 continue
-            net_sales = clean_number(val)
+            num_val = clean_number(val)
             # Only include valid, non-duplicate, non-spurious values
-            if net_sales is not None and net_sales != 0 and not (isinstance(net_sales, float) and abs(net_sales) < 1e-6):
-                # Only add one entry per region/period
-                if not any(d['region'] == region and d['period'] == period for d in region_data):
-                    region_data.append({
-                        'type': row_type,
-                        'region': region,
-                        'period': period,
-                        'net_sales': net_sales
-                    })
+            if num_val is not None and num_val != 0 and not (isinstance(num_val, float) and abs(num_val) < 1e-6):
+                # For 'Change' columns, append the last period label to the left that has the same period type and contains a date
+                if 'change' in period.lower():
+                    prev_date = ''
+                    prev_idx = idx - 1
+                    while prev_idx > 0:
+                        prev_period = col_period_map.get(prev_idx, '')
+                        prev_period_type = col_period_type_map.get(prev_idx, '')
+                        prev_date_match = date_regex.search(prev_period)
+                        # Only match if period type matches and prev_period has a date
+                        if prev_period_type == period_type and prev_date_match:
+                            prev_date = prev_date_match.group(1)
+                            break
+                        prev_idx -= 1
+                    unique_period = period
+                    if prev_date:
+                        unique_period = f"{period} {prev_date}"
+                    if prev_date and not any(d['region'] == region and d['period'] == unique_period for d in region_data):
+                        region_data.append({
+                            'type': row_type,
+                            'region': region,
+                            'period': unique_period,
+                            'percent_change': num_val
+                        })
+                else:
+                    if not any(d['region'] == region and d['period'] == period for d in region_data):
+                        region_data.append({
+                            'type': row_type,
+                            'region': region,
+                            'period': period,
+                            'net_sales': num_val
+                        })
     return region_data
 
 def main():

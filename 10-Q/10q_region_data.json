@@ -5,74 +5,218 @@
       {
         "type": "region",
         "region": "Americas",
-        "period": "March 29, 2025",
+        "period": "Three Months Ended March 29, 2025",
         "net_sales": 40315.0
       },
       {
         "type": "region",
         "region": "Americas",
-        "period": "March 30, 2024",
+        "period": "Three Months Ended March 30, 2024",
         "net_sales": 37273.0
       },
       {
         "type": "region",
+        "region": "Americas",
+        "period": "Three Months Ended Change March 30, 2024",
+        "percent_change": 8.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "period": "Six Months Ended March 29, 2025",
+        "net_sales": 92963.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 87703.0
+      },
+      {
+        "type": "region",
+        "region": "Americas",
+        "period": "Six Months Ended Change March 30, 2024",
+        "percent_change": 6.0
+      },
+      {
+        "type": "region",
         "region": "Europe",
-        "period": "March 29, 2025",
+        "period": "Three Months Ended March 29, 2025",
         "net_sales": 24454.0
       },
       {
         "type": "region",
         "region": "Europe",
-        "period": "March 30, 2024",
+        "period": "Three Months Ended March 30, 2024",
         "net_sales": 24123.0
       },
       {
         "type": "region",
+        "region": "Europe",
+        "period": "Three Months Ended Change March 30, 2024",
+        "percent_change": 1.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "period": "Six Months Ended March 29, 2025",
+        "net_sales": 58315.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 54520.0
+      },
+      {
+        "type": "region",
+        "region": "Europe",
+        "period": "Six Months Ended Change March 30, 2024",
+        "percent_change": 7.0
+      },
+      {
+        "type": "region",
         "region": "Greater China",
-        "period": "March 29, 2025",
+        "period": "Three Months Ended March 29, 2025",
         "net_sales": 16002.0
       },
       {
         "type": "region",
         "region": "Greater China",
-        "period": "March 30, 2024",
+        "period": "Three Months Ended March 30, 2024",
         "net_sales": 16372.0
       },
       {
         "type": "region",
+        "region": "Greater China",
+        "period": "Three Months Ended Change March 30, 2024",
+        "percent_change": -2.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "period": "Six Months Ended March 29, 2025",
+        "net_sales": 34515.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 37191.0
+      },
+      {
+        "type": "region",
+        "region": "Greater China",
+        "period": "Six Months Ended Change March 30, 2024",
+        "percent_change": -7.0
+      },
+      {
+        "type": "region",
         "region": "Japan",
-        "period": "March 29, 2025",
+        "period": "Three Months Ended March 29, 2025",
         "net_sales": 7298.0
       },
       {
         "type": "region",
         "region": "Japan",
-        "period": "March 30, 2024",
+        "period": "Three Months Ended March 30, 2024",
         "net_sales": 6262.0
       },
       {
         "type": "region",
+        "region": "Japan",
+        "period": "Three Months Ended Change March 30, 2024",
+        "percent_change": 17.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "period": "Six Months Ended March 29, 2025",
+        "net_sales": 16285.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 14029.0
+      },
+      {
+        "type": "region",
+        "region": "Japan",
+        "period": "Six Months Ended Change March 30, 2024",
+        "percent_change": 16.0
+      },
+      {
+        "type": "region",
         "region": "Rest of Asia Pacific",
-        "period": "March 29, 2025",
+        "period": "Three Months Ended March 29, 2025",
         "net_sales": 7290.0
       },
       {
         "type": "region",
         "region": "Rest of Asia Pacific",
-        "period": "March 30, 2024",
+        "period": "Three Months Ended March 30, 2024",
         "net_sales": 6723.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "period": "Three Months Ended Change March 30, 2024",
+        "percent_change": 8.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "period": "Six Months Ended March 29, 2025",
+        "net_sales": 17581.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 16885.0
+      },
+      {
+        "type": "region",
+        "region": "Rest of Asia Pacific",
+        "period": "Six Months Ended Change March 30, 2024",
+        "percent_change": 4.0
       },
       {
         "type": "total",
         "region": "Total net sales",
-        "period": "March 29, 2025",
+        "period": "Three Months Ended March 29, 2025",
         "net_sales": 95359.0
       },
       {
         "type": "total",
         "region": "Total net sales",
-        "period": "March 30, 2024",
+        "period": "Three Months Ended March 30, 2024",
         "net_sales": 90753.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "period": "Three Months Ended Change March 30, 2024",
+        "percent_change": 5.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "period": "Six Months Ended March 29, 2025",
+        "net_sales": 219659.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "period": "Six Months Ended March 30, 2024",
+        "net_sales": 210328.0
+      },
+      {
+        "type": "total",
+        "region": "Total net sales",
+        "period": "Six Months Ended Change March 30, 2024",
+        "percent_change": 4.0
       }
     ]
   }
