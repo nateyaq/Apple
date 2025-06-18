@@ -255,14 +255,18 @@ class AppleSECDataParser:
                                 if len(year_quarters) == 4:
                                     # Sum the four quarters
                                     summed_val = year_quarters['val'].sum()
-                                    # Use the end date of the last quarter
-                                    end_date = year_quarters.sort_values('end').iloc[-1]['end']
+                                    # Use the start date of the first quarter and end date of the last quarter
+                                    sorted_quarters = year_quarters.sort_values('end')
+                                    start_date = sorted_quarters.iloc[0]['start'] if 'start' in sorted_quarters.columns and sorted_quarters.iloc[0]['start'] is not None else None
+                                    end_date = sorted_quarters.iloc[-1]['end']
                                     # Create a synthetic annual record
                                     annual_row = {col: None for col in annual_data.columns}
                                     annual_row['fy'] = year
                                     annual_row['form'] = '10-K'
                                     annual_row['val'] = summed_val
                                     annual_row['end'] = end_date
+                                    if start_date is not None:
+                                        annual_row['start'] = start_date
                                     # Optionally, add a flag or note that this is synthetic
                                     annual_data = pd.concat([annual_data, pd.DataFrame([annual_row])], ignore_index=True)
                                     annual_data = annual_data.sort_values('end')

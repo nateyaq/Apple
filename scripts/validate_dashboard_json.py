@@ -87,7 +87,10 @@ def check_raw_metrics(raw_metrics):
             
             # For balance sheet metrics, we only validate end date
             if not is_balance_sheet:
-                if not check_date_format(str(start)):
+                # Check for null start dates in non-balance sheet metrics
+                if start is None:
+                    issues.append(f"Null start date in {metric} for period ending {end}")
+                elif not check_date_format(str(start)):
                     issues.append(f"Inconsistent date format in {metric} start: {start}")
             if not check_date_format(str(end)):
                 issues.append(f"Inconsistent date format in {metric} end: {end}")
@@ -240,6 +243,29 @@ def check_annual_quarterly_consistency(raw_metrics):
                         issues.append(f"Inconsistent annual/quarterly data in {metric} for year {year}: "
                                     f"sum of quarters ({quarter_sum}) != annual value ({annual_val})")
 
+def check_null_start_dates(raw_metrics):
+    """Check for null start dates in annual and quarterly data"""
+    for metric, meta in raw_metrics.items():
+        is_balance_sheet = metric in BALANCE_SHEET_METRICS
+        
+        # Skip balance sheet metrics as they don't need start dates
+        if is_balance_sheet:
+            continue
+            
+        # Check annual data
+        for entry in meta.get('annual_data', []):
+            start = entry.get('start')
+            end = entry.get('end')
+            if start is None:
+                issues.append(f"Null start date in {metric} annual_data for period ending {end}")
+        
+        # Check quarterly data
+        for entry in meta.get('quarterly_data', []):
+            start = entry.get('start')
+            end = entry.get('end')
+            if start is None:
+                issues.append(f"Null start date in {metric} quarterly_data for period ending {end}")
+
 def main():
     print("--- Validating summary_metrics ---")
     check_type_consistency(data['summary_metrics'], 'latest_year', (int, float, str))
@@ -258,6 +284,7 @@ def main():
 
     print("--- Validating raw_metrics ---")
     check_raw_metrics(data['raw_metrics'])
+    check_null_start_dates(data['raw_metrics'])
     check_growth_rates(data['raw_metrics'])
     check_annual_quarterly_consistency(data['raw_metrics'])
 
