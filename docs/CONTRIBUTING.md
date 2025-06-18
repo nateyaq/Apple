@@ -26,7 +26,7 @@ When submitting a PR, include:
 - What was changed and why
 - Screenshots of any UI changes
 - Confirmation that all tests pass
-- Reference to the style guide for any UI changes
+- Reference to the style guide for any UI changes 
 
 ## Data Files & .gitignore
 - Always add large or sensitive data files (e.g., sales_data/, apple_sec_sales_data.json) to .gitignore before committing. 

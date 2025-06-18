@@ -28,7 +28,7 @@
 
 ## Visual Regression Testing
 - After any UI change, visually check all tooltips, cards, and controls for consistency.
-- (Recommended) Use screenshot comparison tools or browser extensions to catch visual regressions.
+- (Recommended) Use screenshot comparison tools or browser extensions to catch visual regressions. 
 
 ## Input Styling
 - All number inputs must use the standard `appearance: textfield;` property, with `-webkit-appearance` and `-moz-appearance` for compatibility.
